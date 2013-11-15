@@ -41,12 +41,13 @@ nav a.brand:hover {
 }
 
 #buttonlist {
-  margin-left: 0px;
-  display: inline-table;
   max-width: 600px;
+  padding-left: 20px;
+  margin: 0 auto;
 }
 
 #buttonitems {
+  display: inline-table;
   list-style-type: none;
 }
 
