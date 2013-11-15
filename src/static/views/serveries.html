@@ -3,17 +3,16 @@
     {{todo.title}} {{todo.completed}}
 </ul>
  -->                
-<section id="serveries">
-  <header id="header">
-    <h1>Serveries</h1>
-  </header>
-  <section id="main">
-    <ul id='buttonlist'>
-      <li id='buttonitems' ng-repeat="item in serveries">
-        <a id="servbuttons" class="btn btn-primary" href="#">{{item.title}}</a>
-      </li>
-    </ul>
-  </section>
+ <section id="serveries">
+  <div class="col-md-3 col-sm-3"
+       ng-repeat="servery in serveries">
+      <div>
+          <p>Talk about one of the biggest features that your new website is going to have.</p>
+          <a class="btn btn-primary">
+            {{servery.title}}
+          </a>
+      </div>
+  </div>
 </section>
 <footer>
   <p>Click to edit meals for a servery</p>
