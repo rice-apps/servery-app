@@ -1,8 +1,14 @@
 
+/* Page */
+html, body {
+  background-color: #efefef;
+}
+
+
 /* Navigation Bar */
 
 nav {
-  background: rgba(255, 255, 255, 0.4);
+  background-color: rgb(70, 70, 70);
   padding: 20px 0 20px 0;
   text-align: center;
 }
@@ -17,9 +23,10 @@ nav a.brand {
   -moz-transition: color 0.5s ease-in;
   -o-transition: color 0.5s ease-in;
   transition: color 0.5s ease-in;
+  color: rgb(230, 230, 230);
 }
 
 nav a.brand:hover {
-  color: black;
+  color: white;
   text-decoration: none;
 }
