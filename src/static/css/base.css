@@ -1,0 +1,19 @@
+
+/* Navigation Bar */
+
+nav a.brand {
+  letter-spacing: 1px;
+  font-size: 32px;
+  font-weight: 900;
+  font-family: "Source Sans Pro", sans-serif;
+  text-transform: uppercase;
+  -webkit-transition: color 0.5s ease-in;
+  -moz-transition: color 0.5s ease-in;
+  -o-transition: color 0.5s ease-in;
+  transition: color 0.5s ease-in;
+}
+
+nav a.brand:hover {
+  color: black;
+  text-decoration: none;
+}
