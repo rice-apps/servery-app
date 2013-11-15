@@ -1,6 +1,6 @@
-Demo App
-========
-A todo demo application that integrates the following stack:
+Servery App
+===========
+An app that makes it simple to manage and view servery menus at Rice
 
 Web Client: AngularJS
 Server: Flask
@@ -27,6 +27,3 @@ The terminal should display a message like
     Running on http://127.0.0.1:5000/
 
 Simply type that address in your browser to open the app.
-
-Written by
-* [Waseem Ahmad](waseemahmad.com)
