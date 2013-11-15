@@ -8,11 +8,9 @@
     <h1>Serveries</h1>
   </header>
   <section id="main">
-    <ul id='buttonlist'>
-      <li id='buttonitems' ng-repeat="item in serveries">
-        <a id="servbuttons" class="btn btn-primary" href="#">{{item.title}}</a>
-      </li>
-    </ul>
+    <div class='span6' ng-repeat='item in serveries'>
+      <a id="servbuttons" class="btn btn-primary" href="#">{{item.title}}</a>
+    </div>
   </section>
 </section>
 <footer>
