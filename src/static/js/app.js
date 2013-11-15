@@ -15,6 +15,10 @@ angular.module('todoApp', [])
         templateUrl: 'static/views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/serveries', {
+        templateUrl: 'static/views/serveries.html',
+        controller: 'ServeriesCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

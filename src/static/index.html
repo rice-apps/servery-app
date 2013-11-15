@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/serveries.css">
     <style>[ng-cloak] { display: none; }</style>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -29,19 +30,16 @@
   </head>
 
   <body ng-app="todoApp">
+    <header>
+      <nav>
+        <div class="container">
+          <a href="#" class="brand">Servery App</a>
+        </div>
+      </nav>
+    </header>
 
     <div class="container">
-      <div class="header" ng-controller="NavCtrl">
-        <ul class="nav nav-pills pull-right">
-          <li ng-repeat="item in navList"
-              ng-class="{active:item.active}">
-            <a href="#{{item.url}}">
-              {{item.title}}
-            </a>
-          </li>
-        </ul>
-        <h3 class="text-muted">Todo App</h3>
-      </div>
+
 
       <div ng-view="">
         <!-- Angular Controller View Goes Here -->
@@ -61,7 +59,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="static/js/app.js"></script>
     <script src="static/js/services/todoStorage.js"></script>
-    <script src="static/js/controllers/navCtrl.js"></script>
+    <script src="static/js/controllers/serveriesCtrl.js"></script>
     <script src="static/js/controllers/mainCtrl.js"></script>
   
 
