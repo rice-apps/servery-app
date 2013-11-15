@@ -32,7 +32,6 @@ nav a.brand:hover {
     font-weight: bold;
     text-align: center;
     color: #b3b3b3;
-    color: rgba(255, 255, 255, 0.3);
     text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
     -webkit-text-rendering: optimizeLegibility;
     -moz-text-rendering: optimizeLegibility;
@@ -41,6 +40,17 @@ nav a.brand:hover {
     text-rendering: optimizeLegibility;
 }
 
+#buttonlist {
+  margin-left: 0px;
+  display: inline-table;
+  max-width: 600px;
+}
+
+#buttonitems {
+  list-style-type: none;
+}
+
 #servbuttons {
-  width: 500px;
+  width: 150px;
+  margin-right: 20px;
 }
