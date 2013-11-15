@@ -30,3 +30,35 @@ nav a.brand:hover {
   color: white;
   text-decoration: none;
 }
+
+
+
+#serveries {
+    width: 100%;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    color: #b3b3b3;
+    text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+}
+
+#buttonlist {
+  max-width: 600px;
+  padding-left: 20px;
+  margin: 0 auto;
+}
+
+#buttonitems {
+  display: inline-table;
+  list-style-type: none;
+}
+
+#servbuttons {
+  width: 150px;
+  margin-right: 20px;
+}
