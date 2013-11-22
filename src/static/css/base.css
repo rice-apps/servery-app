@@ -4,7 +4,10 @@ html, body {
   background-color: #efefef;
 }
 
-
+body{
+  font-family: lato;
+  background-image:url("http://www.elysiancollection.com/wp-content/gallery/responsive-food-wine/gourmet-cuisine.jpg");
+}
 /* Navigation Bar */
 
 nav {
@@ -12,6 +15,15 @@ nav {
   padding: 20px 0 20px 0;
   text-align: center;
 }
+
+div{
+  margin: 0 auto;
+}
+
+/*.btn-login: {
+  background-color: #428bca;
+  font-size: 32px;
+}*/
 
 nav a.brand {
   letter-spacing: 1px;
