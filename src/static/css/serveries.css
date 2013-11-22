@@ -6,6 +6,10 @@
   margin: 0 auto;
 }
 
+.servery-button {
+  min-width: 80px;
+}
+
 #buttonitems {
   display: inline-table;
   list-style-type: none;

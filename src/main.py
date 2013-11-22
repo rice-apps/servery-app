@@ -14,6 +14,12 @@ def main():
   # return render_template('static/index.html')
   return send_from_directory('static', 'index.html')
 
+@app.route('/api/serveries')
+def get_serveries():
+  # Query mongo db for all serveries
+  serveries = mongo.db.serveries.find()
+  return dumps(serveries), 200, {"Content-Type" : "application/json"}
+
 @app.route('/api/<string:userid>')
 def get_all_items(userid):
   # Query mongo db for all todo items
