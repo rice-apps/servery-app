@@ -3,21 +3,19 @@
     {{todo.title}} {{todo.completed}}
 </ul>
  -->  
- <section id="serveries">
-  <div class="col-md-3 col-sm-3"
-       ng-repeat="servery in serveries">
-      <div>
-          <p>Talk about one of the biggest features that your new website is going to have.</p>
-          <a class="btn btn-primary">
-            {{servery.title}}
-          </a>
-      </div>
-  </div>
->>>>>>> 370a2743b9ceb206826fc16149732e80a1a52eb1
-</section>
-<footer>
-  <p>Click to edit meals for a servery</p>
-  <p>Credits:
-    me
+<div class="col-md-3 col-sm-3">
+  <p ng-repeat="servery in serveries">
+    {{servery.info}}
+    <a class="btn btn-primary">
+      {{servery.title}}
+    </a>
   </p>
-</footer>
+</div>
+<div>
+  <footer>
+    <p>Click to edit meals for a servery</p>
+    <p>Credits:
+      me
+    </p>
+  </footer>
+</div>
