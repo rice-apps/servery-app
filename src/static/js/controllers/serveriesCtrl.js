@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('todoApp').controller('ServeriesCtrl', function ($scope, $location) {
+angular.module('serveryApp').controller('ServeriesCtrl', function ($scope, $location) {
   $scope.serveries = [
     {title: "North Servery"},
     {title: "East Servery"},
