@@ -4,13 +4,11 @@
 </ul>
  -->  
 <div class="col-md-3 col-sm-3">
-  <p ng-repeat="servery in serveries">
+  <p ng-repeat="servery in serveries" class="buttonlist">
     {{servery.info}}
-    <div class="buttonitems"
-      <a class="btn btn-primary">
-        {{servery.title}}
-      </a>
-    </div>
+    <a class="btn btn-primary buttonitems">
+      {{servery.title}}
+    </a>
   </p>
 </div>
 <div>
