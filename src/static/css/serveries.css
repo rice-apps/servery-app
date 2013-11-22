@@ -13,6 +13,7 @@
 #buttonitems {
   display: inline-table;
   list-style-type: none;
+  width: 150px;
 }
 
 #servbuttons {
