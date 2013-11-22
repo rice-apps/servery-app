@@ -4,15 +4,15 @@ angular.module('serveryApp', [])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'static/views/login.html',
+        templateUrl: 'static/views/main.html',
         controller: 'MainCtrl'
       })
       .when('/active', {
-        templateUrl: 'static/views/login.html',
+        templateUrl: 'static/views/main.html',
         controller: 'MainCtrl'
       })
       .when('/completed', {
-        templateUrl: 'static/views/login.html',
+        templateUrl: 'static/views/main.html',
         controller: 'MainCtrl'
       })
       .when('/serveries', {
