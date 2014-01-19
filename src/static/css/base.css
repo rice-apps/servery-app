@@ -1,15 +1,11 @@
 
 /* Page */
-html, body {
-  background-color: #efefef;
-}
-
 body{
   font-family: lato;
   background-image:url("http://www.elysiancollection.com/wp-content/gallery/responsive-food-wine/gourmet-cuisine.jpg");
 }
-/* Navigation Bar */
 
+/* Navigation Bar */ 
 nav {
   background-color: rgb(70, 70, 70);
   padding: 20px 0 20px 0;
