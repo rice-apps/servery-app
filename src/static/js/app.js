@@ -10,6 +10,7 @@ angular.module('serveryApp', [])
       .when('/template', {
         templateUrl: 'static/views/template.html'
       })
+     
       .otherwise({
         redirectTo: '/'
       });
