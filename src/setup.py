@@ -3,9 +3,26 @@ Run this file once to setup your database.
 """
 
 from pymongo import MongoClient
+import json
+import sys
 
-client = MongoClient('localhost', 27017)
+client = MongoClient()
+db = client.main
+serveries = db.serveries
+	
+def main():
+	servInfo = [ 
+		{'name':'North', 'image':''},
+		{'name':'East', 'image':''}, 
+		{'name':'South', 'image':''}, 
+		{'name':'West', 'image':''}, 
+		{'name':'Sid', 'image':''}, 
+		{'name':'Baker', 'image':''} 
+	]
+	for serv in servInfo:
+		serveries.update({'name':serv['name']}, serv, True)
 
-db = client.main    # Our app uses main database
-
-db.serveries.add( {})
+for arg in sys.argv:
+	if arg == '--clean':
+		serveries.remove()
+	main()
