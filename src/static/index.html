@@ -15,9 +15,8 @@
     <link href="/static/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link ref="stylesheet" href="static/css/bootswatch.css">
     <link rel="stylesheet" href="static/css/base.css">
-    <link rel="stylesheet" href="static/css/serveries.css">
     <style>[ng-cloak] { display: none; }</style>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -31,14 +30,64 @@
   </head>
 
   <body ng-app="serveryApp">
-    <header>
-      <nav>
-        <div class="container">
-          <a href="#" class="brand">Servery App</a>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">Servery App</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
-      </nav>
-    </header>
+        <div class="navbar-collapse collapse" id="navbar-main">
 
+<!--           <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="themes">
+                <li><a tabindex="-1" href="../default/">Default</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
+                <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
+                <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
+                <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
+                <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
+                <li><a tabindex="-1" href="../journal/">Journal</a></li>
+                <li><a tabindex="-1" href="../readable/">Readable</a></li>
+                <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
+                <li><a tabindex="-1" href="../slate/">Slate</a></li>
+                <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
+                <li><a tabindex="-1" href="../united/">United</a></li>
+                <li><a tabindex="-1" href="../yeti/">Yeti</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="../help/">Help</a>
+            </li>
+            <li>
+              <a href="http://news.bootswatch.com">Blog</a>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+                <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="./variables.less">variables.less</a></li>
+                <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>
+              </ul>
+            </li>
+          </ul> -->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://builtwithbootstrap.com/" target="_blank">Built by Rice Apps</a></li>
+            <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">Login</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
     <div class="container">
 
 
@@ -47,9 +96,27 @@
       </div>
 
 
-      <div class="footer">
-        <p>© Rice Apps 2013</p>
-      </div>
+      <footer>
+        <div class="row">
+          <div class="col-lg-12">
+            
+            <ul class="list-unstyled">
+              <li class="pull-right"><a href="#top">Back to top</a></li>
+              <li><a href="http://news.bootswatch.com" onclick="pageTracker._link(this.href); return false;">Blog</a></li>
+              <li><a href="http://feeds.feedburner.com/bootswatch">RSS</a></li>
+              <li><a href="https://twitter.com/thomashpark">Twitter</a></li>
+              <li><a href="https://github.com/thomaspark/bootswatch/">GitHub</a></li>
+              <li><a href="../help/#api">API</a></li>
+              <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=F22JEM3Q78JC2">Donate</a></li>
+            </ul>
+            <p>Made by <a href="http://thomaspark.me" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.</p>
+            <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" rel="nofollow">Apache License v2.0</a>.</p>
+            <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>. Favicon by <a href="https://twitter.com/geraldhiller" rel="nofollow">Gerald Hiller</a>.</p>
+
+          </div>
+        </div>
+        
+      </footer>
 
     </div> <!-- /container -->
 
@@ -58,6 +125,10 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="static/js/lib/bootstrap.min.js"></script>
+
+
     <script src="static/js/app.js"></script>
     <script src="static/js/controllers/serveriesCtrl.js"></script>
     <script src="static/js/controllers/mainCtrl.js"></script>
