@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('serveryApp', [])
+angular.module('serveryApp', ['ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

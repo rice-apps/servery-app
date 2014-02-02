@@ -1,10 +1,14 @@
 'use strict'
 
+angular.module('serveryApp')
+.controller('MainCtrl', function ($scope, $location) {
 
+  console.log('Main ctrl initialized.');
 
-angular.module('serveryApp', ['ui.bootstrap']).controller('MainCtrl', function ($scope, $location) {
+  $scope.$watch('dt', function () {
+    console.log('Date has changed to ' + $scope.dt);
+  });
 
-var DatepickerDemoCtrl = function ($scope) {
   $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -24,8 +28,6 @@ var DatepickerDemoCtrl = function ($scope) {
     return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
   };
 
-
-
   $scope.open = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -40,7 +42,6 @@ var DatepickerDemoCtrl = function ($scope) {
 
   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
   $scope.format = $scope.formats[0];
-};
 
 });
 
