@@ -1,24 +1,16 @@
 'use strict';
 
-angular.module('serveryApp', [])
+angular.module('serveryApp', ['ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'static/views/login.html',
+        templateUrl: 'static/views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/active', {
-        templateUrl: 'static/views/login.html',
-        controller: 'MainCtrl'
+      .when('/template', {
+        templateUrl: 'static/views/template.html'
       })
-      .when('/completed', {
-        templateUrl: 'static/views/login.html',
-        controller: 'MainCtrl'
-      })
-      .when('/serveries', {
-        templateUrl: 'static/views/serveries.html',
-        controller: 'ServeriesCtrl'
-      })
+     
       .otherwise({
         redirectTo: '/'
       });
