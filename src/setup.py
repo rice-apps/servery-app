@@ -16,11 +16,11 @@ def main():
 			'name':'North', 
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
-			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+			},    
+			"location":{
+		     	"latitude":"29.721883",
+		      	"longitude":"-95.396546"
+		    },
 			'colleges_served': ['Martel', 'Jones', 'Brown'],
 			'times_open': {
 				'breakfast': {
@@ -61,11 +61,11 @@ def main():
 			'name':'Seibel', 
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
-			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+			},    
+			"location": {
+		      	"latitude":"29.716158",
+		      	"longitude":"-95.398241"
+		    },
 			'colleges_served': ['Will Rice', 'Lovett'],
 			'times_open': {
 				'breakfast': {
@@ -107,10 +107,10 @@ def main():
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+			"location":{
+		     	"latitude":"29.715484",
+		     	"longitude":"-95.401024"
+		   	},
 			'colleges_served': ['Hanszen', 'Wiess'],
 			'times_open': {
 				'breakfast': {
@@ -148,10 +148,10 @@ def main():
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+		    "location":{
+   			   	"latitude":"29.721063",
+   				"longitude":"-95.398481"
+   			},
 			'colleges_served': ['Duncan', 'McMurtry'],
 			'times_open': {
 				'breakfast': {
@@ -189,10 +189,10 @@ def main():
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+			"location":{ # baker college coordinates
+    			"latitude":"29.716976",
+    		  	"longitude":"-95.399289"
+    		},
 			'colleges_served': ['Baker'],
 			'times_open': {
 				'breakfast': {
@@ -222,10 +222,10 @@ def main():
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
-			'location': {
-				'latitude': 0,
-				'longitude': 0
-			},
+		    "location":{ # sid rich college coordinates
+    		  	"latitude":"29.715162",
+    		  	"longitude":"-95.398915"
+    		},
 			'colleges_served': ['Sid Richardson'],
 			'times_open': {
 				'breakfast': {
