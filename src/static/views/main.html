@@ -1,6 +1,60 @@
 <h1>Hello World!</h1>
 
+<!-- Main Navbar for the App -->
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
 
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button 
+        type="button"
+        class="navbar-toggle"
+        data-toggle="collapse"
+        data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Servery, date, meal picker -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select Servery <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div>
+          <input type="text" style="width: 205px;" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+          <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          <div class="btn-group">
+           <button type="button" class="btn btn-default">Lunch</button>
+           <button type="button" class="btn btn-default">Dinner</button>
+          </div> 
+        </div>
+      </form>
+
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
 <!-- Meal Information -->
 <div class="row">
@@ -24,9 +78,6 @@
           <li>Item 1</li>
           <li>Item 1</li>
           <li>Item 1</li>
-          <li>Item 1</li>
-          <li>Item 1</li>
-          <li>Item 1</li>
         </ol>
       </div>
     </div>
@@ -42,7 +93,7 @@
   <div class="well well-sm" ng-model="dt">
     <datepicker min="minDate" show-weeks="showWeeks"></datepicker>
   </div>
-
 </div>
+
 
 
