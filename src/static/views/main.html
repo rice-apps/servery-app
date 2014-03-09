@@ -18,26 +18,49 @@
       </button>
     </div>
 
-    <!-- Servery, date, meal picker -->
+    <!-- Selection bar -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
       <ul class="nav navbar-nav">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select Servery <b class="caret"></b></a>
+          <!-- Select servery button -->
+          <a 
+            href="#" 
+            class="dropdown-toggle" 
+            data-toggle="dropdown">
+              {{ selectedServery.name || "Select Servery" }} <b class="caret"></b>
+          </a>
+          <!-- List of serveries for the dropdown menu -->
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li ng-repeat="servery in serveries">
+              <a ng-click="selectServery(servery)">{{servery.name}}</a>
+            </li>
           </ul>
         </li>
       </ul>
+
       <form class="navbar-form navbar-left">
         <div>
-          <input type="text" style="width: 205px;" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-          <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          <!-- Datepicker -->
+          <input 
+            type="text" 
+            style="width: 205px;" 
+            class="form-control" 
+            datepicker-popup="{{datePicker.format}}" 
+            ng-model="datePicker.dt" 
+            is-open="opened" 
+            datepicker-options="datePicker.dateOptions" 
+            ng-required="true" 
+            close-text="Close"
+            show-weeks="false"
+          />
+          <!-- Datepicker button -->
+          <button 
+            class="btn btn-default" 
+            ng-click="datePicker.open($event)">
+              <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+          <!-- Lunch / Dinner toggle -->
           <div class="btn-group">
            <button type="button" class="btn btn-default">Lunch</button>
            <button type="button" class="btn btn-default">Dinner</button>
@@ -45,6 +68,7 @@
         </div>
       </form>
 
+      <!-- Search bar -->
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -62,7 +86,7 @@
     <div class="thumbnail">
       <img src="static/img/serveries/placeholder_med.jpeg" alt="...">
         <div class="caption">
-          <h4>North Servery</h4>
+          <h4>{{ selectedServery.name }}</h4>
         </div>
     </div>
   </div>
@@ -90,9 +114,9 @@
 </div>
 <br>
 <div align="center" style="display:inline-block; min-height:290px;">
-  <div class="well well-sm" ng-model="dt">
-    <datepicker min="minDate" show-weeks="showWeeks"></datepicker>
-  </div>
+  <!-- <div class="well well-sm" ng-model="dt"> -->
+    <!-- <datepicker min="minDate" show-weeks="showWeeks"></datepicker> -->
+  <!-- </div> -->
 </div>
 
 
