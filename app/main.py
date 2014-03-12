@@ -7,6 +7,7 @@ import auth
 
 @app.route('/')
 def main():
+  print "Testing"
   return send_from_directory('static', 'index.html')
 
 @app.route('/<path:filename>')
