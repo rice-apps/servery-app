@@ -1,19 +1,12 @@
-from flask import Flask, render_template, session, send_from_directory, jsonify, request, redirect
-from flask.ext.pymongo import PyMongo
-from bson import BSON, json_util
-from bson.json_util import dumps
+from app import app
+from flask import redirect, jsonify, request, session, send_from_directory
+
 import json
 import random
 import auth
 
-app = Flask(__name__)
-# set the secret key.  keep this really secret:
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RA'
-mongo = PyMongo(app)
-
 @app.route('/')
 def main():
-  # return render_template('static/index.html')
   return send_from_directory('static', 'index.html')
 
 @app.route('/<path:filename>')
@@ -30,7 +23,15 @@ def get_login():
     else:
         return redirect('error')
 
-if __name__ == "__main__":
-  app.debug = True
-  app.run()
-  
+@app.errorhandler(404)
+def not_found(error=None):
+  message = {
+    'status': 404,
+    'message': 'Not Found',
+    'request': {
+      'url': request.url
+    }
+  }
+  resp = jsonify(message)
+  resp.status_code = 404
+  return resp
