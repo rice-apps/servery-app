@@ -13,52 +13,22 @@ serveries = db.serveries
 def main():
 	servInfo = [ 
 		{	
-			'name':'North', 
+			'name':'North Servery', 
+			'serv_type': 0,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},    
 			"location":{
-		     	"latitude":"29.721883",
-		      	"longitude":"-95.396546"
-		    },
+				"latitude":29.721883,
+		    "longitude":-95.396546
+	    },
 			'colleges_served': ['Martel', 'Jones', 'Brown'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					},
-					'saturday': {
-						'open': '9:00AM',
-						'close': '11:00AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					},
-					'saturday, sunday': {
-						'open': '11:30AM',
-						'close': '2:00PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					},
-					'friday, sunday': {
-						'open': '5:00PM',
-						'close': '7:00PM'
-					}
-				}
-			},
 			'description': 'filler'
 		},
 
 		{	
-			'name':'Seibel', 
+			'name':'Seibel Servery, Abe and Annie', 
+			'serv_type': 0,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},    
@@ -67,43 +37,12 @@ def main():
 		      	"longitude":"-95.398241"
 		    },
 			'colleges_served': ['Will Rice', 'Lovett'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					},
-					'saturday': {
-						'open': '9:00AM',
-						'close': '11:00AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					},
-					'saturday, sunday': {
-						'open': '11:30AM',
-						'close': '2:00PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					},
-					'friday, sunday': {
-						'open': '5:00PM',
-						'close': '7:00PM'
-					}
-				}
-			},
 			'description': 'filler'
 		},
 
 		{	
-			'name':'South', 
+			'name':'South Servery', 
+			'serv_type': 1,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
@@ -112,80 +51,26 @@ def main():
 		     	"longitude":"-95.401024"
 		   	},
 			'colleges_served': ['Hanszen', 'Wiess'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					},
-					'sunday': {
-						'open': '11:30AM',
-						'close': '2:00PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					},
-					'friday, sunday': {
-						'open': '5:00PM',
-						'close': '7:00PM'
-					}
-				}
-			},
 			'description': 'filler'
 		},
 
 		{	
-			'name':'West', 
+			'name':'West Servery', 
+			'serv_type': 1,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
 		    "location":{
-   			   	"latitude":"29.721063",
+   			  "latitude":"29.721063",
    				"longitude":"-95.398481"
    			},
 			'colleges_served': ['Duncan', 'McMurtry'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					},
-					'sunday': {
-						'open': '11:30AM',
-						'close': '2:00PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					},
-					'friday, sunday': {
-						'open': '5:00PM',
-						'close': '7:00PM'
-					}
-				}
-			},
 			'description': 'filler'
 		},
 
 		{	
-			'name':'Baker', 
+			'name':'Baker College Kitchen', 
+			'serv_type': 2,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
@@ -194,64 +79,149 @@ def main():
     		  	"longitude":"-95.399289"
     		},
 			'colleges_served': ['Baker'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					}
-				}
-			},
 			'description': 'filler'
 		},
 
 		{	
-			'name':'Sid Richardson', 
+			'name':'Sid Richardson Kitchen', 
+			'serv_type': 2,
 			'image':{
 				'link':'./static/img/placeholder.jpeg'
 			},
-		    "location":{ # sid rich college coordinates
-    		  	"latitude":"29.715162",
-    		  	"longitude":"-95.398915"
-    		},
+	    "location":{ # sid rich college coordinates
+  		  	"latitude":"29.715162",
+  		  	"longitude":"-95.398915"
+  		},
 			'colleges_served': ['Sid Richardson'],
-			'times_open': {
-				'breakfast': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '7:30AM',
-						'close': '10:30AM'
-					}
-				},
-				'lunch': {
-					'monday, tuesday, wednesday, thursday, friday': {
-						'open': '11:30AM',
-						'close': '1:30PM'
-					}
-				},
-				'dinner': {
-					'monday, tuesday, wednesday, thursday': {
-						'open': '5:30PM',
-						'close': '7:30PM'
-					}
-				}
-			},
 			'description': 'filler'
 		}
 	]
+
+	# fills servery times
+	fill_servery(servInfo)
+
 	for serv in servInfo:
 		serveries.update({'name':serv['name']}, serv, True)
+
+def fill_servery(serv):
+	"""
+	fills in servery open times
+	serv type 0 is North/Seibel
+	serv type 1 is South/West
+	serv type 2 is Sid/Baker
+
+	serv is the servery JSON object and index is its position
+	"""
+	for index in xrange(len(serv)):
+		serv_type = serv[index]["serv_type"]
+		periods = []
+
+		# M-H
+		for i in xrange(1,6):
+			periods.extend([{
+					"meal": "breakfast",
+					"open": {
+						"day": i,
+						"time": "0730"
+					},
+					"close:" {
+						"day": i,
+						"time": "1030"
+					}
+				}, {
+					"meal": "lunch",
+					"open": {
+						"day": i,
+						"time": "1130"
+					},
+					"close": {
+						"day": i,
+						"time": "1330"
+					}
+				}, {
+					"meal": "dinner",
+					"open": {
+						"day": i,
+						"time": "1730"
+					},
+					"close": {
+						"day": i,
+						"time": "1930"
+					}
+				}
+			])
+
+		# remove Friday dinners
+		periods.pop(-1)
+
+		# add other times for non Sid/Baker
+		if serv_type in [0,1]:
+			periods.append({
+				"meal": "dinner",
+				"open": {
+					"day": 0,
+					"time": "1700"
+				},
+				"close": {
+					"day": 0,
+					"time": "1900"
+				}
+			})
+
+			# adds sunday dinner and lunch
+			periods.insert(0,{
+				"meal": "dinner",
+				"open": {
+					"day": 0,
+					"time": "1700"
+				},
+				"close": {
+					"day": 0,
+					"time": "1900"
+				}
+			})
+
+			periods.insert(0,{
+				"meal": "lunch",
+				"open": {
+					"day": 0,
+					"time": "1130"
+				},
+				"close": {
+					"day": 0,
+					"time": "1400"
+				}
+			})
+
+			# adds Saturday lunch/dinner to North/Seibel
+			if serv_type == 0:
+				periods.extend([{
+						"meal": "breakfast",
+						"open": {
+							"day": 6,
+							"time": "0900"
+						},
+						"close:" {
+							"day": 6,
+							"time": "1100"
+						}
+					}, {
+						"meal": "lunch",
+						"open": {
+							"day": 6,
+							"time": "1130"
+						},
+						"close": {
+							"day": 6,
+							"time": "1400"
+						}
+					}
+				])
+
+		serv[index]["opening_hours"] = {
+			"periods": periods
+		}
+
 
 for arg in sys.argv:
 	if arg == '--clean':
