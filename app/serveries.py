@@ -2,7 +2,8 @@ from app import app, mongo
 from main import not_found
 import bson
 import json
-from time import strftime
+from datetime import strftime, now
+from pytz import timezone
 
 
 # TODO(X): Adjust this per task 
@@ -21,10 +22,10 @@ def get_serveries():
 @app.route('/api/serveries/<servery_id>')
 def get_servery(servery_id):
   # Query for all data for specific servery
-
   # gets current time and day of week to see if servery is currently open
-  curr_day = int(strftime("%w"))
-  curr_time = strftime("%H%M")
+  rice_time = timezone("US/Central").localize(now())
+  curr_day = int(rice_time.strftime("%w"))
+  curr_time = rice_time.strftime("%H%M")
 
   # retrieves actual servery
   servery = mongo.db.serveries.find({_id: servery_id})
@@ -40,9 +41,25 @@ def get_servery(servery_id):
   return json.dumps(servery), 200, {"content-type" : "application/json"}
 
 
+# @app.route('/api/serveries/<servery_id>/menu')
+def get_menu(date=strftime("%Y-%m-%d"), meal="both"):
+  # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
+  menu = mongo.db.menu_items.find({})
+
+  return json.dumps(menu), 200, {"content-type" : "application/json"}
+
+
 @app.route('/api/serveries/<servery_id>/menu')
-def get_menu(date=strftime("%Y-%m-%d")):
-  # Query for menu items of servery given date (default today)
+def get_menu_stub(date=strftime("%Y-%m-%d"), meal="both"):
+  # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
+  menu = {
+    "_id": 123,
+    "name": "Mac & Cheese",
+    "tags": ["vegetarian"],
+    "meal": "lunch",
+    "date": "2014-03-10",
+    "servery": 124
+  }
 
 
   return json.dumps(menu), 200, {"content-type" : "application/json"}

@@ -9,9 +9,9 @@ import sys
 client = MongoClient()
 db = client.main
 serveries = db.serveries
-	
+
 def main():
-	servInfo = [ 
+	serv_info = [ 
 		{	
 			'name':'North Servery', 
 			'serv_type': 0,
@@ -98,9 +98,9 @@ def main():
 	]
 
 	# fills servery times
-	fill_servery(servInfo)
+	fill_servery(serv_info)
 
-	for serv in servInfo:
+	for serv in serv_info:
 		serveries.update({'name':serv['name']}, serv, True)
 
 def fill_servery(serv):
@@ -221,6 +221,8 @@ def fill_servery(serv):
 		serv[index]["opening_hours"] = {
 			"periods": periods
 		}
+
+		del serv[index]["serv_type"]
 
 
 for arg in sys.argv:
