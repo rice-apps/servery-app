@@ -8,6 +8,7 @@ import sys
 
 client = MongoClient()
 db = client.main
+menu_items = db.menu_items
 serveries = db.serveries
 
 def main():
@@ -102,6 +103,41 @@ def main():
 
 	for serv in serv_info:
 		serveries.update({'name':serv['name']}, serv, True)
+
+
+
+	# adds temporary foods
+	temp_menu = [{
+		"name": "Mac and Cheese",
+		"tags": ["gluten","soy","milk"], 
+		"type": "main",
+		"meal": "lunch",
+		"date": "2014-03-10",
+		"servery": serveries.find({"name":"North Servery"})
+	},{
+		"name": "Golden Catfish with Tartar Sauce",
+		"tags": ["gluten","soy","milk","eggs","fish"],
+		"meal": "main",
+		"meal": "lunch",
+		"date": "2014-03-10",
+		"servery": serveries.find({"name":"South Servery"})
+	},{
+		"name": "Okra Garlic Tomato Stew",
+		"tags": ["gluten","soy"],
+		"type": "soup",
+		"meal": "lunch",
+		"date": "2014-03-10",
+		"servery": serveries.find({"name":"West Servery"})
+	},{
+		"name": "Cheesecake",
+		"tags": ["gluten","soy","milk","eggs"],
+		"type": "dessert",
+		"meal": "dinner",
+		"date": "2014-03-10",
+		"servery": serveries.find({"name":"Baker College Kitchen"})
+	}]
+
+	menu_items.insert(temp_menu)
 
 def fill_servery(serv):
 	"""
