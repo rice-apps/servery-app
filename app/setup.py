@@ -124,7 +124,7 @@ def fill_servery(serv):
 						"day": i,
 						"time": "0730"
 					},
-					"close:" {
+					"close": {
 						"day": i,
 						"time": "1030"
 					}
@@ -201,7 +201,7 @@ def fill_servery(serv):
 							"day": 6,
 							"time": "0900"
 						},
-						"close:" {
+						"close": {
 							"day": 6,
 							"time": "1100"
 						}

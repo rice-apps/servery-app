@@ -2,17 +2,8 @@ from app import app, mongo
 from main import not_found
 import bson
 import json
-import time
+from time import strftime
 
-days_of_week = {
-  "Sun": 0,
-  "Mon": 1,
-  "Tue": 2,
-  "Wed": 3,
-  "Thu": 4,
-  "Fri": 5,
-  "Sat": 6
-}
 
 # TODO(X): Adjust this per task 
 #          https://app.asana.com/0/8548568858590/10871850836266
@@ -26,27 +17,35 @@ def get_serveries():
          200, 
          {"content-type" : "application/json"})
 
+
 @app.route('/api/serveries/<servery_id>')
 def get_servery(servery_id):
   # Query for all data for specific servery
 
   # gets current time and day of week to see if servery is currently open
-  time_str = time.ctime(time.time())
-  curr_day = days_of_week[time_str[0:3]
-  curr_time = curr_time[11:13] + curr_time[14:16]
+  curr_day = int(strftime("%w"))
+  curr_time = strftime("%H%M")
 
   # retrieves actual servery
   servery = mongo.db.serveries.find({_id: servery_id})
   open_now = False
   for period in servery["opening_hours"]["periods"]:
     if period["open"]["day"] == curr_day:
-      if curr_time >= period["open"]["time"] && curr_time <= period["close"]["time"]:
+      if curr_time >= period["open"]["time"] and curr_time <= period["close"]["time"]:
         open_now = True
         break
   # stores if servery is open
   servery["opening_hours"]["open_now"] = open_now
 
   return json.dumps(servery), 200, {"content-type" : "application/json"}
+
+
+@app.route('/api/serveries/<servery_id>/menu')
+def get_menu(date=strftime("%Y-%m-%d")):
+  # Query for menu items of servery given date (default today)
+
+
+  return json.dumps(menu), 200, {"content-type" : "application/json"}
 
 
 
