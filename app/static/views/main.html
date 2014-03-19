@@ -30,6 +30,9 @@
             data-toggle="dropdown">
               {{ selectedServery.name || "Select Servery" }} <b class="caret"></b>
           </a>
+
+
+
           <!-- List of serveries for the dropdown menu -->
           <ul class="dropdown-menu">
             <li ng-repeat="servery in serveries">
@@ -63,6 +66,7 @@
           <!-- Lunch / Dinner toggle -->
           <div class="btn-group">
            <button type="button" class="btn btn-default">Lunch</button>
+
            <button type="button" class="btn btn-default">Dinner</button>
           </div> 
         </div>
@@ -76,9 +80,31 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
 
+      <div class="info-container">
+        <h1>Hours for {{selectedServery.name}}</h1>
+        <h2>Currently Open: {{selectedServery.opening_hours.open_now}}</h2>
+        <table class = "hours">
+          <tbody>
+            <li ng-repeat="period in selectedServery.opening_hours.periods">
+              <tr>
+                <th scope="row">changeDate({{period.day}})</th>
+                  <li ng-repeat="meal in period">
+                    <td>
+                      {{meal.open.time | date:'hh:mm'} } - {{meal.close.time | date: 'hh:mm'}}
+                    </td>
+                  </li>
+              </tr>
+            </li>
+          </tbody>
+        </table>               
+          <!-- <h2>Open selectDate({{selectedServery.opening_hours.periods.open.day}}) from {{selectedServery.opening_hours.periods.open.time | date:'hh:mm'}} to {{selectedServery.opening_hours.periods.close.time | date:'hh:mm'}}</h2>
+        </li> -->
+      </div>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
 
 <!-- Meal Information -->
 <div class="row">
