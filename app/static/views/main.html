@@ -1,6 +1,8 @@
-<h1>Hello World!</h1>
+
 
 <!-- Main Navbar for the App -->
+<link rel="stylesheet" href="static/css/base.css">
+
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
 
@@ -19,7 +21,8 @@
     </div>
 
     <!-- Selection bar -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
 
       <ul class="nav navbar-nav">
         <li class="dropdown">
@@ -73,34 +76,15 @@
       </form>
 
       <!-- Search bar -->
+
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
-
-      <div class="info-container">
-        <h1>Hours for {{selectedServery.name}}</h1>
-        <h2>Currently Open: {{selectedServery.opening_hours.open_now}}</h2>
-        <table class = "hours">
-          <tbody>
-            <li ng-repeat="period in selectedServery.opening_hours.periods">
-              <tr>
-                <th scope="row">changeDate({{period.day}})</th>
-                  <li ng-repeat="meal in period">
-                    <td>
-                      {{meal.open.time | date:'hh:mm'} } - {{meal.close.time | date: 'hh:mm'}}
-                    </td>
-                  </li>
-              </tr>
-            </li>
-          </tbody>
-        </table>               
-          <!-- <h2>Open selectDate({{selectedServery.opening_hours.periods.open.day}}) from {{selectedServery.opening_hours.periods.open.time | date:'hh:mm'}} to {{selectedServery.opening_hours.periods.close.time | date:'hh:mm'}}</h2>
-        </li> -->
-      </div>
     </div><!-- /.navbar-collapse -->
+
   </div><!-- /.container-fluid -->
 </nav>
 
@@ -112,7 +96,7 @@
     <div class="thumbnail">
       <img src="static/img/serveries/placeholder_med.jpeg" alt="...">
         <div class="caption">
-          <h4>{{ selectedServery.name }}</h4>
+          <h4>{{selectedServery.name}}</h4>
         </div>
     </div>
   </div>
@@ -134,6 +118,28 @@
   </div>
 </div>
 
+<div class="info-container" style="width:400px">
+  <h4>Hours for {{selectedServery.name}}</h4>
+  <h4>Currently Open: {{selectedServery.opening_hours.open_now}}</h4>
+  <table class = "hours">
+    <tbody>
+      <li ng-repeat="period in selectedServery.opening_hours.periods">
+        <tr>
+
+          <th scope="row">{{period.day}}</th>
+            <li ng-repeat="meal in period">
+              <td>
+                {{meal.open.time | date:'hh:mm'}} am - {{meal.close.time | date: 'hh:mm'}} pm
+              </td>
+            </li>
+        </tr>
+      </li>
+    </tbody>
+  </table>               
+    <!-- <h2>Open selectDate({{selectedServery.opening_hours.periods.open.day}}) from {{selectedServery.opening_hours.periods.open.time | date:'hh:mm'}} to {{selectedServery.opening_hours.periods.close.time | date:'hh:mm'}}</h2>
+  </li> -->
+</div>
+<br><br>
 <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 <div align="center">
   <button class="btn btn-sm btn-info" ng-click="today()">Go to Today</button>

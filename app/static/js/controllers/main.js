@@ -37,9 +37,9 @@ angular.module('serveryApp')
 
   $scope.selectServery = function (servery) {
     $scope.selectedServery = servery;
-    $scope.selectedPeriod = openhours;
+    //$scope.selectedPeriod = openhours;
     console.log("Selected servery: " + servery.name);
-   
+    console.log(servery);
   };
 
   $scope.changeDate = function (date_num) {
