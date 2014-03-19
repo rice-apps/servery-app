@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 from time import strftime
 from pytz import timezone
+from bson.objectid import ObjectId
 
 rice_time = timezone("US/Central").localize(datetime.now())
 
@@ -29,7 +30,8 @@ def get_servery(servery_id):
   curr_time = rice_time.strftime("%H%M")
 
   # retrieves actual servery
-  servery = mongo.db.serveries.find({_id: servery_id})
+  servery = mongo.db.serveries.find_one({"_id": ObjectId(servery_id)})
+
   open_now = False
   for period in servery["opening_hours"]["periods"]:
     if period["open"]["day"] == curr_day and curr_time >= period["open"]["time"] and curr_time <= period["close"]["time"]:
@@ -38,58 +40,58 @@ def get_servery(servery_id):
   # stores if servery is open
   servery["opening_hours"]["open_now"] = open_now
 
-  return json.dumps(servery), 200, {"content-type" : "application/json"}
-
-
-# @app.route('/api/serveries/<servery_id>/menu')
-# def get_menu(date=rice_time.strftime("%Y-%m-%d"), meal="both"):
-#   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
-#   if meal == "both":
-#     query_meals = ["lunch","dinner"]
-#   else:
-#     query_meals = [meal]
-
-#   menu = mongo.db.menu_items.find({"date":date, "meal": {$in: query_meals}}, "servery": servery_id)
-
-#   return json.dumps(menu), 200, {"content-type" : "application/json"}
+  return json.dumps(servery, default=bson.json_util.default), 200, {"content-type" : "application/json"}
 
 
 @app.route('/api/serveries/<servery_id>/menu')
-def get_menu_stub(date=strftime("%Y-%m-%d"), meal="both"):
+def get_menu(date=rice_time.strftime("%Y-%m-%d"), meal="both"):
   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
-  menu = [{
-    "_id": 123,
-    "name": "Mac and Cheese",
-    "tags": ["gluten","soy","milk"], 
-    "type": "main",
-    "meal": "lunch",
-    "date": "2014-03-10",
-    "servery": 311
-  },{
-    "_id": 124,
-    "name": "Golden Catfish with Tartar Sauce",
-    "tags": ["gluten","soy","milk","eggs","fish"],
-    "meal": "main",
-    "meal": "lunch",
-    "date": "2014-03-10",
-    "servery": 331
-  },{
-    "_id": 125,
-    "name": "Okra Garlic Tomato Stew",
-    "tags": ["gluten","soy"],
-    "type": "soup",
-    "meal": "lunch",
-    "date": "2014-03-10",
-    "servery": 312
-  },{
-    "_id": 126,
-    "name": "Cheesecake",
-    "tags": ["gluten","soy","milk","eggs"],
-    "type": "dessert",
-    "meal": "dinner",
-    "date": "2014-03-10",
-    "servery": 341
-  }]
+  if meal == "both":
+    query_meals = ["lunch","dinner"]
+  else:
+    query_meals = [meal]
+
+  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": servery_id})
+
+  return json.dumps(menu), 200, {"content-type" : "application/json"}
+
+
+# @app.route('/api/serveries/<servery_id>/menu')
+# def get_menu_stub(date=strftime("%Y-%m-%d"), meal="both"):
+#   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
+#   menu = [{
+#     "_id": 123,
+#     "name": "Mac and Cheese",
+#     "tags": ["gluten","soy","milk"], 
+#     "type": "main",
+#     "meal": "lunch",
+#     "date": "2014-03-10",
+#     "servery": 311
+#   },{
+#     "_id": 124,
+#     "name": "Golden Catfish with Tartar Sauce",
+#     "tags": ["gluten","soy","milk","eggs","fish"],
+#     "meal": "main",
+#     "meal": "lunch",
+#     "date": "2014-03-10",
+#     "servery": 331
+#   },{
+#     "_id": 125,
+#     "name": "Okra Garlic Tomato Stew",
+#     "tags": ["gluten","soy"],
+#     "type": "soup",
+#     "meal": "lunch",
+#     "date": "2014-03-10",
+#     "servery": 312
+#   },{
+#     "_id": 126,
+#     "name": "Cheesecake",
+#     "tags": ["gluten","soy","milk","eggs"],
+#     "type": "dessert",
+#     "meal": "dinner",
+#     "date": "2014-03-10",
+#     "servery": 341
+#   }]
 
 
 #   return json.dumps(menu), 200, {"content-type" : "application/json"}

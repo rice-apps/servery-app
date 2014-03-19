@@ -103,6 +103,7 @@ def main():
 
 	for serv in serv_info:
 		serveries.update({'name':serv['name']}, serv, True)
+	return
 
 
 	# adds temporary foods
