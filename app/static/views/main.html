@@ -129,7 +129,7 @@
           <th scope="row">{{period.day}}</th>
             <li ng-repeat="meal in period">
               <td>
-                {{meal.open.time | date:'hh:mm'}} am - {{meal.close.time | date: 'hh:mm'}} pm
+                {{meal.time | date:'hh:mm'}} am - {{meal.time | date: 'hh:mm'}} pm
               </td>
             </li>
         </tr>
