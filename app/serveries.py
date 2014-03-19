@@ -33,13 +33,13 @@ def get_servery(servery_id):
   # retrieves actual servery
   servery = mongo.db.serveries.find_one({"_id": ObjectId(servery_id)})
 
-  open_now = False
-  for period in servery["opening_hours"]["periods"]:
-    if period["open"]["day"] == curr_day and curr_time >= period["open"]["time"] and curr_time <= period["close"]["time"]:
-      open_now = True
-      break
-  # stores if servery is open
-  servery["opening_hours"]["open_now"] = open_now
+  # open_now = False
+  # for period in servery["opening_hours"]["periods"]:
+  #   if period["open"]["day"] == curr_day and curr_time >= period["open"]["time"] and curr_time <= period["close"]["time"]:
+  #     open_now = True
+  #     break
+  # # stores if servery is open
+  # servery["opening_hours"]["open_now"] = open_now
 
   return json.dumps(servery, default=bson.json_util.default), 200, {"content-type" : "application/json"}
 

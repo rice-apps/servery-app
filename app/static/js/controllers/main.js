@@ -30,6 +30,7 @@ angular.module('serveryApp')
   ApiStub.serveries().then(function (data) {
     $scope.serveries = data;
     $scope.selectedServery = $scope.serveries[0];
+    console.log($scope.selectedServery);
  
   }, function (error) {
     alert(error);
@@ -37,9 +38,9 @@ angular.module('serveryApp')
 
   $scope.selectServery = function (servery) {
     $scope.selectedServery = servery;
-    $scope.selectedPeriod = openhours;
+    //$scope.selectedPeriod = openhours;
     console.log("Selected servery: " + servery.name);
-   
+    console.log(servery);
   };
 
   $scope.changeDate = function (date_num) {
