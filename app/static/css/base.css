@@ -10,3 +10,12 @@
 .servery .caption {
   text-align: center;
 }
+
+#page-content{
+	margin-top: 40px;
+}
+
+.info-container{
+	width:100px;
+	height:100px;
+}
