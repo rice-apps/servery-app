@@ -1,3 +1,4 @@
+from flask import request
 from app import app, mongo
 from main import not_found
 import bson
@@ -44,16 +45,19 @@ def get_servery(servery_id):
 
 
 @app.route('/api/serveries/<servery_id>/menu')
-def get_menu(date=rice_time.strftime("%Y-%m-%d"), meal="both"):
+def get_menu(servery_id):
   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
+  date = request.args.getlist("date")
+  meal = request.args.getlist("meal")
+
   if meal == "both":
     query_meals = ["lunch","dinner"]
   else:
     query_meals = [meal]
 
-  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": servery_id})
+  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
 
-  return json.dumps(menu), 200, {"content-type" : "application/json"}
+  return bson.json_util.dumps(menu), 200, {"content-type" : "application/json"}
 
 
 # @app.route('/api/serveries/<servery_id>/menu')
