@@ -14,6 +14,7 @@ In order to set up a local development environment, you need to install the foll
 * [MongoDB](http://docs.mongodb.org/manual/installation/)
 * [Flask-PyMongo](http://flask-pymongo.readthedocs.org/en/latest/)
 * [pdfminer](http://www.unixuser.org/~euske/python/pdfminer/index.html)
+(Note that pdfminer can be installed with the command `pip install git+https://github.com/euske/pdfminer)
 
 In order to run the application locally. Start the mongo server with the following command at the system shell:
 
