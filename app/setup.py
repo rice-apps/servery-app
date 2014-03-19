@@ -7,7 +7,7 @@ import json
 import sys
 
 client = MongoClient()
-db = client.main
+db = client.app
 menu_items = db.menu_items
 serveries = db.serveries
 
@@ -102,9 +102,7 @@ def main():
 	fill_servery(serv_info)
 
 	for serv in serv_info:
-		serveries.insert(serv)
-		# serveries.update({'name':serv['name']}, serv, True)
-
+		serveries.update({'name':serv['name']}, serv, True)
 
 
 	# adds temporary foods
