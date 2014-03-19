@@ -30,6 +30,7 @@ angular.module('serveryApp')
   ApiStub.serveries().then(function (data) {
     $scope.serveries = data;
     $scope.selectedServery = $scope.serveries[0];
+    console.log($scope.selectedServery);
  
   }, function (error) {
     alert(error);

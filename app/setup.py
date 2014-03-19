@@ -151,109 +151,61 @@ def fill_servery(serv):
 	"""
 	for index in xrange(len(serv)):
 		serv_type = serv[index]["serv_type"]
-		periods = []
+		periods = {}
 
 		# M-H
 		for i in xrange(1,6):
-			periods.extend([{
-					"meal": "breakfast",
-					"open": {
-						"day": i,
-						"time": "0730"
-					},
-					"close": {
-						"day": i,
-						"time": "1030"
-					}
-				}, {
-					"meal": "lunch",
-					"open": {
-						"day": i,
-						"time": "1130"
-					},
-					"close": {
-						"day": i,
-						"time": "1330"
-					}
-				}, {
-					"meal": "dinner",
-					"open": {
-						"day": i,
-						"time": "1730"
-					},
-					"close": {
-						"day": i,
-						"time": "1930"
-					}
+			periods[str(i)] = {
+				"breakfast": {
+					"time_open": "0730",
+					"time_close": "1030"
+				},
+				"lunch": {
+					"time_open": "1130",
+					"time_close": "1330"
+				},
+				"dinner": {
+					"time_open": "1730",
+					"time_close": "1930"
 				}
-			])
+			}
 
-		# remove Friday dinners
-		periods.pop(-1)
+			# remove Friday dinners cause they are different for everyone
+			if i == 5:
+				del(periods[str(i)]["dinner"])
 
 		# add other times for non Sid/Baker
 		if serv_type in [0,1]:
-			periods.append({
-				"meal": "dinner",
-				"open": {
-					"day": 0,
-					"time": "1700"
-				},
-				"close": {
-					"day": 0,
-					"time": "1900"
-				}
-			})
+			# add friday dinner
+			periods["5"]["dinner"] = {
+				"time_open": "1700",
+				"time_close": "1900"
+			}
 
 			# adds sunday dinner and lunch
-			periods.insert(0,{
-				"meal": "dinner",
-				"open": {
-					"day": 0,
-					"time": "1700"
+			periods["0"] = {
+				"lunch": {
+					"time_open": "1130",
+					"time_close": "1400"
 				},
-				"close": {
-					"day": 0,
-					"time": "1900"
+				"dinner": {
+					"time_open": "1700",
+					"time_close": "1900"
 				}
-			})
-
-			periods.insert(0,{
-				"meal": "lunch",
-				"open": {
-					"day": 0,
-					"time": "1130"
-				},
-				"close": {
-					"day": 0,
-					"time": "1400"
-				}
-			})
+			}
 
 			# adds Saturday lunch/dinner to North/Seibel
 			if serv_type == 0:
-				periods.extend([{
-						"meal": "breakfast",
-						"open": {
-							"day": 6,
-							"time": "0900"
-						},
-						"close": {
-							"day": 6,
-							"time": "1100"
-						}
-					}, {
-						"meal": "lunch",
-						"open": {
-							"day": 6,
-							"time": "1130"
-						},
-						"close": {
-							"day": 6,
-							"time": "1400"
-						}
+				periods["6"] = {
+					"breakfast": {
+						"time_open": "0900",
+						"time_close": "1100"
+					},
+					"lunch": {
+						"time_open": "1130",
+						"time_cloe": "1400"
 					}
-				])
+				}
 
 		serv[index]["opening_hours"] = {
 			"periods": periods

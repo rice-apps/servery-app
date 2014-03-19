@@ -123,17 +123,19 @@
   <h4>Currently Open: {{selectedServery.opening_hours.open_now}}</h4>
   <table class = "hours">
     <tbody>
-      <li ng-repeat="period in selectedServery.opening_hours.periods">
-        <tr>
+      <tr ng-repeat="period in selectedServery.opening_hours.periods">
+        <td scope="row">{{period.day}}</td>
+        <td>
+          {{ period.meal }}: {{ period.open.time }} - {{ period.close.time }}
+        </td>
 
-          <th scope="row">{{period.day}}</th>
-            <li ng-repeat="meal in period">
-              <td>
-                {{meal.open.time | date:'hh:mm'}} am - {{meal.close.time | date: 'hh:mm'}} pm
-              </td>
-            </li>
-        </tr>
-      </li>
+<!--         <td scope="row">{{period.day}}</th>
+          <li ng-repeat="meal in period">
+            <td>
+              {{meal.open.time | date:'hh:mm'}} am - {{meal.close.time | date: 'hh:mm'}} pm
+            </td>
+        </td> -->
+      </tr>
     </tbody>
   </table>               
     <!-- <h2>Open selectDate({{selectedServery.opening_hours.periods.open.day}}) from {{selectedServery.opening_hours.periods.open.time | date:'hh:mm'}} to {{selectedServery.opening_hours.periods.close.time | date:'hh:mm'}}</h2>
