@@ -102,7 +102,8 @@ def main():
 	fill_servery(serv_info)
 
 	for serv in serv_info:
-		serveries.update({'name':serv['name']}, serv, True)
+		serveries.insert(serv)
+		# serveries.update({'name':serv['name']}, serv, True)
 
 
 

@@ -51,7 +51,7 @@ def get_servery(servery_id):
 
 #   menu = mongo.db.menu_items.find({"date":date, "meal": {$in: query_meals}}, "servery": servery_id)
 
-  # return json.dumps(menu), 200, {"content-type" : "application/json"}
+#   return json.dumps(menu), 200, {"content-type" : "application/json"}
 
 
 @app.route('/api/serveries/<servery_id>/menu')
