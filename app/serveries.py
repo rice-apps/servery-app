@@ -29,7 +29,7 @@ def get_servery(servery_id):
   curr_time = rice_time.strftime("%H%M")
 
   # retrieves actual servery
-  servery = mongo.db.serveries.find({_id: servery_id})
+  servery = mongo.db.serveries.find({"_id": servery_id}).next()
   open_now = False
   for period in servery["opening_hours"]["periods"]:
     if period["open"]["day"] == curr_day and curr_time >= period["open"]["time"] and curr_time <= period["close"]["time"]:
