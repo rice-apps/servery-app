@@ -1,24 +1,4 @@
 import StringIO
-import urllib
-from pdfminer.pdfparser import PDFParser
-from pdfminer.pdfdocument import PDFDocument
-from pdfminer.pdfpage import PDFPage
-from pdfminer.pdfinterp import PDFResourceManager
-from pdfminer.pdfinterp import PDFPageInterpreter
-from pdfminer.converter import PDFPageAggregator
-from pdfminer.layout import LAParams, LTTextBox
-import collections
-from collections import defaultdict
-
-
-import re
-from pytz import timezone
-central_time = timezone("US/Central")
-
-import datetime
-import calendar
-
-
 """
 This is a module for downloading menus from dining.rice.edu.
 The main external method to use is "process_servery_menu(servery)"
@@ -42,7 +22,7 @@ The result is a dict of the following structure:
 The meal dictionaries have the following structure:
 
 {
-    'day': [Meal names string]
+    'day': [Meal name strings]
 }
 
 'day' is an integer from 0 to 6, 0 for monday, 1 for tuesday, etc.
@@ -60,6 +40,19 @@ Example usage would be:
 This would print the foods available for monday lunch of the current week.
 """
 
+import urllib
+from collections import defaultdict, namedtuple
+import re
+import datetime
+import calendar
+
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfinterp import PDFResourceManager
+from pdfminer.pdfinterp import PDFPageInterpreter
+from pdfminer.converter import PDFPageAggregator
+from pdfminer.layout import LAParams, LTTextBox
 
 
 base_address = r"http://dining.rice.edu/uploadedFiles/Dining/Residential_Dining/Dining_Menus/"
@@ -107,7 +100,7 @@ def download_servery_menu(servery):
 
 
 
-BoundingBox = collections.namedtuple('BoundingBox',['x','y','width','height'])
+BoundingBox = namedtuple('BoundingBox',['x','y','width','height'])
 
 lunch_bounding_box = BoundingBox(x=115,y=140,width=600,height=200)
 dinner_bounding_box = BoundingBox(x=115,y=140,width=600,height=340)
