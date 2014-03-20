@@ -3,7 +3,7 @@ This is a module for downloading menus from dining.rice.edu.
 The main external method to use is "process_servery_menu(servery)"
 
 Servery is one of the following: 
-    'east'
+    'seibel'
     'north'
     'baker'
     'sid'
