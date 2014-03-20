@@ -57,7 +57,7 @@ from pdfminer.layout import LAParams, LTTextBox
 
 base_address = r"http://dining.rice.edu/uploadedFiles/Dining/Residential_Dining/Dining_Menus/"
 
-servery_names = {"east":"East_Menu(1).pdf",
+servery_names = {"seibel":"East_Menu(1).pdf",
                 "north": "North_Menu.pdf",
                 "baker": "Baker%20Menu.pdf",
                 "sid":"Sid_Menu.pdf",
@@ -77,26 +77,12 @@ def process_servery_menu(servery):
     else:
         return process_multi_page_menu(pages)
 
-def load_servery_menu(servery_name):
-    file_location = download_servery_menu(servery_name)
-    
-    root = get_xml(file_location)
-
-    lunch,dinner = extract_lunch_and_dinner(root)
-    date = extract_date(root)
-
-    return ServeryMenu(servery_name,lunch,dinner,date)
-
 def download_servery_menu(servery):
     complete_url = base_address + servery_names[servery]
 
     data = urllib.urlopen(complete_url).read()
     
     return StringIO.StringIO(data)
-
-
-
-
 
 
 
