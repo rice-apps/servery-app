@@ -45,6 +45,7 @@ from collections import defaultdict, namedtuple
 import re
 import datetime
 import calendar
+import contextlib
 
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
@@ -108,7 +109,8 @@ def download_servery_menu(servery):
     """
     complete_url = base_address + servery_names[servery]
 
-    data = urllib.urlopen(complete_url).read()
+    with contextlib.closing(urllib.urlopen(complete_url)) as servery_file:
+        data = servery_file.read()
     
     return StringIO.StringIO(data)
 
