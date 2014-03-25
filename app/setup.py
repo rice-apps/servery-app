@@ -103,10 +103,10 @@ def main():
 
 	for serv in serv_info:
 		serveries.update({'name':serv['name']}, serv, True)
+		print serv['name'] + " updated"
 
 
 	cursor = serveries.find({})
-	print cursor.next()["_id"]
 	# adds temporary foods
 	temp_menu = [{
 		"name": "Mac and Cheese",
@@ -114,31 +114,32 @@ def main():
 		"type": "main",
 		"meal": "lunch",
 		"date": "2014-03-10",
-		"servery": cursor.next()
+		"servery": cursor.next()["_id"]
 	},{
 		"name": "Golden Catfish with Tartar Sauce",
 		"tags": ["gluten","soy","milk","eggs","fish"],
 		"meal": "main",
 		"meal": "lunch",
 		"date": "2014-03-10",
-		"servery": serveries.find({"name":"South Servery"})
+		"servery": cursor.next()["_id"]
 	},{
 		"name": "Okra Garlic Tomato Stew",
 		"tags": ["gluten","soy"],
 		"type": "soup",
 		"meal": "lunch",
 		"date": "2014-03-10",
-		"servery": serveries.find({"name":"West Servery"})
+		"servery": cursor.next()["_id"]
 	},{
 		"name": "Cheesecake",
 		"tags": ["gluten","soy","milk","eggs"],
 		"type": "dessert",
 		"meal": "dinner",
 		"date": "2014-03-10",
-		"servery": serveries.find({"name":"Baker College Kitchen"})
+		"servery": cursor.next()["_id"]
 	}]
 
 	menu_items.insert(temp_menu)
+	print menu_items.find_one({})
 
 def fill_servery(serv):
 	"""
