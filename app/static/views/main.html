@@ -118,15 +118,29 @@
   </div>
 </div>
 
-<div class="info-container" style="width:400px">
-  <h4>Hours for {{selectedServery.name}}</h4>
-  <h4>Currently Open: {{selectedServery.opening_hours.open_now}}</h4>
-  <table class="table hours">
-    <tr ng-repeat="period in selectedServery.opening_hours.periods">
+<!-- Servery Hours -->
+<div class="panel panel-default">
+  <div class="panel-heading">Hours</div>
+  <div>Currently Open: {{selectedServery.opening_hours.open_now}}</div>
+  <table class="table">
+    <tr> <!-- Meal headers -->
+      <td></td>
+      <th>Breakfast</th>
+      <th>Lunch</th>
+      <th>Dinner</th>
+    </tr>
+    <tr ng-repeat="(period, hours) in selectedServery.opening_hours.periods">
       <td>{{ period }}</td>
+      <td ng-repeat="meal in meals">
+        <span ng-show="hours[meal].time_open">
+          {{ hours[meal].time_open }} - {{ hours[meal].time_close }}
+        </span>
+      </td>
     </tr>
   </table>               
 </div>
+
+
 <br><br>
 <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 <div align="center">

@@ -16,10 +16,16 @@ angular.module('serveryApp')
   });
 
   $scope.selectServery = function (servery) {
-    $scope.selectedServery = Servery.query({'serveryId': servery._id.$oid});
+    $scope.selectedServery = Servery.query({'serveryId': servery._id.$oid},
+      function() {
+        // Log to console once loaded
+        console.log($scope.selectedServery);
+      });
     console.log("Selected servery: " + servery.name);
     console.log(servery);
   };
+
+  $scope.meals = ['breakfast', 'lunch', 'dinner'];
 
   /*=============================================*
    * Date picker
