@@ -4899,7 +4899,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   .navbar-form .form-group {
     display: inline-block;
     margin-bottom: 0;
-    
     vertical-align: middle;
   }
   .navbar-form .form-control {
@@ -4925,9 +4924,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 @media (max-width: 767px) {
   .navbar-form .form-group {
     margin-bottom: 5px;
-    
-    width:20%;
-    float:left;
   }
 }
 

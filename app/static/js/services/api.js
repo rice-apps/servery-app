@@ -4,9 +4,10 @@
 /**
  * Services that provide access to the servery API. 
  */
-angular.module('serveryApp').factory('Api', function ($http, $q) {
+angular.module('serveryApp').factory('Servery', function ($resource) {
 
-  return {
+  return ($resource){
+    return $resource('/api/serveries/:server')
 
     /**
      * Returns a deferred list of serveries.
