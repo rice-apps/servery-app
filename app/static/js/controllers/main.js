@@ -1,12 +1,29 @@
 'use strict'
 
 angular.module('serveryApp')
-.controller('MainCtrl', function ($scope, $location, ApiStub) {
+.controller('MainCtrl', 
+  ['$scope', 'ApiStub', 'Servery', function ($scope, ApiStub, Servery) {
 
-  $scope.$watch('datePicker.dt', function () {
-    console.log('Date has changed to ' + $scope.datePicker.dt);
+  /*=============================================*
+   * Servery selector
+   *=============================================*/
+  $scope.serveries = Servery.all(function () {
+    // Once serveries are loaded
+    if ($scope.serveries.length > 0)
+      $scope.selectServery($scope.serveries[0]);
+    else
+      console.log('No serveries found');
   });
 
+  $scope.selectServery = function (servery) {
+    $scope.selectedServery = Servery.query({'serveryId': servery._id.$oid});
+    console.log("Selected servery: " + servery.name);
+    console.log(servery);
+  };
+
+  /*=============================================*
+   * Date picker
+   *=============================================*/
   // Settings for the date picker
   $scope.datePicker = {
     today: function () {
@@ -23,53 +40,12 @@ angular.module('serveryApp')
     },
   };
 
+  $scope.$watch('datePicker.dt', function () {
+    console.log('Date has changed to ' + $scope.datePicker.dt);
+  });
+
   // Initialize the datePicker to today
   $scope.datePicker.today();
 
-  // Load serveries from the API
-  ApiStub.serveries().then(function (data) {
-    $scope.serveries = data;
-    $scope.selectedServery = $scope.serveries[0];
-    console.log($scope.selectedServery);
- 
-  }, function (error) {
-    alert(error);
-  });
-
-  $scope.selectServery = function (servery) {
-    $scope.selectedServery = servery;
-    //$scope.selectedPeriod = openhours;
-    console.log("Selected servery: " + servery.name);
-    console.log(servery);
-  };
-
-  $scope.changeDate = function (date_num) {
-    if (date_num === 0){
-      return("Sunday");
-    }
-    else if (date_num===1){
-      return("Monday");
-    }
-    else if (date_num === 2){
-      return("Tuesday");
-    }
-    else if (date_num === 3){
-      return("Wednesday");
-    }
-    else if (date_num === 4){
-      return("Thursday");
-    }
-    else if (date_num === 5){
-      return("Friday");
-    }
-    else if (date_num === 6){
-      return("Saturday");
-    }
-  }
-
-  // $scope.changeDate = function(date) {
-  //   return $filter('date')(date, date:'hh:mm')
-  // }
-
-});
+}]);
 
