@@ -153,17 +153,28 @@
       </div>
     </div>-->  
     <h2>Menu</h2>
-    <section class="menu" ng-repeat="meal in meals.slice(1)">
-      <h3>{{meal}}</h3>
-      <ol ng-show="menu[meal]">
-        <li ng-repeat="item in menu[meal]">
-          {{ item.name }}
-        </li>
-      </ol>
-      <em class="not-found" ng-hide="menu[meal]">
-        No items found.
-      </em>
-    </section>
+    <div 
+      class="menu panel panel-primary" 
+      ng-repeat="meal in meals.slice(1)">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{meal}}</h3>
+      </div>
+      <div class="panel-body">
+        <ul ng-show="menu[meal]" class="list-group">
+          <li ng-repeat="item in menu[meal]" class="list-group-item">
+            {{ item.name }}
+            <span 
+              ng-repeat="tag in item.tags"
+              class="label label-default"> 
+              {{ tag }}
+            </span>
+          </li>
+        </ul>
+        <em class="not-found" ng-hide="menu[meal]">
+          No items found.
+        </em>
+      </div>
+    </div>
   </div>
 </div>
 

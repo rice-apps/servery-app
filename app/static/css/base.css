@@ -31,3 +31,10 @@
 .menu .not-found {
   margin-left: 20px;
 }
+
+.menu li span.label {
+  float: right;
+  line-height: 18px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
