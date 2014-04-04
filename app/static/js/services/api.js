@@ -15,3 +15,12 @@ serveryApi.factory('Servery', ['$resource', function($resource) {
       query:{method: 'GET', params: {serveryId:'serveryId'}}
     });
 }]);
+
+serveryApi.factory('Menu', ['$resource', function($resource) {
+  return $resource(
+    'api/serveries/:serveryId/menu',
+    {},
+    {
+      query: {method: 'GET', params: {serveryId:'serveryId'}, isArray: true}
+    });
+}]);

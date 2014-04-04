@@ -31,7 +31,7 @@
             href="#" 
             class="dropdown-toggle" 
             data-toggle="dropdown">
-              {{ selectedServery.name || "Select Servery" }} <b class="caret"></b>
+              {{ servery.name || "Select Servery" }} <b class="caret"></b>
           </a>
 
 
@@ -100,7 +100,7 @@
     <div class="thumbnail">
       <img src="static/img/serveries/placeholder_med.jpeg" alt="...">
         <div class="caption">
-          <h4>{{selectedServery.name}}</h4>
+          <h4>{{servery.name}}</h4>
         </div>
     </div>
 
@@ -111,12 +111,12 @@
         Hours
         <span 
           class="label label-success"
-          ng-show="selectedServery.opening_hours.open_now">
+          ng-show="servery.opening_hours.open_now">
           Currently Open
         </span>
         <span
           class="label label-default"
-          ng-hide="selectedServery.opening_hours.open_now">
+          ng-hide="servery.opening_hours.open_now">
           Currently Closed
         </span>
       </div>
@@ -127,7 +127,7 @@
           <th>Lunch</th>
           <th>Dinner</th>
         </tr>
-        <tr ng-repeat="(period, hours) in selectedServery.opening_hours.periods">
+        <tr ng-repeat="(period, hours) in servery.opening_hours.periods">
           <td>{{ period }}</td>
           <td ng-repeat="meal in meals">
             <span ng-show="hours[meal].time_open">

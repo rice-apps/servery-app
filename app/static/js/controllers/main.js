@@ -2,7 +2,7 @@
 
 angular.module('serveryApp')
 .controller('MainCtrl', 
-  ['$scope', 'Servery', function ($scope, Servery) {
+  ['$scope', 'Servery', 'Menu', function ($scope, Servery, Menu) {
 
   /*=============================================*
    * Servery selector
@@ -16,10 +16,10 @@ angular.module('serveryApp')
   });
 
   $scope.selectServery = function (servery) {
-    $scope.selectedServery = Servery.query({'serveryId': servery._id.$oid},
+    $scope.servery = Servery.query({'serveryId': servery._id.$oid},
       function() {
         // Log to console once loaded
-        console.log($scope.selectedServery);
+        console.log($scope.servery);
       });
     console.log("Selected servery: " + servery.name);
     console.log(servery);
