@@ -1,22 +1,21 @@
+#page-content{
+  margin-top: 100px;
+}
 
-.servery {
+.servery-info {
 
 }
 
-.servery img {
+.servery-info img {
   margin-top: 10px;
 }
 
-.servery .caption {
+.servery-info .caption {
   text-align: center;
 }
 
-#page-content{
-	margin-top: 100px;
-}
-
-.info-container{
-	width:300px;
-	height:100px;
-	
+.servery-info .panel .panel-heading .label {
+  float: right;
+  line-height: 18px;
+  vertical-align: middle;
 }

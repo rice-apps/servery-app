@@ -204,7 +204,7 @@ def fill_servery(serv):
 					},
 					"lunch": {
 						"time_open": "1130",
-						"time_cloe": "1400"
+						"time_close": "1400"
 					}
 				}
 
