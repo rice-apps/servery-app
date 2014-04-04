@@ -1,10 +1,8 @@
 from flask import request
 from app import app, mongo
-from main import not_found
 import bson
 import json
 from datetime import datetime
-from time import strftime
 from pytz import timezone
 from bson.objectid import ObjectId
 
