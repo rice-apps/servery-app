@@ -16,11 +16,18 @@ angular.module('serveryApp')
   });
 
   $scope.selectServery = function (servery) {
+    // Load servery details
     $scope.servery = Servery.query({'serveryId': servery._id.$oid},
       function() {
-        // Log to console once loaded
-        console.log($scope.servery);
+        console.log($scope.servery); // Log to console once loaded
       });
+
+    // Load menu
+    $scope.menu = Menu.query({'serveryId': servery._id.$oid},
+      function() {
+        console.log($scope.menu);   // Log to console once loaded
+      });
+
     console.log("Selected servery: " + servery.name);
     console.log(servery);
   };

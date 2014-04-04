@@ -61,7 +61,13 @@ def get_menu(servery_id):
   else:
     query_meals = [meal]
 
-  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
+  items = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
+  menu = {"lunch": [], "dinner": []}
+  for item in items:
+    if item["meal"] == "lunch":
+      menu["lunch"].append(item) 
+    elif item["meal"] == "dinner":
+      menu["dinner"].append(item)
 
   return bson.json_util.dumps(menu), 200, {"content-type" : "application/json"}
 
