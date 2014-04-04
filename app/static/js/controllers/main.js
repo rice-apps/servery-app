@@ -2,7 +2,7 @@
 
 angular.module('serveryApp')
 .controller('MainCtrl', 
-  ['$scope', 'ApiStub', 'Servery', function ($scope, ApiStub, Servery) {
+  ['$scope', 'Servery', function ($scope, Servery) {
 
   /*=============================================*
    * Servery selector
