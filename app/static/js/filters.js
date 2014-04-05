@@ -31,9 +31,20 @@ serveryFilters.filter('dayofweek', function() {
   };
 });
 
-// serveryFilters.filter('12hour', function () {
-//   return function(input) {
-//     // Filter code goes here
-//   };
-// });
+serveryFilters.filter('twelvehour', function () {
+  return function(input) {
+    var hour = parseInt(input.substr(0,2));
+    var minutes = input.substr(2,2);
+    if (hour > 12){
+    	hour = hour - 12;
+    	return (hour.toString() + ":" + minutes + " PM");
+   
+    }
+    else {
+    	return (finalString = hour.toString() + ":" + minutes + " AM");
+
+    }
+
+  };
+});
 
