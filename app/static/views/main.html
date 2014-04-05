@@ -129,7 +129,7 @@
           <td>{{ period | dayofweek }}</td>
           <td ng-repeat="meal in meals">
             <span ng-show="hours[meal].time_open">
-              {{ hours[meal].time_open }} - {{ hours[meal].time_close }}
+              {{ hours[meal].time_open | twelvehour}} - {{ hours[meal].time_close | twelvehour}}
             </span>
           </td>
         </tr>
