@@ -2,26 +2,25 @@
 'use strict';
 
 /**
- * Services that provide access to the servery API. 
+ * Services that provide access to the servery API.
  */
-angular.module('serveryApp').factory('Api', function ($http, $q) {
+var serveryApi = angular.module('serveryApi', ['ngResource']);
 
-  return {
+serveryApi.factory('Servery', ['$resource', function($resource) {
+  return $resource(
+    'api/serveries/:serveryId',
+    {},
+    {
+      all: {method: 'GET', params: {}, isArray: true},
+      query:{method: 'GET', params: {serveryId:'serveryId'}}
+    });
+}]);
 
-    /**
-     * Returns a deferred list of serveries.
-     */
-    serveries: function () {
-      var deferred = $q.defer();
-
-      // $http.get('/api/serveries').success(function (data) {
-      //   deferred.resolve(data);
-      // });
-      deferred.reject('Not implemented');
-
-      return deferred.promise;
-    }
-    
-  };
-
-});
+serveryApi.factory('Menu', ['$resource', function($resource) {
+  return $resource(
+    'api/serveries/:serveryId/menu',
+    {},
+    {
+      query: {method: 'GET', params: {serveryId:'serveryId'}, isArray: true}
+    });
+}]);

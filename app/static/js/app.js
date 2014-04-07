@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('serveryApp', ['ui.bootstrap'])
+angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters'])
   .config(function ($routeProvider) {
+
     $routeProvider
       .when('/', {
         templateUrl: 'static/views/main.html',

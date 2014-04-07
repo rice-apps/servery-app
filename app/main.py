@@ -1,8 +1,6 @@
 from app import app
 from flask import redirect, jsonify, request, session
 
-import json
-import random
 import auth
 
 @app.route('/')
