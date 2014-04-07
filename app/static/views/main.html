@@ -100,7 +100,7 @@
     <div class="thumbnail">
       <img src="static/img/serveries/placeholder_med.jpeg" alt="...">
         <div class="caption">
-          <h4>{{servery.name}}</h4>
+          <h4>{{servery.name }}</h4>
         </div>
     </div>
 
@@ -128,10 +128,10 @@
           <th>Dinner</th>
         </tr>
         <tr ng-repeat="(period, hours) in servery.opening_hours.periods">
-          <td>{{ period }}</td>
+          <td>{{ period | dayofweek }}</td>
           <td ng-repeat="meal in meals">
             <span ng-show="hours[meal].time_open">
-              {{ hours[meal].time_open }} - {{ hours[meal].time_close }}
+              {{ hours[meal].time_open | twelvehour}} - {{ hours[meal].time_close | twelvehour}}
             </span>
           </td>
         </tr>
