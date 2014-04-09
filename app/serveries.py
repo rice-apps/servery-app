@@ -8,8 +8,6 @@ from bson.objectid import ObjectId
 
 rice_time = timezone("US/Central").localize(datetime.now())
 
-# TODO(X): Adjust this per task 
-#          https://app.asana.com/0/8548568858590/10871850836266
 @app.route('/api/serveries')
 def get_serveries():
   # Query mongo db for all serveries
@@ -61,7 +59,7 @@ def get_menu(servery_id):
   else:
     query_meals = [meal]
 
-  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
+  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "dish.servery": ObjectId(servery_id)})
 
   return bson.json_util.dumps(menu), 200, {"content-type" : "application/json"}
 
