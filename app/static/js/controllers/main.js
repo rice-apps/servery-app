@@ -1,12 +1,35 @@
 'use strict'
 
 angular.module('serveryApp')
-.controller('MainCtrl', function ($scope, $location, ApiStub) {
+.controller('MainCtrl', 
+  ['$scope', 'Servery', 'Menu', function ($scope, Servery, Menu) {
 
-  $scope.$watch('datePicker.dt', function () {
-    console.log('Date has changed to ' + $scope.datePicker.dt);
+  /*=============================================*
+   * Servery selector
+   *=============================================*/
+  $scope.serveries = Servery.all(function () {
+    // Once serveries are loaded
+    if ($scope.serveries.length > 0)
+      $scope.selectServery($scope.serveries[0]);
+    else
+      console.log('No serveries found');
   });
 
+  $scope.selectServery = function (servery) {
+    $scope.servery = Servery.query({'serveryId': servery._id.$oid},
+      function() {
+        // Log to console once loaded
+        console.log($scope.servery);
+      });
+    console.log("Selected servery: " + servery.name);
+    console.log(servery);
+  };
+
+  $scope.meals = ['breakfast', 'lunch', 'dinner'];
+
+  /*=============================================*
+   * Date picker
+   *=============================================*/
   // Settings for the date picker
   $scope.datePicker = {
     today: function () {
@@ -23,21 +46,12 @@ angular.module('serveryApp')
     },
   };
 
+  $scope.$watch('datePicker.dt', function () {
+    console.log('Date has changed to ' + $scope.datePicker.dt);
+  });
+
   // Initialize the datePicker to today
   $scope.datePicker.today();
 
-  // Load serveries from the API
-  ApiStub.serveries().then(function (data) {
-    $scope.serveries = data;
-    $scope.selectedServery = $scope.serveries[0];
-  }, function (error) {
-    alert(error);
-  });
-
-  $scope.selectServery = function (servery) {
-    $scope.selectedServery = servery;
-    console.log("Selected servery: " + servery.name);
-  };
-
-});
+}]);
 
