@@ -11,8 +11,10 @@ db = client.app
 menu_items = db.menu_items
 serveries = db.serveries
 dishes = db.dishes
+serv_dishes = db.serv_dishes
 
 def main():
+#############SERVERIES###################
 	serv_info = [ 
 		{	
 			'name':'North Servery', 
@@ -106,28 +108,21 @@ def main():
 		print serv['name'] + " updated"
 
 
+######################DISHES#################
 	cursor = serveries.find({})
 	# adds temporary foods
 	dish_list = [{
 		"name": "Mac and Cheese",
-		"tags": ["gluten","soy","milk"], 
-		"likes": 0,
-		"servery": cursor.next()["_id"]
+		"subscribers": [] # list of netIDs?
 	},{
 		"name": "Golden Catfish with Tartar Sauce",
-		"tags": ["gluten","soy","milk","eggs","fish"],
-		"likes": 0,
-		"servery": cursor.next()["_id"]
+		"subscribers": []
 	},{
 		"name": "Okra Garlic Tomato Stew",
-		"tags": ["gluten","soy"],
-		"likes": 0,
-		"servery": cursor.next()["_id"]
+		"subscribers": []
 	},{
 		"name": "Cheesecake",
-		"tags": ["gluten","soy","milk","eggs"],
-		"likes": 0,
-		"servery": cursor.next()["_id"]
+		"subscribers": []
 	}]
 
 	for dish in dish_list:
@@ -135,7 +130,39 @@ def main():
 		print dish['name'] + " updated"
 
 
-	cursor = dishes.find({})
+##############SERVERY DISHES#############
+	serv_cursor = serveries.find({})
+	dish_cursor = dishes.find({})
+	# adds temporary foods
+	serv_dish_list = [{
+		"dish": dish_cursor.next(),
+		"tags": ["gluten","soy","milk"], 
+		"likes": 0,
+		"servery": serv_cursor.next()["_id"]
+	},{
+		"dish": dish_cursor.next(),
+		"tags": ["gluten","soy","milk","eggs","fish"],
+		"likes": 0,
+		"servery": serv_cursor.next()["_id"]
+	},{
+		"dish": dish_cursor.next(),
+		"tags": ["gluten","soy"],
+		"likes": 0,
+		"servery": serv_cursor.next()["_id"]
+	},{
+		"dish": dish_cursor.next(),
+		"tags": ["gluten","soy","milk","eggs"],
+		"likes": 0,
+		"servery": serv_cursor.next()["_id"]
+	}]
+
+	for serv_dish in serv_dish_list:
+		serv_dishes.update({'dish':serv_dish['dish']}, serv_dish, True)
+		print serv_dish['dish']['name'] + " updated"
+
+
+
+	cursor = serv_dishes.find({})
 	# adds temporary foods
 	temp_menu = [{
 		"meal": "lunch",
@@ -155,8 +182,9 @@ def main():
 		"dish": cursor.next()
 	}]
 
-	menu_items.insert(temp_menu)
-	print menu_items.find_one({})
+	for item in temp_menu:
+		menu_items.update({'dish':item['dish']}, item, True)
+		print item['dish']['dish']['name'] + " updated"
 
 
 
