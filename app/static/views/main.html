@@ -104,9 +104,47 @@
         </div>
     </div>
 
-
-    <!-- Servery Hours -->
     <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" style = "width:10px" data-parent="#accordion" href="#collapseThree">
+          Hours
+          </a>
+           <span 
+          class="label label-success"
+          ng-show="servery.opening_hours.open_now">
+          Currently Open
+        </span>
+        <span
+          class="label label-default"
+          ng-hide="servery.opening_hours.open_now">
+          Currently Closed
+        </span>
+        </h4>
+      </div>
+      <div id="collapseThree" class="panel-collapse collapse">
+        <table class="table">
+          <tr> <!-- Meal headers -->
+            <td></td>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Dinner</th>
+          </tr>
+          <tr ng-repeat="(period, hours) in servery.opening_hours.periods" id="data">
+            <td>{{ period | dayofweek }}</td>
+            <td ng-repeat="meal in meals">
+              <span ng-show="hours[meal].time_open">
+              {{ hours[meal].time_open | twelvehour}} - {{ hours[meal].time_close | twelvehour}}
+              </span>
+            </td>
+          </tr>
+        </table>               
+      </div>
+    </div>
+
+    
+    <!-- Servery Hours -->
+   <!--  <div class="panel panel-default" id = "hours">
       <div class="panel-heading">
         Hours
         <span 
@@ -121,8 +159,8 @@
         </span>
       </div>
       <table class="table">
-        <tr> <!-- Meal headers -->
-          <td></td>
+        <tr>  --><!-- Meal headers -->
+          <!-- <td></td>
           <th>Breakfast</th>
           <th>Lunch</th>
           <th>Dinner</th>
@@ -137,7 +175,7 @@
         </tr>
       </table>               
     </div>
-  </div>
+  </div> -->
 
   <!-- Right column -->
   <div class="servery col-sm-6 col-md-8">

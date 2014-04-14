@@ -53,5 +53,11 @@ angular.module('serveryApp')
   // Initialize the datePicker to today
   $scope.datePicker.today();
 
+  $('#collapseThree').collapse('show')
+
+  function checkCollapse(){
+    
+  }
+
 }]);
 
