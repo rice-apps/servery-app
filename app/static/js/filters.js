@@ -33,6 +33,8 @@ serveryFilters.filter('dayofweek', function() {
 
 serveryFilters.filter('twelvehour', function () {
   return function(input) {
+    if (input == undefined)
+        return ""
     var hour = parseInt(input.substr(0,2));
     var minutes = input.substr(3,2);
     if (hour > 12){

@@ -7,6 +7,8 @@ from util import current_rice_time
 
 from models import *
 
+from dateutil.parser import parse
+
 def find_mealtime(servery,day_of_the_week,meal_type):
     return db.session.query(MealTime).filter(MealTime.servery==servery,MealTime.day_of_the_week == day_of_the_week,MealTime.meal_type == meal_type).first()
 def get_servery_data(servery):
@@ -61,8 +63,12 @@ def get_servery(servery_id):
 
   is_open = len(currently_open.all()) == 1
 
+  servery_data = get_servery_data(servery)
 
-  return json.dumps(get_servery_data(servery),default=json_date_handler) , 200, {"content-type" : "application/json"}
+  servery_data['open_now'] = is_open
+
+
+  return json.dumps(servery_data,default=json_date_handler) , 200, {"content-type" : "application/json"}
 
 
 @app.route('/api/serveries/<servery_id>/menu')
@@ -72,9 +78,16 @@ def get_menu(servery_id):
   servery = db.session.query(Servery).get(servery_id)
 
   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
-  #date = request.args.get("date")
-  #if not date:
-  date = now.date()
+  date = request.args.get("date")
+  print date
+
+  if not date:
+    date = now.date()
+  else:
+    dt = parse(date)
+    date = dt.date()
+    print repr(dt),repr(date)
+
   meal = request.args.get("meal")
   if not meal:
     meal = 'both'

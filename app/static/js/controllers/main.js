@@ -23,7 +23,7 @@ angular.module('serveryApp')
       });
 
     // Load menu
-    $scope.menu = Menu.query({'serveryId': servery.id},
+    $scope.menu = Menu.query({'serveryId': servery.id, 'date': $scope.datePicker.dt.toISOString()},
       function() {
         console.log($scope.menu);   // Log to console once loaded
       });
@@ -54,7 +54,9 @@ angular.module('serveryApp')
   };
 
   $scope.$watch('datePicker.dt', function () {
-    console.log('Date has changed to ' + $scope.datePicker.dt);
+
+    if ($scope.servery)
+    $scope.menu = Menu.query({'serveryId': $scope.servery.id,'date':$scope.datePicker.dt.toISOString()});
   });
 
   // Initialize the datePicker to today
