@@ -2,18 +2,16 @@ from flask import request
 from app import app
 import json
 from datetime import datetime
-from pytz import timezone,utc
 import json
+from util import current_rice_time
 
 from models import *
 
 rice_time = timezone("US/Central")
 
-# TODO(X): Adjust this per task 
-#          https://app.asana.com/0/8548568858590/10871850836266
 @app.route('/api/serveries')
 def get_serveries():
-  # Query mongo db for all serveries
+  # Query SQL for all serveries
   # returns servery NAME, IMAGE, and LOCATION
   serveries = [{'name':a.name,'fulllname':a.fullname,'id':a.id} for a in db.session.query(Servery).all()]
   print serveries
@@ -27,7 +25,7 @@ def get_serveries():
 def get_servery(servery_id):
   # Query for all data for specific servery
   # gets current time and day of week to see if servery is currently open
-  now = utc.localize(datetime.utcnow()).astimezone(rice_time)
+  now = current_rice_time()
   day_of_the_week = now.weekday()
   time  = now.time()
 
