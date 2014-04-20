@@ -2,9 +2,11 @@
 Run this file once to setup your database.
 """
 from app import db
-from app.models import Servery,MealTime
+from app.models import Servery,MealTime,Meal,Dish
+from app.api.serveries.downloadmenu import process_servery_menu
 
-from datetime import time
+from datetime import time,timedelta
+
 
 def setup_all():
     setup_db()
@@ -18,7 +20,28 @@ def setup_db():
 
 def load_meals():
 
-    pass
+    for servery in db.session.query(Servery):
+        menu = process_servery_menu(servery.name)
+        base_date = menu['base_date']
+
+        for meal_type in ['lunch','dinner']:
+            for day_of_the_week in menu[meal_type]:
+                actual_date = base_date + timedelta(days = day_of_the_week)
+                print meal_type,day_of_the_week,servery.name
+                mealtime = db.session.query(MealTime).filter(
+                        MealTime.meal_type == meal_type,
+                        MealTime.servery   == servery,
+                        MealTime.day_of_the_week == day_of_the_week).first()
+
+                if mealtime is not None:
+
+                    meal = Meal(date=actual_date,mealtime=mealtime)
+                    db.session.add(meal)
+
+                    for dish_description in menu[meal_type][day_of_the_week]:
+                        dish = Dish(meal=meal,dish_description=dish_description)
+                        db.session.add(dish)
+                    
 
 
 def setup_serveries():
@@ -211,3 +234,5 @@ def fill_servery(serv):
 
         del serv[index]["serv_type"]
 
+if __name__== "__main__":
+    setup_all()
