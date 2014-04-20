@@ -2,12 +2,12 @@ from flask import request
 from app import app
 import json
 from datetime import datetime
-from pytz import timezone
+from pytz import timezone,utc
 import json
 
 from models import *
 
-rice_time = timezone("US/Central").localize(datetime.now())
+rice_time = timezone("US/Central")
 
 # TODO(X): Adjust this per task 
 #          https://app.asana.com/0/8548568858590/10871850836266
@@ -15,7 +15,7 @@ rice_time = timezone("US/Central").localize(datetime.now())
 def get_serveries():
   # Query mongo db for all serveries
   # returns servery NAME, IMAGE, and LOCATION
-  serveries = db.session.query(Servery.name).all()
+  serveries = [{'name':a.name,'fulllname':a.fullname,'id':a.id} for a in db.session.query(Servery).all()]
   print serveries
 
   return (json.dumps(serveries), 
@@ -27,23 +27,27 @@ def get_serveries():
 def get_servery(servery_id):
   # Query for all data for specific servery
   # gets current time and day of week to see if servery is currently open
-  curr_day = rice_time.strftime("%w")
-  curr_time = rice_time.strftime("%H%M")
+  now = utc.localize(datetime.utcnow()).astimezone(rice_time)
+  day_of_the_week = now.weekday()
+  time  = now.time()
 
   # retrieves actual servery
-  servery = mongo.db.serveries.find_one({"_id": ObjectId(servery_id)})
+  servery = db.session.query(Servery).get(servery_id) 
 
-  open_now = False
-  today = servery['opening_hours']['periods'][curr_day]
-  for meal in today:
-    if curr_time > today[meal]['time_open'] and curr_time < today[meal]['time_close']:
-      open_now = True
-      break
+          
+  open_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.start_time <= time,MealTime.end_time >= time)
 
-  # stores if servery is open
-  servery["opening_hours"]["open_now"] = open_now
+  print open_filter
+  print repr(open_filter)
 
-  return json.dumps(servery, default=bson.json_util.default), 200, {"content-type" : "application/json"}
+  currently_open = db.session.query(Servery).filter(Servery.id==servery_id).join("mealtimes").filter(open_filter)
+
+
+  is_open = len(currently_open.all()) == 1
+
+
+
+  return json.dumps({"opening_hours":{"open_now":is_open}}) , 200, {"content-type" : "application/json"}
 
 
 @app.route('/api/serveries/<servery_id>/menu')

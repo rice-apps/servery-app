@@ -17,13 +17,13 @@ angular.module('serveryApp')
 
   $scope.selectServery = function (servery) {
     // Load servery details
-    $scope.servery = Servery.query({'serveryId': servery._id.$oid},
+    $scope.servery = Servery.query({'serveryId': servery.id},
       function() {
         console.log($scope.servery); // Log to console once loaded
       });
 
     // Load menu
-    $scope.menu = Menu.query({'serveryId': servery._id.$oid},
+    $scope.menu = Menu.query({'serveryId': servery.id},
       function() {
         console.log($scope.menu);   // Log to console once loaded
       });
