@@ -31,3 +31,12 @@ class MealTime(db.Model):
 
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
     servery = db.relationship("Servery",backref="mealtimes")
+
+class Dish(db.Model):
+    __tablename__ = 'dishes'
+
+    id = db.Column(db.Integer,primary_key=True)
+    dish_description = db.Column(db.String(),nullable=False)
+
+    mealtime_id = db.Column(db.ForeignKey("mealtimes.id"),nullable=False)
+    mealtime = db.relationship("MealTime",backref="dishes")

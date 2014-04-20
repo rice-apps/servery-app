@@ -1,25 +1,27 @@
 """
 Run this file once to setup your database.
 """
-
-#from pymongo import MongoClient
-#import json
-#import sys
-
 from app import db
 from app.models import Servery,MealTime
 
 from datetime import time
 
-#client = MongoClient()
-#db = client.app
-#menu_items = db.menu_items
-#serveries = db.serveries
+def setup_all():
+    setup_db()
+    setup_serveries()
+    load_meals()
 
-def setup_serveries():
+def setup_db():
     db.drop_all()
     db.create_all()
 
+
+def load_meals():
+
+    pass
+
+
+def setup_serveries():
     serv_info = [ 
             {	
                 'name':'north', 
@@ -134,49 +136,6 @@ def setup_serveries():
 
     db.session.commit()
 
-    return
-
-
-    cursor = serveries.find({})
-    # adds temporary foods
-    temp_menu = [
-            {
-
-                "name": "Mac and Cheese",
-                "tags": ["gluten","soy","milk"], 
-                "type": "main",
-                "meal": "lunch",
-                "date": "2014-03-10",
-                "servery": cursor.next()["_id"]
-                },
-            {
-                "name": "Golden Catfish with Tartar Sauce",
-                "tags": ["gluten","soy","milk","eggs","fish"],
-                "meal": "main",
-                "meal": "lunch",
-                "date": "2014-03-10",
-                "servery": cursor.next()["_id"]
-                },
-            {
-                "name": "Okra Garlic Tomato Stew",
-                "tags": ["gluten","soy"],
-                "type": "soup",
-                "meal": "lunch",
-                "date": "2014-03-10",
-                "servery": cursor.next()["_id"]
-                }
-            ,{
-                "name": "Cheesecake",
-                "tags": ["gluten","soy","milk","eggs"],
-                "type": "dessert",
-                "meal": "dinner",
-                "date": "2014-03-10",
-                "servery": cursor.next()["_id"]
-                }
-            ]
-
-    menu_items.insert(temp_menu)
-    print menu_items.find_one({})
 
 def fill_servery(serv):
     """

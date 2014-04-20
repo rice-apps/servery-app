@@ -37,14 +37,10 @@ def get_servery(servery_id):
           
   open_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.start_time <= time,MealTime.end_time >= time)
 
-  print open_filter
-  print repr(open_filter)
-
   currently_open = db.session.query(Servery).filter(Servery.id==servery_id).join("mealtimes").filter(open_filter)
 
 
   is_open = len(currently_open.all()) == 1
-
 
 
   return json.dumps({"opening_hours":{"open_now":is_open}}) , 200, {"content-type" : "application/json"}
