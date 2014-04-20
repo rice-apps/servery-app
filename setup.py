@@ -41,6 +41,8 @@ def load_meals():
                     for dish_description in menu[meal_type][day_of_the_week]:
                         dish = Dish(meal=meal,dish_description=dish_description)
                         db.session.add(dish)
+    db.session.commit()
+
                     
 
 
