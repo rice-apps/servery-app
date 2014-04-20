@@ -40,7 +40,7 @@ This would print the foods available for Monday lunch of the current week.
 """
 
 import StringIO
-import urllib
+import urllib2
 from collections import defaultdict, namedtuple
 import re
 import datetime
@@ -53,6 +53,8 @@ from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfinterp import PDFPageInterpreter
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LAParams, LTTextBox
+
+from contextlib import closing
 
 
 base_address = r"http://dining.rice.edu/uploadedFiles/Dining/Residential_Dining/Dining_Menus/"
@@ -108,7 +110,7 @@ def download_servery_menu(servery):
     """
     complete_url = base_address + servery_names[servery]
 
-    with urllib.urlopen(complete_url) as servery_file:
+    with closing(urllib2.urlopen(complete_url)) as servery_file:
         data = servery_file.read()
     
     return StringIO.StringIO(data)
