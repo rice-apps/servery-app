@@ -4,7 +4,7 @@ An app that makes it simple to manage and view servery menus at Rice
 
 Web Client: AngularJS
 Server: Flask
-Database: MongoDB
+Database: Any SQL compliant database
 
 Local Development Environment
 -----------------------------
@@ -16,11 +16,7 @@ In order to set up a local development environment, you need to install the foll
 * [pdfminer](http://www.unixuser.org/~euske/python/pdfminer/index.html)
 (Note that pdfminer can be installed with the command `pip install git+https://github.com/euske/pdfminer`)
 
-In order to run the application locally. Start the mongo server with the following command at the system shell:
-
-    mongod
-
-Then, start the flask server with the following command under the src folder:
+Start the flask server with the following command under the src folder:
 
     python main.py
 

@@ -1,10 +1,11 @@
 from flask import request
-from app import app, mongo
-import bson
+from app import app
 import json
 from datetime import datetime
 from pytz import timezone
-from bson.objectid import ObjectId
+import json
+
+from models import *
 
 rice_time = timezone("US/Central").localize(datetime.now())
 
@@ -14,9 +15,10 @@ rice_time = timezone("US/Central").localize(datetime.now())
 def get_serveries():
   # Query mongo db for all serveries
   # returns servery NAME, IMAGE, and LOCATION
-  serveries = mongo.db.serveries.find({},{"name": 1, "image": 1, "location": 1,})
+  serveries = db.session.query(Servery.name).all()
+  print serveries
 
-  return (bson.json_util.dumps(serveries), 
+  return (json.dumps(serveries), 
          200, 
          {"content-type" : "application/json"})
 
