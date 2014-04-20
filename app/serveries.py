@@ -46,6 +46,8 @@ def get_servery(servery_id):
 def get_menu(servery_id):
   now = current_rice_time()
 
+  servery = db.session.query(Servery).get(servery_id)
+
   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
   #date = request.args.get("date")
   #if not date:
@@ -61,19 +63,16 @@ def get_menu(servery_id):
   else:
     query_meals = [meal]
 
-  #items = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
   menu = {"lunch": [], "dinner": []}
-  
-  lunch_query =  db.session.query(Meal).join(Meal.mealtime).filter(Meal.date ==date,MealTime.meal_type=='lunch')
-  print lunch_query
-  menu['lunch'] = lunch_query.one().dishes
-  print menu['lunch']
-  for item in items:
-    if item["meal"] == "lunch":
-      menu["lunch"].append(item) 
-    elif item["meal"] == "dinner":
-      menu["dinner"].append(item)
 
+  def meal_type_query(meal_type):
+      return db.session.query(Meal).join(Meal.mealtime).filter(
+              Meal.date ==date,
+              MealTime.meal_type==meal_type,
+              MealTime.servery == servery)
+
+  for meal_type in query_meals:
+    menu[meal_type] = map(lambda x: {'name':x.dish_description},meal_type_query(meal_type).one().dishes)
   
 
   return json.dumps(menu), 200, {"content-type" : "application/json"}

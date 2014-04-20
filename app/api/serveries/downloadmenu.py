@@ -76,7 +76,7 @@ def in_bounding_box(box,x,y):
 
 #These are the bounding boxes for the one page format's lunch and dinner
 lunch_bounding_box = BoundingBox(x=115,y=140,width=600,height=200)
-dinner_bounding_box = BoundingBox(x=115,y=140,width=600,height=340)
+dinner_bounding_box = BoundingBox(x=115,y=350,width=600,height=200)
 
 #These are the bounding boxes for each day in the multi page format.
 multi_day_boxes = {
