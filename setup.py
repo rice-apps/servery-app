@@ -179,10 +179,10 @@ def fill_servery(serv):
         for i in xrange(0,5):
             periods[str(i)] = {
 
-                    #"breakfast": {
-                    #    "time_open": time(7,30),
-                    #    "time_close": time(10,30)
-                    #    },
+                    "breakfast": {
+                        "time_open": time(7,30),
+                        "time_close": time(10,30)
+                        },
                     "lunch": {
                         "time_open": time(11,30),
                         "time_close": time(13,30)
@@ -220,10 +220,10 @@ def fill_servery(serv):
             # adds Saturday lunch/dinner to North/Seibel
             if serv_type == 0:
                 periods["5"] = {
-                        #"breakfast": {
-                        #    "time_open": time(9,0),
-                        #    "time_close": time(11,0)
-                        #    },
+                        "breakfast": {
+                            "time_open": time(9,0),
+                            "time_close": time(11,0)
+                            },
                         "lunch": {
                             "time_open": time(11,30),
                             "time_close": time(14,0)

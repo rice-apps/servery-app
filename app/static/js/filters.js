@@ -6,25 +6,25 @@ serveryFilters.filter('dayofweek', function() {
   	var day;
   	switch(input){
   		case '0':
-  			day = "Sun";
-  			break;
-  		case '1':
   			day =  "Mon";
   			break;
-  		case '2':
+  		case '1':
   			day = "Tue";
   			break;
-  		case '3':
+  		case '2':
   			day = "Wed";
   			break;
-  		case '4':
+  		case '3':
   			day ="Thu";
   			break;
-  		case '5':
+  		case '4':
   			day = "Fri";
   			break;
-  		case '6':
+  		case '5':
   			day = "Sat";
+  			break;
+  		case '6':
+  			day = "Sun";
   			break;
   	}
   return day;
@@ -34,7 +34,7 @@ serveryFilters.filter('dayofweek', function() {
 serveryFilters.filter('twelvehour', function () {
   return function(input) {
     var hour = parseInt(input.substr(0,2));
-    var minutes = input.substr(2,2);
+    var minutes = input.substr(3,2);
     if (hour > 12){
     	hour = hour - 12;
     	return (hour.toString() + ":" + minutes + " PM");

@@ -7,14 +7,37 @@ from util import current_rice_time
 
 from models import *
 
+def find_mealtime(servery,day_of_the_week,meal_type):
+    return db.session.query(MealTime).filter(MealTime.servery==servery,MealTime.day_of_the_week == day_of_the_week,MealTime.meal_type == meal_type).first()
+def get_servery_data(servery):
+    return {
+            "name": servery.name,
+            "fullname": servery.fullname,
+            "id": servery.id,
+            "hours": {
+                day_of_the_week : {
+                    meal_type : {
+                        'start_time' : find_mealtime(servery,day_of_the_week,meal_type).start_time,
+                        'end_time'   : find_mealtime(servery,day_of_the_week,meal_type).end_time
+                        } for meal_type in ['breakfast','lunch','dinner'] if find_mealtime(servery,day_of_the_week,meal_type) != None
+                    } for day_of_the_week in range(7)
+                }
+            }
+
+def json_date_handler(obj):
+    if hasattr(obj,'isoformat'):
+        return obj.isoformat()
+    else:
+        raise TypeError,' Object of type %s with value of %s is not JSON serialzable' % (type(obj),repr(obj))
+
+
 @app.route('/api/serveries')
 def get_serveries():
   # Query SQL for all serveries
   # returns servery NAME, IMAGE, and LOCATION
-  serveries = [{'name':a.name,'fulllname':a.fullname,'id':a.id} for a in db.session.query(Servery).all()]
-  print serveries
+  serveries = db.session.query(Servery).all()
 
-  return (json.dumps(serveries), 
+  return (json.dumps([get_servery_data(servery) for servery in serveries],default=json_date_handler), 
          200, 
          {"content-type" : "application/json"})
 
@@ -39,7 +62,7 @@ def get_servery(servery_id):
   is_open = len(currently_open.all()) == 1
 
 
-  return json.dumps({"opening_hours":{"open_now":is_open}}) , 200, {"content-type" : "application/json"}
+  return json.dumps(get_servery_data(servery),default=json_date_handler) , 200, {"content-type" : "application/json"}
 
 
 @app.route('/api/serveries/<servery_id>/menu')

@@ -23,7 +23,7 @@ class MealTime(db.Model):
     __table_args__ = (db.UniqueConstraint('day_of_the_week','meal_type','servery_id',name="1MealPerServery"),)
 
     id = db.Column(db.Integer,primary_key=True)
-    meal_type = db.Column(db.Enum('lunch','dinner',name='meal_type'),nullable=False)
+    meal_type = db.Column(db.Enum('lunch','dinner','breakfast',name='meal_type'),nullable=False)
 
     day_of_the_week = db.Column(db.Integer,nullable=False)
     start_time = db.Column(db.Time(),nullable=False)
