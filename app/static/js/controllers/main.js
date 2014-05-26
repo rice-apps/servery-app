@@ -1,8 +1,25 @@
 'use strict'
 
 angular.module('serveryApp')
+.controller('LoginController',
+                ['$scope','User',function($scope,User) {
+
+    $scope.user = User.current_user();
+    console.log($scope.user);
+
+    $scope.logout = function()
+    {
+        User.logout(function()
+                {
+$scope.user = None
+                });}
+
+}]);
+
+
+angular.module('serveryApp')
 .controller('MainCtrl', 
-  ['$scope', 'Servery', 'Menu', function ($scope, Servery, Menu) {
+  ['$scope', 'Servery', 'Menu','User', function ($scope, Servery, Menu,User) {
 
   /*=============================================*
    * Servery selector
@@ -30,6 +47,10 @@ angular.module('serveryApp')
 
     console.log("Selected servery: " + servery.name);
     console.log(servery);
+
+
+    $scope.user = User.current_user();
+    console.log($scope.user)
   };
 
   $scope.meals = ['breakfast', 'lunch', 'dinner'];

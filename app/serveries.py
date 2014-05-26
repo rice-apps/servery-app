@@ -11,6 +11,7 @@ from models import *
 
 def find_mealtime(servery,day_of_the_week,meal_type):
     return db.session.query(MealTime).filter(MealTime.servery==servery,MealTime.day_of_the_week == day_of_the_week,MealTime.meal_type == meal_type).first()
+
 def get_servery_data(servery):
     return {
             "name": servery.name,

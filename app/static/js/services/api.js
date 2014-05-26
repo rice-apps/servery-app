@@ -24,3 +24,16 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
             query: {method: 'GET', params: {serveryId:'serveryId',date:"no date provided"}}
     });
 }]);
+
+var userApi = angular.module('userApi', ['ngResource']);
+
+userApi.factory('User', ['$resource', function($resource) {
+        return $resource(
+            'api/user',
+            {},
+            {
+                current_user: {method: 'GET' },
+                logout: {method : 'POST', url: '/auth/logout'}
+            });
+}]);
+                    
