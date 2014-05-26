@@ -19,3 +19,22 @@
   line-height: 18px;
   vertical-align: middle;
 }
+
+.servery-info .panel table th {
+  text-transform: capitalize;
+}
+
+.menu h3 {
+  text-transform: capitalize;
+}
+
+.menu .not-found {
+  margin-left: 20px;
+}
+
+.menu li span.label {
+  float: right;
+  line-height: 18px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
