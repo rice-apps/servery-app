@@ -11,7 +11,7 @@ angular.module('serveryApp')
     {
         User.logout(function()
         {
-            $scope.user = None
+            $scope.user = null;
         });
     };
 

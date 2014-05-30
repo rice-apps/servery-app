@@ -12,6 +12,7 @@ import datetime
 def setup_all():
     setup_db()
     setup_serveries()
+
     load_fake_users()
     load_fake_dishes()
     load_fake_meals()

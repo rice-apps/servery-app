@@ -14,7 +14,7 @@ def login():
     print cas_url
     return redirect(cas_url)
 
-@app.route('/auth/logout')
+@app.route('/auth/logout',methods=["POST"])
 def logout():
     del session['user']
     return "Success"

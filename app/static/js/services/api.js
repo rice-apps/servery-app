@@ -27,12 +27,14 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
 
 var userApi = angular.module('userApi', ['ngResource']);
 
+console.log("hello world");
 userApi.factory('User', ['$resource', function($resource) {
         return $resource(
             'api/user',
             {},
             {
                 current_user: {method: 'GET' },
+                save: {method: 'POST'},
                 logout: {method : 'POST', url: '/auth/logout'}
             });
 }]);

@@ -47,9 +47,9 @@
         <div ng-controller="LoginController" class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="http://csclub.rice.edu/riceapps" target="_blank">Built by Rice Apps</a></li>
-            <li ng-hide=user.name><a href="/auth/login" target="_blank">Login</a></li>
-            <li ng-show=user.name><a href="#/userSettings">{{user.name}}</a> </li>
-            <li ng-show=user.name><a ng-click=logout()>Logout</a></li>
+            <li ng-hide=user.username><a href="/auth/login" target="_blank">Login</a></li>
+            <li ng-show=user.username><a href="#/userSettings">{{user.username}}</a> </li>
+            <li ng-show=user.username><a ng-click=logout()>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -79,11 +79,12 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/lib/bootstrap.min.js"></script>
     <script src="static/js/directives/ui-bootstrap.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.js"></script>
 
     
     <script src="static/js/app.js"></script>
