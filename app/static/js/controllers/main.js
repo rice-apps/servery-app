@@ -2,7 +2,7 @@
 
 angular.module('serveryApp')
 .controller('LoginController',
-                ['$scope','User',function($scope,User) {
+                ['$scope','User',"$location",function($scope,User,$location) {
 
     $scope.user = User.current_user();
     console.log($scope.user);
@@ -10,9 +10,10 @@ angular.module('serveryApp')
     $scope.logout = function()
     {
         User.logout(function()
-                {
-$scope.user = None
-                });}
+        {
+            $scope.user = None
+        });
+    };
 
 }]);
 

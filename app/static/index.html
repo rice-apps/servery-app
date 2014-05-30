@@ -34,7 +34,7 @@
       <div class="container">
 
         <div class="navbar-header">
-          <a href="../" class="navbar-brand">Servery App</a>
+          <a href="#/" class="navbar-brand">Servery App</a>
 
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
@@ -47,9 +47,9 @@
         <div ng-controller="LoginController" class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="http://csclub.rice.edu/riceapps" target="_blank">Built by Rice Apps</a></li>
-            <li ng-hide=user><a href="/auth/login" target="_blank">Login</a></li>
-            <li ng-show=user><p class="navbar-text">{{user.name}}</p> </li>
-            <li ng-show=user><a ng-click=logout()>Logout</a></li>
+            <li ng-hide=user.name><a href="/auth/login" target="_blank">Login</a></li>
+            <li ng-show=user.name><a href="#/userSettings">{{user.name}}</a> </li>
+            <li ng-show=user.name><a ng-click=logout()>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -89,6 +89,7 @@
     <script src="static/js/app.js"></script>
     <script src = "static/js/filters.js"></script>
     <script src="static/js/controllers/main.js"></script>
+    <script src="static/js/controllers/userSettings.js"></script>
     <script src="static/js/services/api.js"></script>
 
 </body></html>
