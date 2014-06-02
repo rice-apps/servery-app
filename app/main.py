@@ -12,7 +12,7 @@ app.config.update(
     MAIL_PORT=465,
     MAIL_USE_SSL=True,
     MAIL_USERNAME = 'riceservery@gmail.com',
-    MAIL_PASSWORD = 'Riceservery2014'
+
     )
 
 
