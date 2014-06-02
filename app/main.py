@@ -21,10 +21,7 @@ app.config.update(
 @app.route('/')
 def root():
   meals = db.session.query(Meal).all()
-  for meal in meals:
-    if db.session.query()
   
-  print dishes
   return app.send_static_file('index.html')
 
 

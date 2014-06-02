@@ -16,15 +16,15 @@ def setup_all():
     load_fake_users()
     load_fake_dishes()
     load_fake_meals()
-    load_meals()
+#    load_meals()
 
 def setup_db():
     db.drop_all()
     db.create_all()
 
 def load_fake_users():
-    u1 = User(username="a",password="1",email="yokolee1013@gmail.com",preference_id=1)
-    u2 = User(username="b",password="1",email="hl33@rice.edu",preference_id=1)
+    u1 = User(username="a",email="yokolee1013@gmail.com",preference_id=1)
+    u2 = User(username="b",email="hl33@rice.edu",preference_id=1)
     db.session.add(u1)
     db.session.add(u2)
     db.session.commit()
