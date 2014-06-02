@@ -7,6 +7,7 @@ from contextlib import closing
 
 CAS_SERVER = "https://netid.rice.edu/cas/"
 
+
 @app.route('/auth/login')
 def login():
     cas_url=CAS_SERVER + "login?service=" + url_for('check_ticket',_external=True)
@@ -37,3 +38,5 @@ def get_user(ticket):
         else:
             return lines[1]
 
+if __name__ == "__main__":
+    app.run()

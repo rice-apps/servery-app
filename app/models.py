@@ -1,5 +1,6 @@
 
 from sqlalchemy import Integer,Column,String
+import datetime
 
 from app import db
 
@@ -10,6 +11,10 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String,nullable=False)
     password = db.Column(db.String,nullable=False)
+    email = db.Column(db.String,nullable=False)
+    preference_id = db.Column(db.ForeignKey("dishes.id"),nullable=True)
+    preference = db.relationship("Dish", backref="likers")
+
 
 class Servery(db.Model):
     __tablename__ = 'serveries'
@@ -42,11 +47,13 @@ class Meal(db.Model):
     mealtime_id = db.Column(db.ForeignKey("mealtimes.id"),nullable=False)
     mealtime = db.relationship("MealTime")
 
+
 class Dish(db.Model):
     __tablename__ = 'dishes'
 
     id = db.Column(db.Integer,primary_key=True)
     dish_description = db.Column(db.String(),nullable=False)
 
-    meal_id = db.Column(db.ForeignKey("meals.id"),nullable=False)
+    meal_id = db.Column(db.ForeignKey("meals.id"),nullable=True)
     meal = db.relationship("Meal",backref="dishes")
+

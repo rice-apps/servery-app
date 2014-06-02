@@ -2,21 +2,45 @@
 Run this file once to setup your database.
 """
 from app import db
-from app.models import Servery,MealTime,Meal,Dish
+from app.models import Servery,MealTime,Meal,Dish,User
 from app.api.serveries.downloadmenu import process_servery_menu
 
 from datetime import time,timedelta
+import datetime
 
 
 def setup_all():
     setup_db()
     setup_serveries()
+    load_fake_users()
+    load_fake_dishes()
+    load_fake_meals()
     load_meals()
 
 def setup_db():
     db.drop_all()
     db.create_all()
 
+def load_fake_users():
+    u1 = User(username="a",password="1",email="yokolee1013@gmail.com",preference_id=1)
+    u2 = User(username="b",password="1",email="hl33@rice.edu",preference_id=1)
+    db.session.add(u1)
+    db.session.add(u2)
+    db.session.commit()
+
+def load_fake_dishes():
+    d1 = Dish(dish_description="sth good", meal_id=1)
+    d2 = Dish(dish_description="sth else good", meal_id=1) 
+    db.session.add(d1)
+    db.session.add(d2)
+    db.session.commit()   
+
+def load_fake_meals():
+    # current_hr = datetime.datetime.now().hour
+    # current_min = datetime.datetime.now().minute
+    m1 = Meal(date=datetime.datetime.now(), mealtime_id=1)
+    db.session.add(m1)
+    db.session.commit()
 
 def load_meals():
 
