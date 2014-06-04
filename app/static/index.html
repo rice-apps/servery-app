@@ -47,7 +47,7 @@
         <div ng-controller="LoginController" class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="http://csclub.rice.edu/riceapps" target="_blank">Built by Rice Apps</a></li>
-            <li ng-hide=user.username><a href="/auth/login" target="_blank">Login</a></li>
+            <li ng-hide=user.username><a href="/auth/login">Login</a></li>
             <li ng-show=user.username><a href="#/userSettings">{{user.username}}</a> </li>
             <li ng-show=user.username><a ng-click=logout()>Logout</a></li>
           </ul>
@@ -92,6 +92,7 @@
     <script src="static/js/controllers/main.js"></script>
     <script src="static/js/controllers/userSettings.js"></script>
     <script src="static/js/controllers/quickView.js"></script>
+    <script src="static/js/controllers/login.js"></script>
     <script src="static/js/services/api.js"></script>
 
 </body></html>

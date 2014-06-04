@@ -1,1 +1,5 @@
-<h2> Testing Page {{hola}} </h2>
+<tabset justified="true">
+    <tab ng-repeat="tab in tabs" heading={{tab.title}}>
+        {{tab.content}}
+    </tab>
+</tabset>
