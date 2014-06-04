@@ -15,6 +15,10 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
         templateUrl: 'static/views/userSettings.html',
         controller: 'UserSettingsCtrl'
       })
+      .when('/quickView', {
+        templateUrl: 'static/views/quickView.html',
+        controller: 'QuickViewCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
