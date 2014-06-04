@@ -41,8 +41,13 @@ def load_fake_dishes():
 def load_fake_meals():
     # current_hr = datetime.datetime.now().hour
     # current_min = datetime.datetime.now().minute
-    m1 = Meal(date=datetime.datetime.now(), mealtime_id=1)
-    m2 = Meal(date=datetime.date(2013,6,10), mealtime_id=1)
+    
+    now = datetime.datetime.now()
+
+    mealtime = db.session.query(MealTime).filter(MealTime.day_of_the_week == now.weekday(),MealTime.meal_type == "lunch").first()
+    m1 = Meal(date=now.date(), mealtime=mealtime)
+
+
     db.session.add(m1)
     db.session.add(m2)
     db.session.commit()

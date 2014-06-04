@@ -104,3 +104,56 @@ def get_menu(servery_id):
   
 
   return json.dumps(menu), 200, {"content-type" : "application/json"}
+
+
+
+def find_next_meals(now):
+
+  day_of_the_week = now.weekday()
+  time = now.time()
+
+  # I first find one MealTime that is closest in time
+  time_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.end_time >= time)
+  coming_mealtimes = db.session.query(MealTime).filter(time_filter).order_by(MealTime.start_time) 
+  first_mealtime = coming_mealtimes.first()
+
+
+  # Then I get all mealtimes of that day and type
+  equivalent_mealtime_filter = db.and_(
+    MealTime.day_of_the_week == first_mealtime.day_of_the_week,
+    MealTime.meal_type == first_mealtime.meal_type)
+
+  all_meals_at_time = db.session.query(MealTime).filter(equivalent_mealtime_filter)
+
+  return all_meals_at_time
+
+
+@app.route('/api/serveries/next_meals')
+def get_next_meals():
+
+  now = datetime.datetime(2014,6,3,11)
+  day_of_the_week = now.weekday()
+  print day_of_the_week
+  time  = now.time()
+  
+  next_mealtimes = find_next_meals(now)
+
+  print list(db.session.query(Meal).all())[0].mealtime
+
+  def process_mealtime(mealtime):
+
+    meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == now.date()).first()
+    if meal is not None:
+      dishes = meal.dishes
+    else:
+      dishes = []
+
+    return {
+      "servery": mealtime.servery.name,
+      "dishes": map(lambda x:x.dish_description,dishes)
+    }
+
+
+  result = map(process_mealtime,next_mealtimes)
+
+  return  json.dumps(result), 200, {"content-type" : "application/json"}

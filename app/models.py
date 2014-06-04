@@ -36,6 +36,14 @@ class MealTime(db.Model):
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
     servery = db.relationship("Servery",backref="mealtimes")
 
+    def __repr__(self):
+        return "[Meal type: {0}, Day of the week: {1}, Start time: {2}, End time: {3}]".format(
+            self.meal_type,
+            self.day_of_the_week,
+            self.start_time,
+            self.end_time
+            )
+
 class Meal(db.Model):
     __tablename__ = 'meals'
 

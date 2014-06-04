@@ -1,15 +1,23 @@
 'use strict';
 
 angular.module('serveryApp')
-.controller('QuickViewCtrl', ['$scope','User', function($scope,User) {
+.controller('QuickViewCtrl', ['$scope','Servery', function($scope,Servery) {
 
 
+    Servery.all(function(result)
+    {
+        $scope.serveries = result.map(function(servery)
+        {
+            console.log(servery);
+            return servery.fullname;
+        });
 
 
-    $scope.tabs = [
-    { title:'Dynamic Title 1', content:'Dynamic content 1' },
-    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
-  ];
+    });
+
+    $scope.meal  = "food";
+
+    
 
 
 }]);
