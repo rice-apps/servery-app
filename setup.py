@@ -2,22 +2,30 @@
 Run this file once to setup your database.
 """
 from app import db
-from app.models import Servery,MealTime,Meal,Dish,User
+from app.models import Servery,MealTime,Meal,Dish,User,DishDetails
 from app.api.serveries.downloadmenu import process_servery_menu
 
 import random
 
 from datetime import time,timedelta
 import datetime
+import calendar
 
 
 def setup_all():
     setup_db()
     setup_serveries()
 
+    db.session.commit()
+
     load_fake_users()
+
+    create_fake_dishdetails()
+    db.session.commit()
     create_fake_meals_for_current_month()
-#    load_meals()
+
+    db.session.commit()
+
 
 def setup_db():
     db.drop_all()
@@ -28,9 +36,10 @@ def load_fake_users():
     u2 = User(username="b",email="hl33@rice.edu",preference_id=2)
     db.session.add(u1)
     db.session.add(u2)
+
     db.session.commit()
 
-import calendar
+
 
 def create_fake_meals_for_current_month():
     date = datetime.date.today()
@@ -44,45 +53,38 @@ def create_fake_meals_for_current_month():
 
         for mealtime in mealtimes:
             create_fake_meal(mealtime,that_day)
-        db.session.commit()
+
+    db.session.commit()
+
+
+def create_fake_dishdetails():
+    serveries = db.session.query(Servery).all()
+
+    for servery in serveries:
+        create_fake_dishdetails_for_servery(servery)
+
+def create_fake_dishdetails_for_servery(servery):
+    dish_options = ["Hamburger","Steak","Eggs","Burrito","Pizza","Pasta","Froy","Apple","Pie","Chicken","Beans","Soup","Sandwich"]
+    for option in dish_options:
+        dishdetails = DishDetails(dish_description= (option + " "+servery.fullname),servery=servery)
+        db.session.add(dishdetails)
+
 
 def create_fake_meal(mealtime,date):
     meal = Meal(mealtime = mealtime,date = date)
     db.session.add(meal)
 
-    for i in range(5):
+    for i in range(4):
         create_fake_dish(meal)
 
+
 def create_fake_dish(meal):
-    dish_options = ["Hamburger","Steak","Eggs","Burrito","Pizza","Pasta"]
-    dish_description = random.choice(dish_options)
+    dish_options = db.session.query(DishDetails).filter(DishDetails.servery == meal.mealtime.servery).all()
 
-    dish = Dish(meal = meal,dish_description=dish_description)
+    dishdetails = random.choice(dish_options)
+
+    dish = Dish(dishdetails = dishdetails,meal = meal)
     db.session.add(dish)
-
-
-def load_fake_dishes():
-    d1 = Dish(dish_description="sth good", meal_id=1)
-    d2 = Dish(dish_description="sth else good", meal_id=1) 
-    d3 = Dish(dish_description="sth else good2", meal_id=2) 
-    db.session.add(d1)
-    db.session.add(d2)
-    db.session.add(d3)
-    db.session.commit()   
-
-def load_fake_meals():
-    # current_hr = datetime.datetime.now().hour
-    # current_min = datetime.datetime.now().minute
-    
-    now = datetime.datetime.now()
-
-    mealtime = db.session.query(MealTime).filter(MealTime.day_of_the_week == now.weekday(),MealTime.meal_type == "lunch").first()
-    m1 = Meal(date=now.date(), mealtime=mealtime)
-
-
-    db.session.add(m1)
-    db.session.add(m2)
-    db.session.commit()
 
 def load_meals():
 
@@ -226,6 +228,7 @@ def setup_serveries():
         db.session.add(servery_data)
 
     db.session.commit()
+
 
 
 def fill_servery(serv):

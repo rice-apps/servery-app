@@ -108,6 +108,9 @@ def get_menu(servery_id):
 
 
 def find_next_meals(now):
+  """
+  Finds the next type of meal for the given day and then returns a list containing the MealTime for every servery
+  """
 
   day_of_the_week = now.weekday()
   time = now.time()
@@ -130,6 +133,9 @@ def find_next_meals(now):
 
 @app.route('/api/serveries/next_meals')
 def get_next_meals():
+  """
+  Queries the database for the next possible meal.
+  """
 
   now = datetime.datetime(2014,6,8,16)
   day_of_the_week = now.weekday()
@@ -141,7 +147,6 @@ def get_next_meals():
   print list(db.session.query(Meal).all())[0].mealtime
 
   def process_mealtime(mealtime):
-
     meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == now.date()).first()
     if meal is not None:
       dishes = meal.dishes

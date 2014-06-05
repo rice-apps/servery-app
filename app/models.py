@@ -64,7 +64,18 @@ class Dish(db.Model):
     __tablename__ = 'dishes'
 
     id = db.Column(db.Integer,primary_key=True)
-    dish_description = db.Column(db.String(),nullable=False)
+
+    dishdetails_id = db.Column(db.ForeignKey("dishdetails.id"),nullable=False)
+    dishdetails = db.relationship("DishDetails",backref="dishes")
+
     meal_id = db.Column(db.ForeignKey("meals.id"),nullable=True)
     meal = db.relationship("Meal",backref="dishes")
 
+class DishDetails(db.Model):
+    __tablename__ = 'dishdetails'
+
+    id = db.Column(db.Integer,primary_key=True)
+    dish_description = db.Column(db.String(),nullable=False)
+
+    servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
+    servery = db.relationship("Servery",backref="DishDetails")
