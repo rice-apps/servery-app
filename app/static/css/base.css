@@ -44,3 +44,7 @@
 [x-ng-click] {
     cursor: pointer;
 }
+
+.foo {
+  clear: both;
+}

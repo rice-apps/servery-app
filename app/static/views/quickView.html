@@ -17,8 +17,29 @@
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <li ng-repeat="item in mealOption.dishes" class="list-group-item">
-            {{ item.name }}
+          <li ng-repeat="item in mealOption.dishes" class="list-group-item row">
+
+          <span>
+              {{ item.name }}
+              </span>
+              
+              <span class="pull-right foo"> 
+              
+              <a class="btn btn-default btn-xs">
+                50
+                <i class="glyphicon glyphicon-chevron-up"></i>
+               </a>
+              
+
+              <span>|</span>
+
+              <a class="btn btn-default btn-xs">
+                60
+                <i class="glyphicon glyphicon-chevron-down"></i>
+              </a>
+
+            </span>
+
           </li>
         </ul>
       </div>
