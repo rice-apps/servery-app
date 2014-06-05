@@ -12,7 +12,8 @@ serveryApi.factory('Servery', ['$resource', function($resource) {
     {},
     {
       all: {method: 'GET', params: {}, isArray: true},
-      query:{method: 'GET', params: {serveryId:'serveryId'}}
+      query:{method: 'GET', params: {serveryId:'serveryId'}},
+      nextMeals:{method: 'GET',params:{}, url: '/api/serveries/next_meals', isArray: true}
     });
 }]);
 
@@ -27,7 +28,6 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
 
 var userApi = angular.module('userApi', ['ngResource']);
 
-console.log("hello world");
 userApi.factory('User', ['$resource', function($resource) {
         return $resource(
             'api/user',

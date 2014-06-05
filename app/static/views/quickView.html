@@ -1,34 +1,28 @@
 <tabset type="'tabs'">
-    <tab ng-repeat="servery in serveries">
-        <tab-heading>
-            <h5> {{servery}} </h5>
-        </tab-heading>
-        
-    <h2>Menu</h2>
-    <div 
-      class="menu panel panel-primary">
+  <tab ng-repeat="mealOption in mealOptions">
+    <tab-heading>
+      <h5>
+        {{mealOption.servery.fullname}} 
+      </h5>
+    </tab-heading>
+
+    <h2>
+      Menu
+    </h2>
+    <div class="menu panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">{{meal}}</h3>
+        <h3 class="panel-title">
+          {{mealOption.meal_type}}
+        </h3>
       </div>
       <div class="panel-body">
-        <ul ng-show="menu[meal]" class="list-group">
-          <li ng-repeat="item in menu[meal]" class="list-group-item">
+        <ul class="list-group">
+          <li ng-repeat="item in mealOption.dishes" class="list-group-item">
             {{ item.name }}
-            <span 
-              ng-repeat="tag in item.tags"
-              class="label label-default"> 
-              {{ tag }}
-            </span>
           </li>
         </ul>
-        <em class="not-found" ng-hide="menu[meal]">
-          No items found.
-        </em>
       </div>
     </div>
-  </div>
-</div>
-
-
-    </tab>
+    
+  </tab>
 </tabset>

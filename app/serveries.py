@@ -131,7 +131,7 @@ def find_next_meals(now):
 @app.route('/api/serveries/next_meals')
 def get_next_meals():
 
-  now = datetime.datetime(2014,6,3,11)
+  now = datetime.datetime(2014,6,8,16)
   day_of_the_week = now.weekday()
   print day_of_the_week
   time  = now.time()
@@ -149,11 +149,12 @@ def get_next_meals():
       dishes = []
 
     return {
-      "servery": mealtime.servery.name,
-      "dishes": map(lambda x:x.dish_description,dishes)
+      "servery": get_servery_data(mealtime.servery),
+      "dishes": map(lambda x: {"name":x.dish_description},dishes),
+      "meal_type": mealtime.meal_type
     }
 
 
   result = map(process_mealtime,next_mealtimes)
 
-  return  json.dumps(result), 200, {"content-type" : "application/json"}
+  return  json.dumps(result,default=json_date_handler), 200, {"content-type" : "application/json"}

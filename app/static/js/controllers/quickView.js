@@ -4,20 +4,12 @@ angular.module('serveryApp')
 .controller('QuickViewCtrl', ['$scope','Servery', function($scope,Servery) {
 
 
-    Servery.all(function(result)
+    Servery.nextMeals(function(result)
     {
-        $scope.serveries = result.map(function(servery)
-        {
-            console.log(servery);
-            return servery.fullname;
-        });
-
+        $scope.mealOptions = result;
+        console.log(result);
 
     });
 
-    $scope.meal  = "food";
-
     
-
-
 }]);
