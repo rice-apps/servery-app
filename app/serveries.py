@@ -1,16 +1,16 @@
-from flask import request
+from flask import request, abort
 from app import app
 import json
 from datetime import datetime
 import json
 from util import current_rice_time, parse_to_rice_time
-
+import users
 from models import *
 
 
 
 def find_mealtime(servery,day_of_the_week,meal_type):
-    return db.session.query(MealTime).filter(MealTime.servery==servery,MealTime.day_of_the_week == day_of_the_week,MealTime.meal_type == meal_type).first()
+    return db.session.query(MealTime).filter(MealTime.servery==servery,MealTime.day_of_the_week == day_of_the_week,MealTime.meal_type == meal_type).scalar()
 
 def get_servery_data(servery):
     return {
@@ -26,6 +26,13 @@ def get_servery_data(servery):
                     } for day_of_the_week in range(7)
                 }
             }
+
+def get_dishdetails_data(dishdetails):
+  return {
+    "name":dishdetails.dish_description,
+    "score":dishdetails.score,
+    "id": dishdetails.id
+  }
 
 def json_date_handler(obj):
     if hasattr(obj,'isoformat'):
@@ -45,7 +52,7 @@ def get_serveries():
          {"content-type" : "application/json"})
 
 
-@app.route('/api/serveries/<servery_id>')
+@app.route('/api/serveries/<int:servery_id>')
 def get_servery(servery_id):
   # Query for all data for specific servery
   # gets current time and day of week to see if servery is currently open
@@ -71,7 +78,7 @@ def get_servery(servery_id):
   return json.dumps(servery_data,default=json_date_handler) , 200, {"content-type" : "application/json"}
 
 
-@app.route('/api/serveries/<servery_id>/menu')
+@app.route('/api/serveries/<int:servery_id>/menu')
 def get_menu(servery_id):
   servery = db.session.query(Servery).get(servery_id)
 
@@ -100,7 +107,7 @@ def get_menu(servery_id):
   for meal_type in query_meals:
     meal = meal_type_query(meal_type).first()
     if meal:
-        menu[meal_type] = map(lambda x: {'name':x.dish_description},meal.dishes)
+        menu[meal_type] = map(lambda x: get_dishdetails_data(x.dishdetails),meal.dishes)
   
 
   return json.dumps(menu), 200, {"content-type" : "application/json"}
@@ -155,7 +162,7 @@ def get_next_meals():
 
     return {
       "servery": get_servery_data(mealtime.servery),
-      "dishes": map(lambda x: {"name":x.dish_description},dishes),
+      "dishes": map(lambda x: get_dishdetails_data(x.dishdetails),dishes),
       "meal_type": mealtime.meal_type
     }
 
@@ -163,3 +170,50 @@ def get_next_meals():
   result = map(process_mealtime,next_mealtimes)
 
   return  json.dumps(result,default=json_date_handler), 200, {"content-type" : "application/json"}
+
+
+
+
+@app.route('/api/dishdetails/<int:dishdetails_id>/vote/<vote_type>')
+def vote(dishdetails_id,vote_type):
+  if vote_type not in ("up","down","none"):
+    abort(404)
+
+  user = users.current_user()
+
+  if user is None:
+    abort(403)
+
+  vote = db.session.query(DishDetailsVote).filter(DishDetailsVote.user==user,DishDetailsVote.dishdetails_id==dishdetails_id).scalar()
+
+  if vote is None:
+    vote = DishDetailsVote(user=user,dishdetails=db.session.query(DishDetails).get(dishdetails_id),vote_type="none")
+    db.session.add(vote)
+    db.session.commit()
+  else:
+    update_score_on_vote_removal(vote)
+
+  vote.vote_type = vote_type
+  update_score_on_vote_addition(vote)
+
+  db.session.commit()
+
+
+  result = {"new_score": vote.dishdetails.score}
+
+  return json.dumps(result),200,{"content-type" : "application/json"}
+
+def update_score_on_vote_removal(old_vote):
+  dishdetails = old_vote.dishdetails
+  if old_vote.vote_type == "up":
+    dishdetails.score -= 1
+  elif old_vote.vote_type == "down":
+    dishdetails.score += 1
+
+def update_score_on_vote_addition(new_vote):
+  dishdetails = new_vote.dishdetails
+  print dishdetails
+  if new_vote.vote_type == "up":
+    dishdetails.score += 1
+  elif new_vote.vote_type == "down":
+    dishdetails.score -= 1  

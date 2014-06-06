@@ -26,6 +26,17 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
     });
 }]);
 
+serveryApi.factory('Vote', ['$resource', function($resource) {
+  return $resource(
+    'api/dishdetails/:dishdetailsId/vote/:voteType',
+    {},
+    {
+            upvote: {method: 'GET',params: {voteType:'up'}},
+            reset: {method: 'GET',params: {voteType:'none'}},
+            downvote: {method: 'GET',params: {voteType:'down'}}
+    });
+}]);
+
 var userApi = angular.module('userApi', ['ngResource']);
 
 userApi.factory('User', ['$resource', function($resource) {

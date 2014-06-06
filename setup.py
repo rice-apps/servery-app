@@ -66,7 +66,7 @@ def create_fake_dishdetails():
 def create_fake_dishdetails_for_servery(servery):
     dish_options = ["Hamburger","Steak","Eggs","Burrito","Pizza","Pasta","Froy","Apple","Pie","Chicken","Beans","Soup","Sandwich"]
     for option in dish_options:
-        dishdetails = DishDetails(dish_description= (option + " "+servery.fullname),servery=servery)
+        dishdetails = DishDetails(dish_description= (option + " "+servery.fullname),servery=servery,score=0)
         db.session.add(dishdetails)
 
 

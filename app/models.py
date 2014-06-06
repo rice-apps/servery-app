@@ -9,7 +9,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String,nullable=False)
+    username = db.Column(db.String,nullable=False,unique=True)
     email = db.Column(db.String,nullable=True)
     preference_id = db.Column(db.ForeignKey("dishes.id"),nullable=True)
     preference = db.relationship("Dish", backref="likers")
@@ -77,5 +77,21 @@ class DishDetails(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     dish_description = db.Column(db.String(),nullable=False)
 
+    score = db.Column(db.Integer,nullable=False)
+
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
     servery = db.relationship("Servery",backref="DishDetails")
+
+class DishDetailsVote(db.Model):
+    __tablename__ = "dishdetailsvote"
+    __table_args__ = (db.UniqueConstraint('user_id','dishdetails_id',name="1VotePerUser"),)
+
+    id = db.Column(db.Integer,primary_key=True)
+
+    user_id = db.Column(db.ForeignKey("users.id"),nullable=False)
+    user = db.relationship("User",backref="votes")
+
+    dishdetails_id = db.Column(db.ForeignKey("dishdetails.id"),nullable=False)
+    dishdetails = db.relationship("DishDetails",backref="votes")
+
+    vote_type = db.Column(db.Enum('up','down','none',name='vote_type'),nullable=False)
