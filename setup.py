@@ -11,6 +11,8 @@ from datetime import time,timedelta
 import datetime
 import calendar
 
+from app.util import current_rice_time
+
 
 def setup_all():
     setup_db()
@@ -42,8 +44,8 @@ def load_fake_users():
 
 
 def create_fake_meals_for_current_month():
-    date = datetime.date.today()
-
+    date = current_rice_time().date()
+    
     number_of_days_in_month = calendar.monthrange(date.year,date.month)[1]
     for day in range(1,number_of_days_in_month+1):
         that_day = datetime.date(date.year,date.month,day)

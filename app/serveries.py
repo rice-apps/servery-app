@@ -122,19 +122,21 @@ def get_menu(servery_id):
   return json.dumps(menu), 200, {"content-type" : "application/json"}
 
 
-
-def find_next_meals(now):
+def find_next_meals(date,time):
   """
   Finds the next type of meal for the given day and then returns a list containing the MealTime for every servery
   """
 
-  day_of_the_week = now.weekday()
-  time = now.time()
+  day_of_the_week = date.weekday()
 
   # I first find one MealTime that is closest in time
-  time_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.end_time >= time)
+  time_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.end_time >= time,MealTime.meal_type != 'breakfast')
   coming_mealtimes = db.session.query(MealTime).filter(time_filter).order_by(MealTime.start_time) 
   first_mealtime = coming_mealtimes.first()
+
+
+  if first_mealtime is None:
+    return find_next_meals(date + datetime.timedelta(1),datetime.time())
 
 
   # Then I get all mealtimes of that day and type
@@ -144,7 +146,7 @@ def find_next_meals(now):
 
   all_meals_at_time = db.session.query(MealTime).filter(equivalent_mealtime_filter)
 
-  return all_meals_at_time
+  return all_meals_at_time,date
 
 
 @app.route('/api/serveries/next_meals')
@@ -153,17 +155,15 @@ def get_next_meals():
   Queries the database for the next possible meal.
   """
 
-  now = datetime.datetime(2014,6,8,16)
+  now = current_rice_time()
   day_of_the_week = now.weekday()
-
-  time  = now.time()
   
-  next_mealtimes = find_next_meals(now)
+  next_mealtimes,next_meal_date = find_next_meals(now.date(),now.time())
 
 
 
   def process_mealtime(mealtime):
-    meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == now.date()).first()
+    meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == next_meal_date).first()
     if meal is not None:
       dishes = meal.dishes
     else:
@@ -176,7 +176,10 @@ def get_next_meals():
     }
 
 
-  result = map(process_mealtime,next_mealtimes)
+  result = {
+    "day": next_meal_date,
+    "meals": map(process_mealtime,next_mealtimes)
+  }
 
   return  json.dumps(result,default=json_date_handler), 200, {"content-type" : "application/json"}
 

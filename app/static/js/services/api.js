@@ -13,7 +13,7 @@ serveryApi.factory('Servery', ['$resource', function($resource) {
     {
       all: {method: 'GET', params: {}, isArray: true},
       query:{method: 'GET', params: {serveryId:'serveryId'}},
-      nextMeals:{method: 'GET',params:{}, url: '/api/serveries/next_meals', isArray: true}
+      nextMeals:{method: 'GET',params:{}, url: '/api/serveries/next_meals'}
     });
 }]);
 

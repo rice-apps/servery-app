@@ -3,12 +3,21 @@
 angular.module('serveryApp')
 .controller('QuickViewCtrl', ['$scope','Servery','Vote', function($scope,Servery,Vote) {
 
+    var daysOfTheWeek = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+    ];
+
 
     Servery.nextMeals(function(result)
     {
-        $scope.mealOptions = result;
-        console.log(result);
-
+        $scope.mealOptions = result.meals;
+        $scope.day = daysOfTheWeek[new Date(result.day).getUTCDay()];
     });
 
     $scope.upvote = function(item)
