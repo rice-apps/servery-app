@@ -27,11 +27,20 @@ def get_servery_data(servery):
                 }
             }
 
+def get_vote_status(dishdetails):
+  vote = db.session.query(DishDetailsVote).filter(DishDetailsVote.dishdetails == dishdetails,DishDetailsVote.user == users.current_user()).scalar()
+
+  if vote is None:
+    return "none"
+  else:
+    return vote.vote_type
+
 def get_dishdetails_data(dishdetails):
   return {
     "name":dishdetails.dish_description,
     "score":dishdetails.score,
-    "id": dishdetails.id
+    "id": dishdetails.id,
+    "vote_type" : get_vote_status(dishdetails)
   }
 
 def json_date_handler(obj):
@@ -146,12 +155,12 @@ def get_next_meals():
 
   now = datetime.datetime(2014,6,8,16)
   day_of_the_week = now.weekday()
-  print day_of_the_week
+
   time  = now.time()
   
   next_mealtimes = find_next_meals(now)
 
-  print list(db.session.query(Meal).all())[0].mealtime
+
 
   def process_mealtime(mealtime):
     meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == now.date()).first()
@@ -212,7 +221,6 @@ def update_score_on_vote_removal(old_vote):
 
 def update_score_on_vote_addition(new_vote):
   dishdetails = new_vote.dishdetails
-  print dishdetails
   if new_vote.vote_type == "up":
     dishdetails.score += 1
   elif new_vote.vote_type == "down":

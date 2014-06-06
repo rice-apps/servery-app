@@ -62,6 +62,8 @@ class Review(db.Model):
 
 class Dish(db.Model):
     __tablename__ = 'dishes'
+    __table_args__ = (db.UniqueConstraint('dishdetails_id','meal_id',name="EachDishInMealUnique"),)
+
 
     id = db.Column(db.Integer,primary_key=True)
 

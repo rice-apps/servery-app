@@ -45,6 +45,9 @@
     cursor: pointer;
 }
 
-.foo {
-  clear: both;
+
+.score {
+  display: inline-block;
+  text-align: right;
+  width: 20px;
 }

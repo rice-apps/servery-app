@@ -65,6 +65,7 @@ def create_fake_dishdetails():
 
 def create_fake_dishdetails_for_servery(servery):
     dish_options = ["Hamburger","Steak","Eggs","Burrito","Pizza","Pasta","Froy","Apple","Pie","Chicken","Beans","Soup","Sandwich"]
+    
     for option in dish_options:
         dishdetails = DishDetails(dish_description= (option + " "+servery.fullname),servery=servery,score=0)
         db.session.add(dishdetails)
@@ -74,17 +75,15 @@ def create_fake_meal(mealtime,date):
     meal = Meal(mealtime = mealtime,date = date)
     db.session.add(meal)
 
-    for i in range(4):
-        create_fake_dish(meal)
+    create_fake_dishes(meal,5)
 
 
-def create_fake_dish(meal):
+def create_fake_dishes(meal,number_of_dishes):
     dish_options = db.session.query(DishDetails).filter(DishDetails.servery == meal.mealtime.servery).all()
 
-    dishdetails = random.choice(dish_options)
-
-    dish = Dish(dishdetails = dishdetails,meal = meal)
-    db.session.add(dish)
+    for dishdetails in random.sample(dish_options,number_of_dishes):
+        dish = Dish(dishdetails = dishdetails,meal = meal)
+        db.session.add(dish)
 
 def load_meals():
 
