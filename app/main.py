@@ -26,9 +26,11 @@ def root():
 
 # Usage: create cron job by calling
 #        crontab -e
-#        type "0 24 * * * curl http://path/to/mail/page"
+#        type "0 24 * * * curl http://path/to/mail/page", save and exit
 # Kill a crontab by looking up its pid and "kill [pid]"
 
+# TODO: Move the mail code to manager.py and let cron call manager, which will
+#       send emails/store data in a table
 @app.route('/mail')
 def mail():
   mail = Mail(app)
