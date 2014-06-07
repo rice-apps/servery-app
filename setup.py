@@ -32,15 +32,19 @@ def load_fake_users():
 def load_fake_dishes():
     d1 = Dish(dish_description="sth good", meal_id=1)
     d2 = Dish(dish_description="sth else good", meal_id=1) 
+    d3 = Dish(dish_description="sth else good2", meal_id=2) 
     db.session.add(d1)
     db.session.add(d2)
+    db.session.add(d3)
     db.session.commit()   
 
 def load_fake_meals():
     # current_hr = datetime.datetime.now().hour
     # current_min = datetime.datetime.now().minute
     m1 = Meal(date=datetime.datetime.now(), mealtime_id=1)
+    m2 = Meal(date=datetime.date(2013,6,10), mealtime_id=1)
     db.session.add(m1)
+    db.session.add(m2)
     db.session.commit()
 
 def load_meals():

@@ -22,14 +22,23 @@ app.config.update(
 
 @app.route('/')
 def root():
-  mail = Mail(app)
+  return app.send_static_file('index.html')
 
+# Usage: create cron job by calling
+#        crontab -e
+#        type "0 24 * * * curl http://path/to/mail/page"
+# Kill a crontab by looking up its pid and "kill [pid]"
+
+@app.route('/mail')
+def mail():
+  mail = Mail(app)
   dishes = reduce(operator.add,[d.dishes for d in db.session.query(Meal).all()])
+  dishes_today = filter(lambda x: x.meal.date == datetime.date.today(), dishes)
   users = db.session.query(User).all()
   recipients_info = {}
 
   for user in users:
-    if user.preference in dishes and user.email != None:
+    if user.preference in dishes_today and user.email != None:
       recipients_info[user.email] = {}
       recipients_info[user.email]["name"] = user.username
       recipients_info[user.email]["dish"] = user.preference.dish_description
@@ -40,17 +49,15 @@ def root():
   # print 'recipients info', recipients_info
   with mail.connect() as conn:
     for email in recipients_info.keys(): 
-      message = "Hi, %s! \n Your favorite dish %s is available during %s at %s servery on %s" % (recipients_info[email]["name"], 
+      message = "Hi, %s! \n Your favorite dish %s is available during %s at %s servery today." % (recipients_info[email]["name"], 
         recipients_info[email]["dish"],
         recipients_info[email]["meal_type"],
-        recipients_info[email]["servery"],
-        recipients_info[email]["date"])
+        recipients_info[email]["servery"])
 
-      message_html = "Hi, %s! <br> <br> Your favorite dish <b>%s</b> is available during <b>%s</b> at <b>%s</b> servery on %s" % (recipients_info[email]["name"], 
+      message_html = "Hi, %s! <br> <br> Your favorite dish <b>%s</b> is available during <b>%s</b> at <b>%s</b> servery today." % (recipients_info[email]["name"], 
         recipients_info[email]["dish"],
         recipients_info[email]["meal_type"],
-        recipients_info[email]["servery"],
-        recipients_info[email]["date"])
+        recipients_info[email]["servery"])
 
 
       subject = "Hi %s, your favorite food is available today!" % (recipients_info[email]["name"])
@@ -59,20 +66,8 @@ def root():
                     subject=subject)
       msg.body = message
       msg.html = message_html
-      conn.send(msg)                              
-
-
-  return app.send_static_file('index.html')
-
-
-
-@app.route('/mail')
-def mail():
-    mail = Mail(app)
-    msg = Message("Hello",sender = "yokolee1013@gmail.com",recipients=["yokolee1013@gmail.com"])
-    mail.send(msg)
-    return app.send_static_file('index.html')
-
+      conn.send(msg)             
+    return "Mails sent!"
 
 
 @app.route('/auth/login-response')
