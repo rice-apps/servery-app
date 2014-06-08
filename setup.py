@@ -34,8 +34,8 @@ def setup_db():
     db.create_all()
 
 def load_fake_users():
-    u1 = User(username="a",email="yokolee1013@gmail.com",preference_id=1)
-    u2 = User(username="b",email="hl33@rice.edu",preference_id=2)
+    u1 = User(username="a",email="yokolee1013@gmail.com")
+    u2 = User(username="b",email="hl33@rice.edu")
     db.session.add(u1)
     db.session.add(u2)
 

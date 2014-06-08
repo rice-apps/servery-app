@@ -11,8 +11,6 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String,nullable=False,unique=True)
     email = db.Column(db.String,nullable=True)
-    preference_id = db.Column(db.ForeignKey("dishes.id"),nullable=True)
-    preference = db.relationship("Dish", backref="likers")
 
 
 class Servery(db.Model):
@@ -84,16 +82,19 @@ class DishDetails(db.Model):
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
     servery = db.relationship("Servery",backref="DishDetails")
 
-class DishDetailsVote(db.Model):
-    __tablename__ = "dishdetailsvote"
-    __table_args__ = (db.UniqueConstraint('user_id','dishdetails_id',name="1VotePerUser"),)
+class DishDetailsAndUserRelationship(db.Model):
+    __tablename__ = "dishdetailsanduserrelationship"
+    __table_args__ = (db.UniqueConstraint('user_id','dishdetails_id',name="1RelationshipPerUser"),)
 
     id = db.Column(db.Integer,primary_key=True)
 
     user_id = db.Column(db.ForeignKey("users.id"),nullable=False)
-    user = db.relationship("User",backref="votes")
+    user = db.relationship("User",backref="dishdetails")
 
     dishdetails_id = db.Column(db.ForeignKey("dishdetails.id"),nullable=False)
-    dishdetails = db.relationship("DishDetails",backref="votes")
+    dishdetails = db.relationship("DishDetails",backref="users")
 
-    vote_type = db.Column(db.Enum('up','down','none',name='vote_type'),nullable=False)
+    vote_type = db.Column(db.Enum('up','down','none',name='vote_type'),nullable=False,default="none")
+
+    wants_alert = db.Column(db.Boolean,nullable=False,default=False)
+
