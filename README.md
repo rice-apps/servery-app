@@ -17,6 +17,7 @@ In order to set up a local development environment, you need to install the foll
 * [Python-dateutil](https://labix.org/python-dateutil)
 * [Flask-mail](http://pythonhosted.org/flask-mail/)
 * [Pdfminer](http://www.unixuser.org/~euske/python/pdfminer/index.html)
+* [Flask-script](http://flask-script.readthedocs.org/en/latest/)
 (Note that pdfminer can be installed with the command `pip install git+https://github.com/euske/pdfminer`)
 
 Start the flask server with the following command under the src folder:
