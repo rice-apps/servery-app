@@ -28,7 +28,7 @@ def get_servery_data(servery):
             }
 
 def get_vote_status(dishdetails):
-  vote = db.session.query(DishDetailsVote).filter(DishDetailsVote.dishdetails == dishdetails,DishDetailsVote.user == users.current_user()).scalar()
+  vote = db.session.query(DishDetailsAndUserRelationship).filter(DishDetailsAndUserRelationship.dishdetails == dishdetails,DishDetailsAndUserRelationship.user == users.current_user()).scalar()
 
   if vote is None:
     return "none"
@@ -196,10 +196,10 @@ def vote(dishdetails_id,vote_type):
   if user is None:
     abort(403)
 
-  vote = db.session.query(DishDetailsVote).filter(DishDetailsVote.user==user,DishDetailsVote.dishdetails_id==dishdetails_id).scalar()
+  vote = db.session.query(DishDetailsAndUserRelationship).filter(DishDetailsAndUserRelationship.user==user,DishDetailsAndUserRelationship.dishdetails_id==dishdetails_id).scalar()
 
   if vote is None:
-    vote = DishDetailsVote(user=user,dishdetails=db.session.query(DishDetails).get(dishdetails_id),vote_type="none")
+    vote = DishDetailsAndUserRelationship(user=user,dishdetails=db.session.query(DishDetails).get(dishdetails_id))
     db.session.add(vote)
     db.session.commit()
   else:
