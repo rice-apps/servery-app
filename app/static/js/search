@@ -1,0 +1,50 @@
+$(document).ready(function(){
+    // var currentCourses = [];
+    var dishes = [];
+    // function disableTeachAndSect(){
+    //     $("#teacher").prop('disabled', true);
+    //     $("#teacher").empty();
+    //     var noTeach = $('<option></option>').text("Please type in a Course");
+    //     $("#teacher").append(noTeach);
+    //     $("#section").prop('disabled', true);
+    //     $("#section").empty();
+    //     var noSect = $('<option></option>').text("Please select a teacher");
+    //     $("#section").append(noSect);
+    // }
+
+    // $("#coursenumber").prop('disabled', true);
+    // disableTeachAndSect();
+
+
+    $.getJSON("/api/serveries",function(serveries){
+        $("#searchButton").click(function(){
+            
+            for (serveryDict:serveries){
+                serveryId = serveryDict["id"];
+                $.getJSON("/api/serveries/serveryId/menu",function(menu)){
+                    for (mealType:menu){
+                        meal = menu[mealType];
+                        for(dish:meal){
+                            dishes.append(dish["name"]);
+                        }
+
+                    }
+                }
+            }
+                
+
+
+
+
+
+
+            var currentMeal = $("#search").val();
+
+
+            
+            
+        }); // coursenumer.keyup()
+    });
+});
+
+

@@ -11,6 +11,7 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
       .when('/template', {
         templateUrl: 'static/views/template.html'
       })
+
       .when('/userSettings', {
         templateUrl: 'static/views/userSettings.html',
         controller: 'UserSettingsCtrl'
@@ -19,6 +20,11 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
         templateUrl: 'static/views/quickView.html',
         controller: 'QuickViewCtrl'
       })
+
+      .when('/search', {
+        templateUrl: 'static/views/search.html'
+      })
+     
       .otherwise({
         redirectTo: '/'
       });

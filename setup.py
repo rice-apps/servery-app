@@ -96,6 +96,7 @@ def load_meals():
         for meal_type in ['lunch','dinner']:
             for day_of_the_week in menu[meal_type]:
                 actual_date = base_date + timedelta(days = day_of_the_week)
+                
                 print meal_type,day_of_the_week,servery.name
                 mealtime = db.session.query(MealTime).filter(
                         MealTime.meal_type == meal_type,
