@@ -1,6 +1,9 @@
 # Mac crap
 .DS_STORE
 
+# Parse Config Files
+config/*
+
 *.py[cod]
 
 # C extensions
