@@ -6,7 +6,12 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
     $routeProvider
       .when('/', {
         templateUrl: 'static/views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          serveries: ['Servery', function(Servery) { 
+            return Servery.all()
+          }]
+        }
       })
       .when('/template', {
         templateUrl: 'static/views/template.html'

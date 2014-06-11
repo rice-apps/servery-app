@@ -24,7 +24,8 @@ def get_servery_data(servery):
                         'end_time'   : find_mealtime(servery,day_of_the_week,meal_type).end_time
                         } for meal_type in ['breakfast','lunch','dinner'] if find_mealtime(servery,day_of_the_week,meal_type) != None
                     } for day_of_the_week in range(7)
-                }
+                },
+            "is-open": servery_is_currently_open(servery)
             }
 
 def get_vote_status(dishdetails):
@@ -60,28 +61,29 @@ def get_serveries():
          200, 
          {"content-type" : "application/json"})
 
-
-@app.route('/api/serveries/<int:servery_id>')
-def get_servery(servery_id):
-  # Query for all data for specific servery
+def servery_is_currently_open(servery):
   # gets current time and day of week to see if servery is currently open
   now = current_rice_time()
   day_of_the_week = now.weekday()
   time  = now.time()
 
-  # retrieves actual servery
-  servery = db.session.query(Servery).get(servery_id) 
 
   open_filter = db.and_(MealTime.day_of_the_week == day_of_the_week,MealTime.start_time <= time,MealTime.end_time >= time)
 
-  currently_open = db.session.query(Servery).filter(Servery.id==servery_id).join(Servery.mealtimes).filter(open_filter)
+  currently_open = db.session.query(MealTime).filter(MealTime.servery == servery).filter(open_filter)
 
 
   is_open = len(currently_open.all()) == 1
 
-  servery_data = get_servery_data(servery)
+  return is_open  
 
-  servery_data['open_now'] = is_open
+@app.route('/api/serveries/<int:servery_id>')
+def get_servery(servery_id):
+  # Query for all data for specific servery
+  # retrieves actual servery
+  servery = db.session.query(Servery).get(servery_id) 
+
+  servery_data = get_servery_data(servery)
 
 
   return json.dumps(servery_data,default=json_date_handler) , 200, {"content-type" : "application/json"}

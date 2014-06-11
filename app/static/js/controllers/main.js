@@ -2,38 +2,22 @@
 
 angular.module('serveryApp')
 .controller('MainCtrl', 
-  ['$scope', 'Servery', 'Menu','User', function ($scope, Servery, Menu,User) {
+  ['$scope', 'Servery', 'Menu','User', 'serveries', function ($scope, Servery, Menu,User, serveries) {
 
   /*=============================================*
    * Servery selector
    *=============================================*/
-  $scope.serveries = Servery.all(function () {
-    // Once serveries are loaded
-    if ($scope.serveries.length > 0)
-      $scope.selectServery($scope.serveries[0]);
-    else
-      console.log('No serveries found');
-  });
+  $scope.serveries = serveries;
 
   $scope.selectServery = function (servery) {
     // Load servery details
-    $scope.servery = Servery.query({'serveryId': servery.id},
-      function() {
-        console.log($scope.servery); // Log to console once loaded
-      });
+    $scope.servery = servery;
 
     // Load menu
     $scope.menu = Menu.query({'serveryId': servery.id, 'date': $scope.datePicker.dt.toISOString()},
       function() {
         console.log($scope.menu);   // Log to console once loaded
       });
-
-    console.log("Selected servery: " + servery.name);
-    console.log(servery);
-
-
-    $scope.user = User.current_user();
-    console.log($scope.user)
   };
 
   $scope.meals = ['breakfast', 'lunch', 'dinner'];
