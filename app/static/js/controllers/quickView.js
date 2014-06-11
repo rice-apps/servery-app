@@ -58,9 +58,11 @@ angular.module('serveryApp')
         });
     }
 
+
+
+
     $scope.reset = function(item)
     {
-        console.log("reset");
 
         if (item.vote_type == "up")
             item.score -= 1;
@@ -68,6 +70,11 @@ angular.module('serveryApp')
             item.score += 1;
 
         item.vote_type = "none";
+        Vote.reset({dishdetailsId:item.id},function(result)
+        {
+            item.score = result.new_score;
+        });
+
     }
 
 

@@ -44,7 +44,7 @@ angular.module('serveryApp')
   $scope.$watch('datePicker.dt', function () {
 
     if ($scope.servery)
-    $scope.menu = Menu.query({'serveryId': $scope.servery.id,'date':$scope.datePicker.dt.toISOString()});
+      $scope.menu = Menu.query({'serveryId': $scope.servery.id,'date':$scope.datePicker.dt.toISOString()});
   });
 
   // Initialize the datePicker to today

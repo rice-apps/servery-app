@@ -5,7 +5,6 @@ angular.module('serveryApp')
                 ['$scope','User',"$location",function($scope,User,$location) {
 
     $scope.user = User.current_user();
-    console.log($scope.user);
 
     $scope.logout = function()
     {

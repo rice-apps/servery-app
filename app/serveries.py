@@ -6,7 +6,7 @@ import json
 from util import current_rice_time, parse_to_rice_time
 import users
 from models import *
-
+from dishdetails import *
 
 
 def find_mealtime(servery,day_of_the_week,meal_type):
@@ -25,24 +25,8 @@ def get_servery_data(servery):
                         } for meal_type in ['breakfast','lunch','dinner'] if find_mealtime(servery,day_of_the_week,meal_type) != None
                     } for day_of_the_week in range(7)
                 },
-            "is-open": servery_is_currently_open(servery)
+            "open_now": servery_is_currently_open(servery)
             }
-
-def get_vote_status(dishdetails):
-  vote = db.session.query(DishDetailsAndUserRelationship).filter(DishDetailsAndUserRelationship.dishdetails == dishdetails,DishDetailsAndUserRelationship.user == users.current_user()).scalar()
-
-  if vote is None:
-    return "none"
-  else:
-    return vote.vote_type
-
-def get_dishdetails_data(dishdetails):
-  return {
-    "name":dishdetails.dish_description,
-    "score":dishdetails.score,
-    "id": dishdetails.id,
-    "vote_type" : get_vote_status(dishdetails)
-  }
 
 def json_date_handler(obj):
     if hasattr(obj,'isoformat'):
@@ -166,10 +150,8 @@ def get_next_meals():
 
   def process_mealtime(mealtime):
     meal = db.session.query(Meal).filter(Meal.mealtime == mealtime,Meal.date == next_meal_date).first()
-    if meal is not None:
-      dishes = meal.dishes
-    else:
-      dishes = []
+    
+    dishes = meal.dishes
 
     return {
       "servery": get_servery_data(mealtime.servery),
@@ -184,49 +166,3 @@ def get_next_meals():
   }
 
   return  json.dumps(result,default=json_date_handler), 200, {"content-type" : "application/json"}
-
-
-
-
-@app.route('/api/dishdetails/<int:dishdetails_id>/vote/<vote_type>')
-def vote(dishdetails_id,vote_type):
-  if vote_type not in ("up","down","none"):
-    abort(404)
-
-  user = users.current_user()
-
-  if user is None:
-    abort(403)
-
-  vote = db.session.query(DishDetailsAndUserRelationship).filter(DishDetailsAndUserRelationship.user==user,DishDetailsAndUserRelationship.dishdetails_id==dishdetails_id).scalar()
-
-  if vote is None:
-    vote = DishDetailsAndUserRelationship(user=user,dishdetails=db.session.query(DishDetails).get(dishdetails_id))
-    db.session.add(vote)
-    db.session.commit()
-  else:
-    update_score_on_vote_removal(vote)
-
-  vote.vote_type = vote_type
-  update_score_on_vote_addition(vote)
-
-  db.session.commit()
-
-
-  result = {"new_score": vote.dishdetails.score}
-
-  return json.dumps(result),200,{"content-type" : "application/json"}
-
-def update_score_on_vote_removal(old_vote):
-  dishdetails = old_vote.dishdetails
-  if old_vote.vote_type == "up":
-    dishdetails.score -= 1
-  elif old_vote.vote_type == "down":
-    dishdetails.score += 1
-
-def update_score_on_vote_addition(new_vote):
-  dishdetails = new_vote.dishdetails
-  if new_vote.vote_type == "up":
-    dishdetails.score += 1
-  elif new_vote.vote_type == "down":
-    dishdetails.score -= 1  

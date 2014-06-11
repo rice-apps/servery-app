@@ -80,7 +80,7 @@ class DishDetails(db.Model):
     score = db.Column(db.Integer,nullable=False)
 
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
-    servery = db.relationship("Servery",backref="DishDetails")
+    servery = db.relationship("Servery",backref="dishdetails")
 
 class DishDetailsAndUserRelationship(db.Model):
     __tablename__ = "dishdetailsanduserrelationship"
@@ -89,10 +89,10 @@ class DishDetailsAndUserRelationship(db.Model):
     id = db.Column(db.Integer,primary_key=True)
 
     user_id = db.Column(db.ForeignKey("users.id"),nullable=False)
-    user = db.relationship("User",backref="dishdetails")
+    user = db.relationship("User",backref="relationships")
 
     dishdetails_id = db.Column(db.ForeignKey("dishdetails.id"),nullable=False)
-    dishdetails = db.relationship("DishDetails",backref="users")
+    dishdetails = db.relationship("DishDetails",backref="relationships")
 
     vote_type = db.Column(db.Enum('up','down','none',name='vote_type'),nullable=False,default="none")
 
