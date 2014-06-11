@@ -9,7 +9,7 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
         controller: 'MainCtrl',
         resolve: {
           serveries: ['Servery', function(Servery) { 
-            return Servery.all()
+            return Servery.all();
           }]
         }
       })
@@ -23,7 +23,12 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
       })
       .when('/quickView', {
         templateUrl: 'static/views/quickView.html',
-        controller: 'QuickViewCtrl'
+        controller: 'QuickViewCtrl',
+        resolve: {
+          nextmeals: ['Servery', function(Servery) {
+            return Servery.nextMeals();
+          }]
+        }
       })
 
       .when('/search', {

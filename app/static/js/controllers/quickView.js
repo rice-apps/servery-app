@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('serveryApp')
-.controller('QuickViewCtrl', ['$scope','Servery','Vote', function($scope,Servery,Vote) {
+.controller('QuickViewCtrl', ['$scope','Servery','Vote','nextmeals', function($scope,Servery,Vote,nextmeals) {
 
     var daysOfTheWeek = [
         'Sunday',
@@ -14,11 +14,10 @@ angular.module('serveryApp')
     ];
 
 
-    Servery.nextMeals(function(result)
-    {
-        $scope.mealOptions = result.meals;
-        $scope.day = daysOfTheWeek[new Date(result.day).getUTCDay()];
-    });
+
+    $scope.mealOptions = nextmeals.meals;
+    $scope.day = daysOfTheWeek[new Date(nextmeals.day).getUTCDay()];
+   
 
     $scope.upvote = function(item)
     {
