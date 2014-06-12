@@ -25,8 +25,14 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
         templateUrl: 'static/views/quickView.html',
         controller: 'QuickViewCtrl',
         resolve: {
-          nextmeals: ['Servery', function(Servery) {
-            return Servery.nextMeals();
+          nextmeals: ['Servery','$q', function(Servery,$q) {
+            var defered = $q.defer();
+
+            Servery.nextMeals(function(result)
+            {
+              defered.resolve(result);
+            });
+            return defered.promise;
           }]
         }
       })

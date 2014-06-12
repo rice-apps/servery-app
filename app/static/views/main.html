@@ -162,12 +162,7 @@
       <div class="panel-body">
         <ul ng-show="menu[meal]" class="list-group">
           <li ng-repeat="item in menu[meal]" class="list-group-item">
-            {{ item.name }}
-            <span 
-              ng-repeat="tag in item.tags"
-              class="label label-default"> 
-              {{ tag }}
-            </span>
+            <menu-item item=item></menu-item>
           </li>
         </ul>
         <em class="not-found" ng-hide="menu[meal]">
