@@ -1,13 +1,7 @@
-<tabset type="'tabs'">
-  <tab ng-repeat="mealOption in mealOptions">
-    <tab-heading>
-      <h5>
-        {{mealOption.servery.fullname}} 
-      </h5>
-    </tab-heading>
-
+<div>
+  <div ng-repeat="mealOption in mealOptions" class="menuThing">
     <h2>
-      Menu
+      {{mealOption.servery.name}}
     </h2>
     <div class="menu panel panel-primary">
       <div class="panel-heading">
@@ -24,5 +18,7 @@
       </div>
     </div>
     
-  </tab>
-</tabset>
+  </div>
+</div>
+
+<script src="static/js/testViewer.js"></script>

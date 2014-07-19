@@ -51,3 +51,9 @@
   text-align: right;
   width: 20px;
 }
+
+.menuThing {
+  position: absolute;
+  width: 500px;
+  display: inline-block;
+}

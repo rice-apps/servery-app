@@ -142,7 +142,6 @@ def get_next_meals():
   """
 
   now = current_rice_time()
-  day_of_the_week = now.weekday()
   
   next_mealtimes,next_meal_date = find_next_meals(now.date(),now.time())
 
