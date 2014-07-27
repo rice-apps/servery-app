@@ -98,13 +98,17 @@
   display: block !important;
 }
 
+.rotate .menuThing{
 
-.rotate .menuThing:not(.selected){
-
-  -webkit-transform-origin: 32px 50%;
+  -webkit-transform-origin: 21px 50%;
   -webkit-transform: rotate(90deg);
   margin-bottom: 379px;
   width: 441px;
-  margin-right: -379px;
-  margin-left: -21px;
+  margin-right: -399px;
+  
+}
+
+.noMarginIfRotate
+{
+  margin-bottom: 1px;
 }
