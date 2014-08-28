@@ -21,15 +21,20 @@ The result is a dict of the following structure:
 The meal dictionaries have the following structure:
 
 {
-    'day': [Meal name strings]
+    'day': [DishInfo classes]
 }
 
 'day' is an integer from 0 to 6, 0 for Monday, 1 for Tuesday, etc.
 Incidentally, 'day' is the offset in days from the 'base_date' when the menu is active.
 
+The DishInfo classes contian a dish_description and allergy_flags. 
+
+The dish_description field is a string containig a dish name.
 The dish names are as you would expect (like "Fish and Chips\n")
 Days with no dishes might have junk like "Dinner on Your Own Rice Village is Nice!"
 Note that these strings are Unicode strings.
+
+The allergy_flags field is a set of AllergyFlag enum values. See AllergyFlag for possible values.
 
 Example usage would be:
     import downloadmenu
@@ -45,6 +50,7 @@ from collections import defaultdict, namedtuple
 import re
 import datetime
 import calendar
+import enum
 
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
@@ -71,6 +77,17 @@ serveries = servery_names.keys()
 
 BoundingBox = namedtuple('BoundingBox',['x','y','width','height'])
 
+class DishInfo(object):
+    def __init__(self):
+        self.dish_description = ""
+        self.allergy_flags = set()
+
+    def __repr__(self):
+        return repr( (self.dish_description,self.allergy_flags))
+
+AllergyFlag = enum.Enum("AllergyFlag","vegen vegetarian gluten soy milk eggs fish shellfish peanuts treenuts")
+    
+
 def in_bounding_box(box,x,y):
     return (box.x <= x <= box.x+box.width) and (box.y <= y <= box.y + box.height)
 
@@ -79,14 +96,16 @@ lunch_bounding_box = BoundingBox(x=115,y=140,width=600,height=200)
 dinner_bounding_box = BoundingBox(x=115,y=350,width=600,height=200)
 
 #These are the bounding boxes for each day in the multi page format.
+bottomy = 300
+bottomheight = 240
 multi_day_boxes = {
-        0: BoundingBox(x=26,y=48,width=230,height=230) ,
-        1: BoundingBox(x=264,y=48,width=230,height=230),
-        2: BoundingBox(x=502,y=48,width=230,height=230),
-        3: BoundingBox(x=25,y=302,width=168,height=238),
-        4: BoundingBox(x=200,y=302,width=168,height=238),
-        5: BoundingBox(x=375,y=302,width=168,height=238),
-        6: BoundingBox(x=550,y=302,width=168,height=238),
+        0: BoundingBox(x=26,y=45,width=230,height=230) ,
+        1: BoundingBox(x=264,y=45,width=230,height=230),
+        2: BoundingBox(x=502,y=45,width=230,height=230),
+        3: BoundingBox(x=25, y=bottomy,width=168,height=bottomheight),
+        4: BoundingBox(x=200,y=bottomy,width=168,height=bottomheight),
+        5: BoundingBox(x=375,y=bottomy,width=168,height=bottomheight),
+        6: BoundingBox(x=550,y=bottomy,width=168,height=bottomheight),
         }
 
 numeral_date_regex = re.compile(r'(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)')
@@ -126,6 +145,7 @@ def process_pdf(file_handle):
     device = PDFPageAggregator(rsrcmgr,laparams=LAParams(char_margin=1.0))
     interpreter = PDFPageInterpreter(rsrcmgr, device)
     for page in PDFPage.create_pages(document):
+        
         interpreter.process_page(page)
         layout = device.get_result()
         yield get_text_positions(layout)
@@ -137,6 +157,7 @@ def get_text_positions(layout):
             for line in child:
                 #coords = (line.x0 + line.x1)/2, layout.height - (line.y0 + line.y1)/2
                 coords = (line.x0), layout.height - (line.y0 + line.y1)/2
+                coords = line.x0, (layout.height - line.y1)
                 yield (coords,line.get_text().strip())
 
 def process_one_page_menu(page):
@@ -159,7 +180,7 @@ def process_multi_page_menu(pages):
 def get_date(page):
     """Finds the date in the page by looking for the string "Week Of" """
     for text_piece in page:
-        if "Week of" in text_piece[1]:
+        if "2014" in text_piece[1]:
             month,day,year =  process_date_string(text_piece[1])
             return datetime.date(year,month,day)
 
@@ -168,8 +189,9 @@ def process_date_string(text):
     Extracts a datetime.date for the date in the text.
     The text can be in two possible formats:
         numeral_date example 3/16/2014
-        word_date exmaple March 16,20014
+        word_date exmaple March 16,2014
     """
+    print text
     numeral_date_match = numeral_date_regex.search(text)
     if numeral_date_match:
         return map(int,numeral_date_match.group("month","day","year"))
@@ -178,6 +200,22 @@ def process_date_string(text):
         day,year = map(int,word_date_match.group("day","year"))
         month = list(calendar.month_name).index(word_date_match.group("month"))
         return month,day,year
+
+def process_allergy_flag(flag):
+    flag_dictionary = {
+        "V" : AllergyFlag.vegen,
+        "VG": AllergyFlag.vegetarian,
+        "G" : AllergyFlag.gluten,
+        "SF": AllergyFlag.soy,
+        "F" : AllergyFlag.milk,
+        "M" : AllergyFlag.eggs,
+        "E" : AllergyFlag.fish,
+        "P" : AllergyFlag.shellfish,
+        "TN": AllergyFlag.peanuts,
+        "S" : AllergyFlag.treenuts 
+    }
+
+    return flag_dictionary[flag]
 
 def get_meal(classify,page):
     """
@@ -190,11 +228,18 @@ def get_meal(classify,page):
     If the text_piece does not belong to a dish, classify should return (-1,-1).
     """
 
-    meal = defaultdict(lambda : defaultdict(str))
+    
+    def create_initial_dishinfo():
+        return DishInfo()
+
+    meal = defaultdict(lambda : defaultdict(create_initial_dishinfo))
     for text_piece in page:
         day,dish_number = classify(text_piece)
         if day != -1:
-            meal[day][dish_number] += text_piece[1] +'\n'
+            if len(text_piece[1]) <= 2:
+                meal[day][dish_number].allergy_flags.add(process_allergy_flag(text_piece[1]))
+            else:
+                meal[day][dish_number].dish_description += text_piece[1] + '\n'
     return {day:[dish for dish in meal[day].values() if dish != ""] for day in meal}
 
 
@@ -220,9 +265,8 @@ def get_single_page_dish_number(x,y):
 def multi_page_classify(text_piece):
     """A classify function for a multi page menu. Look at get_meal for the specification of classify"""
     
-    #This rejects junk like the meal information (such as Gluten Free, etc).
-    #TODO Process meal information for presentation to users.
-    if len(text_piece[1]) <= 3:
+    #This rejects empty entries
+    if text_piece[1] == u'-':
         return (-1,-1)
 
     for day,box in multi_day_boxes.items():

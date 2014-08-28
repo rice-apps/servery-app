@@ -2,7 +2,7 @@
 Run this file once to setup your database.
 """
 from app import db
-from app.models import Servery,MealTime,Meal,Dish,User,DishDetails
+from app.models import Servery,MealTime,Meal,Dish,User,DishDetails, AllergyFlag
 from app.api.serveries.downloadmenu import process_servery_menu
 
 import random
@@ -17,14 +17,13 @@ from app.util import current_rice_time
 def setup_all():
     setup_db()
     setup_serveries()
+    load_meals()
 
     db.session.commit()
 
     load_fake_users()
 
-    create_fake_dishdetails()
-    db.session.commit()
-    create_fake_meals_for_current_month()
+
 
     db.session.commit()
 
@@ -90,6 +89,7 @@ def create_fake_dishes(meal,number_of_dishes):
 def load_meals():
 
     for servery in db.session.query(Servery):
+        print servery.name
         menu = process_servery_menu(servery.name)
         base_date = menu['base_date']
 
@@ -108,12 +108,20 @@ def load_meals():
                     meal = Meal(date=actual_date,mealtime=mealtime)
                     db.session.add(meal)
 
-                    for dish_description in menu[meal_type][day_of_the_week]:
-                        dish = Dish(meal=meal,dish_description=dish_description)
-                        db.session.add(dish)
+                    for dish_info in menu[meal_type][day_of_the_week]:
+                        create_dish_from_dish_info(dish_info,servery,meal)
     db.session.commit()
 
                     
+def create_dish_from_dish_info(dish_info,servery,meal):
+    dishdetails = DishDetails(dish_description = dish_info.dish_description,score=0,servery=servery)
+
+    for flag in dish_info.allergy_flags:
+        flagobj = AllergyFlag(dishdetails=dishdetails,allergyflag=flag.name)
+        db.session.add(flagobj)
+
+    dish = Dish(meal=meal,dishdetails=dishdetails)
+    db.session.add(dish)
 
 
 def setup_serveries():

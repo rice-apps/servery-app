@@ -82,6 +82,16 @@ class DishDetails(db.Model):
     servery_id = db.Column(db.ForeignKey("serveries.id"),nullable=False)
     servery = db.relationship("Servery",backref="dishdetails")
 
+class AllergyFlag(db.Model):
+    __tablename__ = 'allergyflags'
+
+    id = db.Column(db.Integer,primary_key=True)
+
+    dishdetails_id = db.Column(db.ForeignKey("dishdetails.id"),nullable=False)
+    dishdetails = db.relationship("DishDetails",backref="allergyflags")
+
+    allergyflag = db.Column(db.String,nullable=False)
+
 class DishDetailsAndUserRelationship(db.Model):
     __tablename__ = "dishdetailsanduserrelationship"
     __table_args__ = (db.UniqueConstraint('user_id','dishdetails_id',name="1RelationshipPerUser"),)
