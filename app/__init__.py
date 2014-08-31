@@ -28,3 +28,4 @@ import models  # NOQA
 import main  # NOQA
 import serveries  # NOQA
 import users  # NOQA
+import auth  # NOQA

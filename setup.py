@@ -2,8 +2,8 @@
 Run this file once to setup your database.
 """
 from app import db
-from app.models import (Servery, MealTime, Meal, Dish, User,
-                        DishDetails, AllergyFlag)
+from app.models import (Servery, MealTime, Meal, MealDish, User,
+                        Dish, AllergyFlag)
 from app.api.serveries.downloadmenu import process_servery_menu
 from app.util import current_rice_time
 
@@ -86,12 +86,12 @@ def create_fake_meal(mealtime, date):
 
 
 def create_fake_dishes(meal, number_of_dishes):
-    dish_options = db.session.query(DishDetails).filter(
-        DishDetails.servery == meal.mealtime.servery).all()
+    dish_options = db.session.query(Dish).filter(
+        Dish.servery == meal.mealtime.servery).all()
 
-    for dishdetails in random.sample(dish_options, number_of_dishes):
-        dish = Dish(dishdetails=dishdetails, meal=meal)
-        db.session.add(dish)
+    for dish in random.sample(dish_options, number_of_dishes):
+        mealdish = MealDish(dish=dish, meal=meal)
+        db.session.add(mealdish)
 
 
 def load_meals():
@@ -109,7 +109,7 @@ def load_meals():
                 mealtime = db.session.query(MealTime).filter(
                     MealTime.meal_type == meal_type,
                     MealTime.servery == servery,
-                    MealTime.day_of_the_week == day_of_the_week).first()
+                    MealTime.day_of_the_week == day_of_the_week).scalar()
 
                 if mealtime is not None:
 
@@ -122,15 +122,15 @@ def load_meals():
 
 
 def create_dish_from_dish_info(dish_info, servery, meal):
-    dishdetails = DishDetails(
+    dish = Dish(
         dish_description=dish_info.dish_description, score=0, servery=servery)
 
     for flag in dish_info.allergy_flags:
-        flagobj = AllergyFlag(dishdetails=dishdetails, allergyflag=flag.name)
+        flagobj = AllergyFlag(dish=dish, allergyflag=flag.name)
         db.session.add(flagobj)
 
-    dish = Dish(meal=meal, dishdetails=dishdetails)
-    db.session.add(dish)
+    mealdish = MealDish(meal=meal, dish=dish)
+    db.session.add(mealdish)
 
 
 def setup_serveries():

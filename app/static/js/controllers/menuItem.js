@@ -16,7 +16,7 @@ angular.module('serveryApp')
         item.score += 1;
         item.vote_type = "up";
 
-        Vote.upvote({dishdetailsId:item.id},function(result)
+        Vote.upvote({dishId:item.id},function(result)
         {
             item.score = result.new_score;
         });
@@ -35,7 +35,7 @@ angular.module('serveryApp')
 
         item.score -= 1;
         item.vote_type = "down";
-        Vote.downvote({dishdetailsId:item.id},function(result)
+        Vote.downvote({dishId:item.id},function(result)
         {
             item.score = result.new_score;
         });
@@ -51,7 +51,7 @@ angular.module('serveryApp')
             item.score += 1;
 
         item.vote_type = "none";
-        Vote.reset({dishdetailsId:item.id},function(result)
+        Vote.reset({dishId:item.id},function(result)
         {
             item.score = result.new_score;
         });

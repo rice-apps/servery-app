@@ -3,10 +3,13 @@
 </span>
 
 <span class="pull-right foo"> 
-
+{{user}}
+<div ng-show="{{user}}">
 <a class="btn btn-default btn-xs" ng-class="item.vote_type!='up' ? 'btn-default' : 'btn-success' " ng-click="upvote(item)" >
 <i class="glyphicon glyphicon-chevron-up"></i>
 </a>      
+
+</div>
 
 <span class="score">{{item.score}}</span>
 

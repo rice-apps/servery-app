@@ -8,8 +8,16 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
         templateUrl: 'static/views/main.html',
         controller: 'MainCtrl',
         resolve: {
-          serveries: ['Servery', function(Servery) { 
-            return Servery.all();
+          serveries: ['Servery', '$q', function(Servery,$q) { 
+            var defered = $q.defer();
+
+            Servery.all(function(a){
+              defered.resolve(a.result);
+            });
+
+            return defered.promise;
+
+
           }]
         }
       })

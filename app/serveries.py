@@ -1,11 +1,13 @@
-from . import app
+from . import app, db, users
 from .util import current_rice_time, parse_to_rice_time
-from .models import Meal, MealTime, Servery
-from .dishdetails import get_dishdetails_data
+from .models import Meal, MealTime, Servery, Dish, MealDish, Vote
+from .dish import get_dishes_data
 
-from flask import request, jsonify, db
+
+from flask import request, jsonify
 
 from datetime import datetime
+from collections import defaultdict
 
 
 def find_mealtime(servery, day_of_the_week, meal_type):
@@ -23,18 +25,14 @@ def get_mealtime_data(mealtime):
 
 
 def get_servery_hours_data(servery):
-    def get_meal_type(day_of_the_week):
-        return {
-            meal_type: get_mealtime_data(
-                find_mealtime(servery, day_of_the_week, meal_type))
-            for meal_type in ['breakfast', 'lunch', 'dinner']
-            if find_mealtime(servery, day_of_the_week, meal_type) is not None
-        }
+    mealtimes = db.session.query(MealTime).filter(MealTime.servery == servery)
 
-    return {
-        day_of_the_week: get_meal_type(day_of_the_week)
-        for day_of_the_week in range(7)
-    }
+    result = defaultdict(dict)
+
+    for mealtime in mealtimes:
+        result[mealtime.day_of_the_week][mealtime.meal_type] = get_mealtime_data(mealtime)
+
+    return result
 
 
 def get_servery_data(servery):
@@ -52,7 +50,7 @@ def get_serveries():
     serveries = db.session.query(Servery).all()
     serveries_data = [get_servery_data(servery) for servery in serveries]
 
-    return jsonify(serveries_data)
+    return jsonify(result=serveries_data)
 
 
 def servery_is_currently_open(servery):
@@ -97,18 +95,8 @@ def get_menu(servery_id):
 
     menu = {"lunch": [], "dinner": []}
 
-    def meal_type_query(meal_type):
-        return db.session.query(Meal).join(Meal.mealtime).filter(
-            Meal.date == date,
-            MealTime.meal_type == meal_type,
-            MealTime.servery == servery)
-
     for meal_type in menu:
-        meal = meal_type_query(meal_type).first()
-        if meal:
-                menu[meal_type] = map(
-                    lambda x: get_dishdetails_data(x.dishdetails),
-                    meal.dishes)
+        menu[meal_type] = get_dishes_data(date,servery,meal_type)
 
     return jsonify(menu)
 

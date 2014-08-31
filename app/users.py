@@ -14,7 +14,7 @@ def current_user():
 
 
 def find_or_create_user(username):
-    user = db.session.query(User).filter(User.username == username).first()
+    user = db.session.query(User).filter(User.username == username).scalar()
 
     if user is None:
         user = User(username=username, email=None)
