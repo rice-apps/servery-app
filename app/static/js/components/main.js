@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Main',['Header','Detail', function(Header, Detail){
+angular.module('serveryApp').factory('Main',['Header','Detail','User', 'LoginEvent', 'ServerySetEvent', function(Header, Detail, User, LoginEvent, ServerySetEvent){
 
 var f =[
     {fullname: "foo"},
@@ -16,7 +16,7 @@ var Main = React.createClass({
                 <div className="container">
 
                     <div id ="page-content">
-                        <Detail serveries={this.props.serveries} servery={this.state.servery} menu={this.state.menu} user={this.state.user}/>
+                        <this.props.activeRouteHandler serveries={this.props.serveries} servery={this.state.servery} menu={this.state.menu} user={this.state.user}/>
                     </div>
                     
                     <Footer />
@@ -39,6 +39,24 @@ var Main = React.createClass({
 
     setServeryAndMenu: function(servery,menu) {
         this.setState({servery:servery,menu:menu});
+    },
+    componentDidMount: function() {
+
+        User.current_user(function (done){
+            this.setUser(done);
+        }.bind(this));
+
+        LoginEvent.addListener(function (user){
+            ServerySetEvent.updateMenu();
+            this.setUser(user);
+        }.bind(this));
+
+        ServerySetEvent.addListener(function (servery,menu){
+            this.setServeryAndMenu(servery,menu);
+
+        }.bind(this));
+
+
     }
 
 });

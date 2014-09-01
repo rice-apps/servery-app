@@ -17,6 +17,7 @@ dispatch.factory('LoginEvent', [function() {
 
 dispatch.factory('ServerySetEvent', ['Menu',function(Menu) {
     var currentServery;
+    var currentDate = new Date();
 
     return {
         addListener: function(callback){
@@ -26,8 +27,12 @@ dispatch.factory('ServerySetEvent', ['Menu',function(Menu) {
             currentServery = servery;
             this.updateMenu();
         },
+        setDate: function(date){
+            currentDate = date;
+            this.updateMenu();
+        },
         updateMenu: function(){
-            Menu.query({'serveryId': currentServery.id},
+            Menu.query({'serveryId': currentServery.id, 'date': currentDate.toISOString()},
                 function(menu) {
                     Events.emitEvent('serveryset',[currentServery,menu]);
                 });      

@@ -1,12 +1,12 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['ServerySetEvent','Menu','MealMenu', function(ServerySetEvent, Menu, MealMenu){
+angular.module('serveryApp').factory('NoServeryDetail',['ServerySetEvent','Menu','MealMenu', function(ServerySetEvent, Menu, MealMenu){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
 
 
-var Detail = React.createClass({
+var NoServeryDetail = React.createClass({
 
     selectServery: function(servery, event) {
         ServerySetEvent.setServery(servery);
@@ -150,6 +150,6 @@ var Detail = React.createClass({
 
 });
 
-return Detail;
+return NoServeryDetail;
 
 }]);
