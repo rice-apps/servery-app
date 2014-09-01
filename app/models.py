@@ -2,6 +2,7 @@ from . import db
 
 MealType = db.Enum('lunch', 'dinner', 'breakfast', name='MealType')
 
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -99,6 +100,7 @@ class AllergyFlag(db.Model):
 
     allergyflag = db.Column(db.String, nullable=False)
 
+
 class Vote(db.Model):
     __tablename__ = "votes"
     __table_args__ = (db.UniqueConstraint(
@@ -117,6 +119,7 @@ class Vote(db.Model):
         db.Enum('up', 'down', 'none', name='vote_type'),
         nullable=False,
         default="none")
+
 
 class Alert(db.Model):
     __tablename__ = "alerts"

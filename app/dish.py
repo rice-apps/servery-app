@@ -1,7 +1,8 @@
 from . import app, db, users
-from .models import Vote, Dish, MealDish, MealTime,Meal
+from .models import Vote, Dish, MealDish, MealTime, Meal
 
 from flask import abort, jsonify
+
 
 def get_vote_status(vote_type):
     if vote_type is None:
@@ -10,7 +11,7 @@ def get_vote_status(vote_type):
         return vote_type
 
 
-def get_dish_data(dish,vote_type):
+def get_dish_data(dish, vote_type):
     return {
         "name": dish.dish_description,
         "score": dish.score,
@@ -18,14 +19,21 @@ def get_dish_data(dish,vote_type):
         "vote_type": get_vote_status(vote_type)
     }
 
-def get_dishes_data(date, servery, meal_type):
-    query = db.session.query(Dish).join(Dish.mealdishes).join(MealDish.meal).join(Meal.mealtime).outerjoin(Dish.votes).filter(
-        Meal.date == date,
-        MealTime.meal_type == meal_type,
-        MealTime.servery == servery,
-        db.or_(Vote.user == None,Vote.user == users.current_user())).add_columns(Vote.vote_type)
 
-    return [get_dish_data(dish,vote_type) for dish,vote_type in query.all()]
+def get_dishes_data(date, servery, meal_type):
+    valid_vote = db.and_(
+        Vote.user == users.current_user(),
+        Vote.dish_id == Dish.id)
+
+    query = db.session.query(Dish).join(Dish.mealdishes).join(MealDish.meal)\
+        .join(Meal.mealtime).outerjoin(Vote, valid_vote)\
+        .filter(
+            Meal.date == date,
+            MealTime.meal_type == meal_type,
+            MealTime.servery == servery
+        ).add_columns(Vote.vote_type)
+
+    return [get_dish_data(dish, vote_type) for dish, vote_type in query.all()]
 
 
 def create_or_get_vote(dish, user):
@@ -51,7 +59,7 @@ def vote(dish_id, vote_type):
         abort(404)
 
     user = users.current_user()
-    dish= db.session.query(Dish).get(dish_id)
+    dish = db.session.query(Dish).get(dish_id)
 
     if user is None:
         abort(403)

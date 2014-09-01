@@ -22,7 +22,7 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
     'api/serveries/:serveryId/menu',
     {},
     {
-            query: {method: 'GET', params: {serveryId:'serveryId',date:"no date provided"}}
+            query: {method: 'GET', params: {serveryId:'serveryId'}}
     });
 }]);
 

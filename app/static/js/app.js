@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','userApi','ngRoute'])
+angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','userApi','ngRoute','dispatch'])
   .config(function ($routeProvider) {
 
     $routeProvider

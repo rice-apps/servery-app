@@ -1,6 +1,6 @@
-from . import app, db, users
+from . import app, db
 from .util import current_rice_time, parse_to_rice_time
-from .models import Meal, MealTime, Servery, Dish, MealDish, Vote
+from .models import MealTime, Servery
 from .dish import get_dishes_data
 
 
@@ -29,8 +29,8 @@ def get_servery_hours_data(servery):
 
     result = defaultdict(dict)
 
-    for mealtime in mealtimes:
-        result[mealtime.day_of_the_week][mealtime.meal_type] = get_mealtime_data(mealtime)
+    for m in mealtimes:
+        result[m.day_of_the_week][m.meal_type] = get_mealtime_data(m)
 
     return result
 
@@ -91,12 +91,12 @@ def get_menu(servery_id):
     if request.args.get("date"):
         date = parse_to_rice_time(request.args.get("date")).date()
     else:
-        date = current_rice_time.date()
+        date = current_rice_time().date()
 
     menu = {"lunch": [], "dinner": []}
 
     for meal_type in menu:
-        menu[meal_type] = get_dishes_data(date,servery,meal_type)
+        menu[meal_type] = get_dishes_data(date, servery, meal_type)
 
     return jsonify(menu)
 
@@ -146,15 +146,13 @@ def get_next_meals():
     next_mealtimes, next_meal_date = find_next_meals(now.date(), now.time())
 
     def process_mealtime(mealtime):
-        meal = db.session.query(Meal).filter(
-            Meal.mealtime == mealtime, Meal.date == next_meal_date).first()
-
-        dishes = meal.dishes
-
         return {
             "servery": get_servery_data(mealtime.servery),
-            "dishes": map(
-                lambda x: get_dishdetails_data(x.dishdetails), dishes),
+            "dishes": get_dishes_data(
+                next_meal_date,
+                mealtime.servery,
+                mealtime.meal_type
+            ),
             "meal_type": mealtime.meal_type
         }
 
