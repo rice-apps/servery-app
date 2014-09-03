@@ -1,0 +1,16 @@
+<span>
+{{ item.name }}
+</span>
+
+<span class="pull-right foo"> 
+<a class="btn btn-default btn-xs" ng-class="item.vote_type!='up' ? 'btn-default' : 'btn-success' " ng-click="upvote(item)" >
+<i class="glyphicon glyphicon-chevron-up"></i>
+</a>
+
+<span class="score">{{item.score}}</span>
+
+<a class="btn btn-default btn-xs" ng-class="item.vote_type!='down' ? 'btn-default' : 'btn-success' " ng-click="downvote(item)" >
+<i class="glyphicon glyphicon-chevron-down"></i>
+</a>  
+
+</span>

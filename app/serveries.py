@@ -1,173 +1,164 @@
-from flask import request
-from app import app, mongo
-import bson
-import json
+from . import app, db
+from .util import current_rice_time, parse_to_rice_time
+from .models import MealTime, Servery
+from .dish import get_dishes_data
+
+
+from flask import request, jsonify
+
 from datetime import datetime
-from pytz import timezone
-from bson.objectid import ObjectId
+from collections import defaultdict
 
-rice_time = timezone("US/Central").localize(datetime.now())
 
-# TODO(X): Adjust this per task 
-#          https://app.asana.com/0/8548568858590/10871850836266
+def find_mealtime(servery, day_of_the_week, meal_type):
+        return db.session.query(MealTime).filter(
+            MealTime.servery == servery,
+            MealTime.day_of_the_week == day_of_the_week,
+            MealTime.meal_type == meal_type).scalar()
+
+
+def get_mealtime_data(mealtime):
+    return {
+        'start_time': mealtime.start_time,
+        'end_time': mealtime.end_time
+    }
+
+
+def get_servery_hours_data(servery):
+    mealtimes = db.session.query(MealTime).filter(MealTime.servery == servery)
+
+    result = defaultdict(dict)
+
+    for m in mealtimes:
+        result[m.day_of_the_week][m.meal_type] = get_mealtime_data(m)
+
+    return result
+
+
+def get_servery_data(servery):
+    return {
+        "name": servery.name,
+        "fullname": servery.fullname,
+        "id": servery.name,
+        "hours": get_servery_hours_data(servery),
+        "open_now": servery_is_currently_open(servery)
+    }
+
+
 @app.route('/api/serveries')
 def get_serveries():
-  # Query mongo db for all serveries
-  # returns servery NAME, IMAGE, and LOCATION
-  serveries = mongo.db.serveries.find({},{"name": 1, "image": 1, "location": 1,})
+    serveries = db.session.query(Servery).all()
+    serveries_data = [get_servery_data(servery) for servery in serveries]
 
-  return (bson.json_util.dumps(serveries), 
-         200, 
-         {"content-type" : "application/json"})
+    return jsonify(result=serveries_data)
+
+
+def servery_is_currently_open(servery):
+    # gets current time and day of week to see if servery is currently open
+    now = current_rice_time()
+    day_of_the_week = now.weekday()
+    time = now.time()
+
+    open_filter = db.and_(
+        MealTime.day_of_the_week == day_of_the_week,
+        MealTime.start_time <= time,
+        MealTime.end_time >= time)
+
+    currently_open = db.session.query(MealTime).filter(
+        MealTime.servery == servery,
+        open_filter)
+
+    is_open = len(currently_open.all()) == 1
+
+    return is_open
 
 
 @app.route('/api/serveries/<servery_id>')
 def get_servery(servery_id):
-  # Query for all data for specific servery
-  # gets current time and day of week to see if servery is currently open
-  curr_day = rice_time.strftime("%w")
-  curr_time = rice_time.strftime("%H%M")
+    # Query for all data for specific servery
+    # retrieves actual servery
+    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
 
-  # retrieves actual servery
-  servery = mongo.db.serveries.find_one({"_id": ObjectId(servery_id)})
+    servery_data = get_servery_data(servery)
 
-  open_now = False
-  today = servery['opening_hours']['periods'][curr_day]
-  for meal in today:
-    if curr_time > today[meal]['time_open'] and curr_time < today[meal]['time_close']:
-      open_now = True
-      break
-
-  # stores if servery is open
-  servery["opening_hours"]["open_now"] = open_now
-
-  return json.dumps(servery, default=bson.json_util.default), 200, {"content-type" : "application/json"}
+    return jsonify(servery_data)
 
 
 @app.route('/api/serveries/<servery_id>/menu')
 def get_menu(servery_id):
-  # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
-  date = request.args.get("date")
-  if not date:
-    date = "2014-03-10"
-  meal = request.args.get("meal")
-  if not meal:
-    meal = 'both'
+    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
 
-  print date, meal
+    if request.args.get("date"):
+        date = parse_to_rice_time(request.args.get("date")).date()
+    else:
+        date = current_rice_time().date()
 
-  if meal == "both":
-    query_meals = ["lunch","dinner"]
-  else:
-    query_meals = [meal]
+    menu = {"lunch": [], "dinner": []}
 
-  menu = mongo.db.menu_items.find({"date":date, "meal": {"$in": query_meals}, "servery": ObjectId(servery_id)})
+    for meal_type in menu:
+        menu[meal_type] = get_dishes_data(date, servery, meal_type)
 
-  return bson.json_util.dumps(menu), 200, {"content-type" : "application/json"}
+    return jsonify(menu)
 
 
-# @app.route('/api/serveries/<servery_id>/menu')
-# def get_menu_stub(date=strftime("%Y-%m-%d"), meal="both"):
-#   # Query for menu items of servery given date (default today) and meal (default lunch and dinner)
-#   menu = [{
-#     "_id": 123,
-#     "name": "Mac and Cheese",
-#     "tags": ["gluten","soy","milk"], 
-#     "type": "main",
-#     "meal": "lunch",
-#     "date": "2014-03-10",
-#     "servery": 311
-#   },{
-#     "_id": 124,
-#     "name": "Golden Catfish with Tartar Sauce",
-#     "tags": ["gluten","soy","milk","eggs","fish"],
-#     "meal": "main",
-#     "meal": "lunch",
-#     "date": "2014-03-10",
-#     "servery": 331
-#   },{
-#     "_id": 125,
-#     "name": "Okra Garlic Tomato Stew",
-#     "tags": ["gluten","soy"],
-#     "type": "soup",
-#     "meal": "lunch",
-#     "date": "2014-03-10",
-#     "servery": 312
-#   },{
-#     "_id": 126,
-#     "name": "Cheesecake",
-#     "tags": ["gluten","soy","milk","eggs"],
-#     "type": "dessert",
-#     "meal": "dinner",
-#     "date": "2014-03-10",
-#     "servery": 341
-#   }]
+def find_next_meals(date, time):
+    """
+    Finds the next type of meal for the given day and
+    then returns a list containing the MealTime for every servery.
+    """
+
+    day_of_the_week = date.weekday()
+
+    # I first find one MealTime that is closest in time
+    time_filter = db.and_(
+        MealTime.day_of_the_week == day_of_the_week,
+        MealTime.end_time >= time,
+        MealTime.meal_type != 'breakfast')
+
+    coming_mealtimes = db.session.query(MealTime)\
+        .filter(time_filter)\
+        .order_by(MealTime.start_time)
+
+    first_mealtime = coming_mealtimes.first()
+
+    if first_mealtime is None:
+        return find_next_meals(date + datetime.timedelta(1), datetime.time())
+
+    # Then I get all mealtimes of that day and type
+    equivalent_mealtime_filter = db.and_(
+        MealTime.day_of_the_week == first_mealtime.day_of_the_week,
+        MealTime.meal_type == first_mealtime.meal_type)
+
+    all_meals_at_time = db.session.query(MealTime).filter(
+        equivalent_mealtime_filter)
+
+    return all_meals_at_time, date
 
 
-#   return json.dumps(menu), 200, {"content-type" : "application/json"}
+@app.route('/api/serveries/next_meals')
+def get_next_meals():
+    """
+    Queries the database for the next possible meal.
+    """
 
+    now = current_rice_time()
 
+    next_mealtimes, next_meal_date = find_next_meals(now.date(), now.time())
 
-# @app.route('/api/serveries')
-# def get_serveries_stub():
-#   print "This should work"
-#   serveries = [
-#     {
-#       "name": "North Servery",
-#       "image": {
-#         "link": "./static/img/placeholder.jpeg"
-#       },
-#       "location": {
-#         "latitude":29.721883,
-#         "longitude":-95.396546
-#       },
-#     }, {
-#       "name": "West Colleges Servery",
-#       "image": {
-#         "link": "./static/img/placeholder.jpeg"
-#       },
-#       "location": {
-#         "latitude":29.721063,
-#         "longitude":-95.398481
-#       }
-#     }
-#   ]
+    def process_mealtime(mealtime):
+        return {
+            "servery": get_servery_data(mealtime.servery),
+            "dishes": get_dishes_data(
+                next_meal_date,
+                mealtime.servery,
+                mealtime.meal_type
+            ),
+            "meal_type": mealtime.meal_type
+        }
 
-#   return json.dumps(serveries), 200, {"content-type" : "application/json"}
+    result = {
+        "day": next_meal_date,
+        "meals": map(process_mealtime, next_mealtimes)
+    }
 
-# @app.route('/api/serveries/<servery_id>')
-# def get_servery_stub(servery_id):
-#   if servery_id != "123" and servery_id != "124":
-#     return not_found()
-
-#   servery = {
-#     "_id": servery_id,
-#     "opening_hours": {
-#       "open_now": False,
-#       "periods": [
-#         {
-#           "meal": "lunch",
-#           "open": {
-#             "day": 0,
-#             "time": "1130"
-#           },
-#           "close": {
-#             "day": 0,
-#             "time": "1400"
-#           }
-#         }, {
-#           "meal": "dinner",
-#           "open": {
-#             "day": 0,
-#             "time": "1700"
-#           },
-#           "close": {
-#             "day": 0,
-#             "time": "1900"
-#           }
-#         }
-#       ]
-#     }
-#   }
-
-#   return json.dumps(servery), 200, {"content-type" : "application/json"}
+    return jsonify(result)

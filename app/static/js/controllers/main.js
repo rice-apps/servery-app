@@ -1,28 +1,23 @@
-'use strict'
+'use strict';
 
 angular.module('serveryApp')
 .controller('MainCtrl', 
-  ['$scope', 'Servery', 'Menu', function ($scope, Servery, Menu) {
+  ['$scope', 'Servery', 'Menu','User', 'serveries', function ($scope, Servery, Menu,User, serveries) {
 
   /*=============================================*
    * Servery selector
    *=============================================*/
-  $scope.serveries = Servery.all(function () {
-    // Once serveries are loaded
-    if ($scope.serveries.length > 0)
-      $scope.selectServery($scope.serveries[0]);
-    else
-      console.log('No serveries found');
-  });
+  $scope.serveries = serveries;
 
   $scope.selectServery = function (servery) {
-    $scope.servery = Servery.query({'serveryId': servery._id.$oid},
+    // Load servery details
+    $scope.servery = servery;
+
+    // Load menu
+    $scope.menu = Menu.query({'serveryId': servery.id, 'date': $scope.datePicker.dt.toISOString()},
       function() {
-        // Log to console once loaded
-        console.log($scope.servery);
+        console.log($scope.menu);   // Log to console once loaded
       });
-    console.log("Selected servery: " + servery.name);
-    console.log(servery);
   };
 
   $scope.meals = ['breakfast', 'lunch', 'dinner'];
@@ -47,7 +42,9 @@ angular.module('serveryApp')
   };
 
   $scope.$watch('datePicker.dt', function () {
-    console.log('Date has changed to ' + $scope.datePicker.dt);
+
+    if ($scope.servery)
+      $scope.menu = Menu.query({'serveryId': $scope.servery.id,'date':$scope.datePicker.dt.toISOString()});
   });
 
   // Initialize the datePicker to today

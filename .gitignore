@@ -1,3 +1,5 @@
+app/foo.db
+config.py
 # Mac crap
 .DS_STORE
 
@@ -19,6 +21,7 @@ nosetests.xml
 # Translations
 *.mo
 
+venv/
 # Mr Developer
 .mr.developer.cfg
 .project

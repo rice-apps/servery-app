@@ -19,3 +19,96 @@
   line-height: 18px;
   vertical-align: middle;
 }
+
+.servery-info .panel table th {
+  text-transform: capitalize;
+}
+
+.menu h3 {
+  text-transform: capitalize;
+}
+
+.menu .not-found {
+  margin-left: 20px;
+}
+
+.menu li span.label {
+  float: right;
+  line-height: 18px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
+}
+
+
+.score {
+  display: inline-block;
+  text-align: right;
+  width: 20px;
+}
+
+.menuThing {
+
+  display: inline-block;
+  vertical-align: top;
+}
+
+
+.oneLine {
+  /*overflow: hidden;*/
+  /*white-space: nowrap;*/
+}
+
+.menuItemList {
+  height: 400px;
+}
+
+
+.rotate .menuItemList
+{
+  display: none;
+}
+
+.selected .menuItemList
+{
+  display: block !important;
+  width: 400px !important;
+}
+
+.simple .menuItemList
+{
+  width: 200px;
+}
+
+.simple .detailedMenuItem {
+  display: none;
+}
+
+
+.selected .simpleMenuItem {
+  display: none !important;
+}
+
+.selected .detailedMenuItem {
+  display: block !important;
+}
+
+.rotate .menuThing{
+
+  -webkit-transform-origin: 21px 50%;
+  -webkit-transform: rotate(90deg);
+  margin-bottom: 379px;
+  width: 441px;
+  margin-right: -399px;
+  
+}
+
+.noMarginIfRotate
+{
+  margin-bottom: 1px;
+}

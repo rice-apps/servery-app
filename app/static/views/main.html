@@ -31,7 +31,7 @@
             href="#" 
             class="dropdown-toggle" 
             data-toggle="dropdown">
-              {{ servery.name || "Select Servery" }} <b class="caret"></b>
+            {{ servery.fullname || "Select Servery" }} <b class="caret"></b>
           </a>
 
 
@@ -39,7 +39,7 @@
           <!-- List of serveries for the dropdown menu -->
           <ul class="dropdown-menu">
             <li ng-repeat="servery in serveries">
-              <a ng-click="selectServery(servery)">{{servery.name}}</a>
+              <a ng-click="selectServery(servery)">{{servery.fullname}}</a>
             </li>
           </ul>
         </li>
@@ -100,7 +100,7 @@
     <div class="thumbnail">
       <img src="static/img/serveries/placeholder_med.jpeg" alt="...">
         <div class="caption">
-          <h4>{{servery.name }}</h4>
+          <h4>{{servery.fullname }}</h4>
         </div>
     </div>
 
@@ -111,27 +111,25 @@
         Hours
         <span 
           class="label label-success"
-          ng-show="servery.opening_hours.open_now">
+          ng-show="servery.open_now">
           Currently Open
         </span>
         <span
           class="label label-default"
-          ng-hide="servery.opening_hours.open_now">
+          ng-hide="servery.open_now">
           Currently Closed
         </span>
       </div>
       <table class="table">
         <tr> <!-- Meal headers -->
           <td></td>
-          <th>Breakfast</th>
-          <th>Lunch</th>
-          <th>Dinner</th>
+          <th ng-repeat="meal in meals">{{ meal }}</th>
         </tr>
-        <tr ng-repeat="(period, hours) in servery.opening_hours.periods">
+        <tr ng-repeat="(period, hours) in servery.hours">
           <td>{{ period | dayofweek }}</td>
           <td ng-repeat="meal in meals">
-            <span ng-show="hours[meal].time_open">
-              {{ hours[meal].time_open }} - {{ hours[meal].time_close }}
+            <span ng-show="hours[meal].start_time">
+              {{ hours[meal].start_time | twelvehour}} - {{ hours[meal].end_time | twelvehour}}
             </span>
           </td>
         </tr>
@@ -141,7 +139,7 @@
 
   <!-- Right column -->
   <div class="servery col-sm-6 col-md-8">
-    <div class="thumbnail">
+    <!--<div class="thumbnail">
       <div class="caption">
         <h3>Menu</h3>
         <ol>
@@ -153,23 +151,26 @@
           <li>Item 1</li>
         </ol>
       </div>
+    </div>-->  
+    <h2>Menu</h2>
+    <div 
+      class="menu panel panel-primary" 
+      ng-repeat="meal in meals.slice(1)">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{meal}}</h3>
+      </div>
+      <div class="panel-body">
+        <ul ng-show="menu[meal]" class="list-group">
+          <li ng-repeat="item in menu[meal]" class="list-group-item">
+            <menu-item item=item></menu-item>
+          </li>
+        </ul>
+        <em class="not-found" ng-hide="menu[meal]">
+          No items found.
+        </em>
+      </div>
     </div>
   </div>
 </div>
-
-
-
-<br><br>
-<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-<div align="center">
-  <button class="btn btn-sm btn-info" ng-click="today()">Go to Today</button>
-</div>
-<br>
-<div align="center" style="display:inline-block; min-height:290px;">
-  <!-- <div class="well well-sm" ng-model="dt"> -->
-    <!-- <datepicker min="minDate" show-weeks="showWeeks"></datepicker> -->
-  <!-- </div> -->
-</div>
-
 
 
