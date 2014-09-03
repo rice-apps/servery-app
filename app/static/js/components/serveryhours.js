@@ -68,33 +68,35 @@ var ServeryHours = React.createClass({
                 }
               </div>
               <table className="table">
-                <tr> {/* Meal headers */}
-                  <td></td>
-                  {meals.map(function(meal){
-                    return (
-                        <th key={meal}>{meal}</th>);
-                  })}
-                </tr>
-                {this.props.servery.hours && Object.keys(this.props.servery.hours).map(function(period){
-                    return (
-                        <tr key={period}>
-                          <td> {dayofweek(period)} </td>
-                          {meals.map(function(meal){
-                            return (
-                                <td key={meal}>
-                                {
-                                    this.props.servery.hours[period][meal] && 
-                                    (<span>
-                                        {twelvehour(this.props.servery.hours[period][meal].start_time)} -  {twelvehour(this.props.servery.hours[period][meal].end_time)}
-                                    </span>)
-                                }
-                                    
-                                </td>
-                                );
-                          },this)}
-                        </tr>
-                        );
-                },this)}
+                <tbody>
+                    <tr> {/* Meal headers */}
+                      <td></td>
+                      {meals.map(function(meal){
+                        return (
+                            <th key={meal}>{meal}</th>);
+                      })}
+                    </tr>
+                    {this.props.servery.hours && Object.keys(this.props.servery.hours).map(function(period){
+                        return (
+                            <tr key={period}>
+                              <td> {dayofweek(period)} </td>
+                              {meals.map(function(meal){
+                                return (
+                                    <td key={meal}>
+                                    {
+                                        this.props.servery.hours[period][meal] && 
+                                        (<span>
+                                            {twelvehour(this.props.servery.hours[period][meal].start_time)} -  {twelvehour(this.props.servery.hours[period][meal].end_time)}
+                                        </span>)
+                                    }
+                                        
+                                    </td>
+                                    );
+                              },this)}
+                            </tr>
+                            );
+                    },this)}
+                </tbody>
               </table>               
             </div>);
     }

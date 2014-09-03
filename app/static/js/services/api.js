@@ -8,7 +8,7 @@ var serveryApi = angular.module('serveryApi', ['ngResource']);
 
 serveryApi.factory('Servery', ['$resource', function($resource) {
   return $resource(
-    'api/serveries/:serveryId',
+    '/api/serveries/:serveryId',
     {},
     {
       all: {method: 'GET', params: {}},
@@ -19,7 +19,7 @@ serveryApi.factory('Servery', ['$resource', function($resource) {
 
 serveryApi.factory('Menu', ['$resource', function($resource) {
   return $resource(
-    'api/serveries/:serveryId/menu',
+    '/api/serveries/:serveryId/menu',
     {},
     {
             query: {method: 'GET', params: {serveryId:'serveryId'}}
@@ -28,7 +28,7 @@ serveryApi.factory('Menu', ['$resource', function($resource) {
 
 serveryApi.factory('Vote', ['$resource', function($resource) {
   return $resource(
-    'api/dishes/:dishId/vote/:voteType',
+    '/api/dishes/:dishId/vote/:voteType',
     {},
     {
             upvote: {method: 'GET',params: {voteType:'up'}},
@@ -41,7 +41,7 @@ var userApi = angular.module('userApi', ['ngResource']);
 
 userApi.factory('User', ['$resource', function($resource) {
         return $resource(
-            'api/user',
+            '/api/user',
             {},
             {
                 current_user: {method: 'GET' },

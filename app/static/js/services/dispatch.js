@@ -15,6 +15,10 @@ dispatch.factory('LoginEvent', [function() {
     }
 }]);
 
+dispatch.factory('ServerySetEvent',[function(){
+
+}]);
+
 dispatch.factory('ServerySetEvent', ['Menu',function(Menu) {
     var currentServery;
     var currentDate = new Date();

@@ -39,7 +39,7 @@ def get_servery_data(servery):
     return {
         "name": servery.name,
         "fullname": servery.fullname,
-        "id": servery.id,
+        "id": servery.name,
         "hours": get_servery_hours_data(servery),
         "open_now": servery_is_currently_open(servery)
     }
@@ -73,20 +73,20 @@ def servery_is_currently_open(servery):
     return is_open
 
 
-@app.route('/api/serveries/<int:servery_id>')
+@app.route('/api/serveries/<servery_id>')
 def get_servery(servery_id):
     # Query for all data for specific servery
     # retrieves actual servery
-    servery = db.session.query(Servery).get(servery_id)
+    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
 
     servery_data = get_servery_data(servery)
 
     return jsonify(servery_data)
 
 
-@app.route('/api/serveries/<int:servery_id>/menu')
+@app.route('/api/serveries/<servery_id>/menu')
 def get_menu(servery_id):
-    servery = db.session.query(Servery).get(servery_id)
+    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
 
     if request.args.get("date"):
         date = parse_to_rice_time(request.args.get("date")).date()

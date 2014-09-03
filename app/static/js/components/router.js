@@ -12,9 +12,9 @@ function CreateRouter(serveries)
     return (
         <Routes location="history">
             <Route name="app" path="/" handler={Main} serveries={serveries}>
-                <Route name="detail" handler={NoServeryDetail}/>
-                <Route name="detail/:serveryName" handler={Detail}/>
-                <Redirect from="/" to="detail" />
+                <Route path="detail" handler={NoServeryDetail}/>
+                <Route name="detail" path="detail/:serveryName" handler={Detail}/>
+                <Redirect from="/" to="/detail" />
             </Route>
         </Routes>);
 }

@@ -16,7 +16,7 @@ var Main = React.createClass({
                 <div className="container">
 
                     <div id ="page-content">
-                        <this.props.activeRouteHandler serveries={this.props.serveries} servery={this.state.servery} menu={this.state.menu} user={this.state.user}/>
+                        <this.props.activeRouteHandler serveries={this.props.serveries} user={this.state.user}/>
                     </div>
                     
                     <Footer />

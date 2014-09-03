@@ -1,34 +1,61 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['ServerySetEvent','Menu','MealMenu', function(ServerySetEvent, Menu, MealMenu){
+angular.module('serveryApp').factory('Detail',['ServerySetEvent','Menu','MealMenu','Restangular', function(ServerySetEvent, Menu, MealMenu, Restangular){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
+var Router = window.ReactRouter;
 
+function getMenu(serveryId,isoDate){
+    return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate}).then(function(result){
+        result.serveryId = serveryId;
+        result.isoDate = isoDate;
+        return result;
+    });
+}
 
 var Detail = React.createClass({
 
+    loadMenu: function(serveryName,date){
+        window.ReactRouter.transitionTo('detail',{serveryName:serveryName},{date:date});
+        getMenu(serveryName,date).then(function(result){
+            console.log(result);
+            this.setState({menu:result});
+        }.bind(this))
+    },
+
+    getInitialState: function () {
+        this.loadMenu(this.props.params.serveryName,this.props.query.date);
+
+        return {
+            menu: {}
+        };
+    },
+
     selectServery: function(servery, event) {
-        ServerySetEvent.setServery(servery);
+        
+        this.loadMenu(servery.name,this.props.query.date);
     },
     openMenu: function(event) {
         event.preventDefault();
         event.stopPropagation();
-        console.log("OpenMenu");
     },
     componentDidMount: function(){
         var datedom = this.refs.datepicker.getDOMNode();
 
         $(datedom).on('changeDate',function(e){
-            ServerySetEvent.setDate(e.date);
-        });
+            this.loadMenu(this.props.params.serveryName,e.date.toISOString());
+        }.bind(this));  
     },
     render: function() {
+
+        var servery = this.props.serveries.filter(function(serv){
+            return serv.name === this.props.params.serveryName;
+        },this)[0];
         return (
         <div>
 
         {/* Main Navbar for the App */}
-        <link rel="stylesheet" href="static/css/base.css" />
 
         <nav className="navbar navbar-default" role="navigation">
           <div className="container-fluid">
@@ -58,7 +85,7 @@ var Detail = React.createClass({
                     href="#" 
                     className="dropdown-toggle" 
                     data-toggle="dropdown">
-                    { this.props.servery.fullname || "Select Servery" } <b className="caret"></b>
+                    { servery.fullname} <b className="caret"></b>
                   </a>
 
 
@@ -124,14 +151,14 @@ var Detail = React.createClass({
 
             {/* Servery Thumbnail */}
             <div className="thumbnail">
-              <img src="static/img/serveries/placeholder_med.jpeg" alt="..." />
+              <img src="/static/img/serveries/placeholder_med.jpeg" alt="..." />
                 <div className="caption">
-                  <h4>{this.props.servery.fullname }</h4>
+                  <h4>{servery.fullname} </h4>
                 </div>
             </div>
 
 
-            <ServeryHours servery={this.props.servery}/>
+            <ServeryHours servery={servery}/>
           </div>
 
           {/* Right column */}
@@ -139,7 +166,7 @@ var Detail = React.createClass({
             <h2>Menu</h2>
 
             {meals.slice(1).map(function(meal){
-                return <MealMenu key={meal} meal={meal} menuitems={this.props.menu[meal]} user={this.props.user}/>;
+                return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;
             },this)}
 
           </div>

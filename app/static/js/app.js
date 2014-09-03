@@ -1,7 +1,15 @@
 'use strict';
 
-angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','userApi','ngRoute','dispatch'])
-  .config(function ($routeProvider) {
+
+var module = angular.module('serveryApp', ['restangular','ui.bootstrap', 'serveryApi', 'serveryFilters','userApi','ngRoute','dispatch'])
+console.log(module);
+
+module.config(['RestangularProvider',function (RestangularProvider){
+    RestangularProvider.setBaseUrl('/api');
+}]);
+
+module.config(['$routeProvider',function ($routeProvider) {
+
 
     $routeProvider
       .when('/', {
@@ -52,4 +60,4 @@ angular.module('serveryApp', ['ui.bootstrap', 'serveryApi', 'serveryFilters','us
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }]);

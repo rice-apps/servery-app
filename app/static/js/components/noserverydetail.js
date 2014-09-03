@@ -9,7 +9,7 @@ var meals = ['breakfast', 'lunch', 'dinner'];
 var NoServeryDetail = React.createClass({
 
     selectServery: function(servery, event) {
-        ServerySetEvent.setServery(servery);
+        window.ReactRouter.transitionTo('detail',{serveryName:servery.name},{date:this.props.query.date});
     },
     openMenu: function(event) {
         event.preventDefault();
@@ -20,15 +20,16 @@ var NoServeryDetail = React.createClass({
         var datedom = this.refs.datepicker.getDOMNode();
 
         $(datedom).on('changeDate',function(e){
-            ServerySetEvent.setDate(e.date);
+            console.log(e);
+            window.ReactRouter.transitionTo('detail',{serveryName:this.props.params.serveryName},{date:e.toISOString()});
         });
     },
     render: function() {
+        console.log(this.props); 
         return (
         <div>
 
         {/* Main Navbar for the App */}
-        <link rel="stylesheet" href="static/css/base.css" />
 
         <nav className="navbar navbar-default" role="navigation">
           <div className="container-fluid">
@@ -58,7 +59,7 @@ var NoServeryDetail = React.createClass({
                     href="#" 
                     className="dropdown-toggle" 
                     data-toggle="dropdown">
-                    { this.props.servery.fullname || "Select Servery" } <b className="caret"></b>
+                    { "Select Servery" } <b className="caret"></b>
                   </a>
 
 
@@ -116,34 +117,7 @@ var NoServeryDetail = React.createClass({
 
 
 
-        {/* Meal Information */}
-        <div className="row">
-
-          {/* Left column */}
-          <div className="servery-info col-sm-6 col-sm-4">
-
-            {/* Servery Thumbnail */}
-            <div className="thumbnail">
-              <img src="static/img/serveries/placeholder_med.jpeg" alt="..." />
-                <div className="caption">
-                  <h4>{this.props.servery.fullname }</h4>
-                </div>
-            </div>
-
-
-            <ServeryHours servery={this.props.servery}/>
-          </div>
-
-          {/* Right column */}
-          <div className="servery col-sm-6 col-md-8">
-            <h2>Menu</h2>
-
-            {meals.slice(1).map(function(meal){
-                return <MealMenu key={meal} meal={meal} menuitems={this.props.menu[meal]} user={this.props.user}/>;
-            },this)}
-
-          </div>
-        </div>
+        
         </div>
 
 );}
