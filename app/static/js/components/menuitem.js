@@ -81,7 +81,7 @@ var MenuItem = React.createClass({
 
                 </span>
 
-                <span className="pull-right foo"> 
+                <span className="pull-right"> 
 
                 <a className={upClass} onClick={this.upvote} >
                 <i className="glyphicon glyphicon-chevron-up"></i>

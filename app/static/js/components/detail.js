@@ -58,7 +58,8 @@ var Detail = React.createClass({
         {/* Main Navbar for the App */}
 
         <nav className="navbar navbar-default" role="navigation">
-          <div className="container-fluid">
+        <div className="container">
+ 
 
             {/* Brand and toggle get grouped for better mobile display */}
             <div className="navbar-header">
@@ -121,12 +122,34 @@ var Detail = React.createClass({
                   </button>
                   
                 </div>
-              </form>             
+              </form>  
+
+              <form className="navbar-form navbar-right" role="search">
+
+              <div className="checkbox navbar-btn">
+                <label>
+                    <h5 className="inline noMargin">
+                        Vegetarian Only 
+                        ( <img src="/static/img/vegetarian.png" className="allergyIcon inline noMargin"/> ) 
+                    </h5>
+                    <input type="checkbox" className="foodFilterCheckbox"/>
+                </label>            
+            </div>   
+
+            <div className="checkbox navbar-btn">
+                <label>
+                    <h5 className="inline noMargin">
+                        Gluten-free Only 
+                        ( <img src="/static/img/glutenfree.png" className="allergyIcon inline noMargin"/> )
+                    </h5> 
+                    <input type="checkbox" className="foodFilterCheckbox"/>
+                </label>          
+            </div>   
+          </form>       
 
 
             </div>{/* /.navbar-collapse */}
-
-          </div>{/* /.container-fluid */}
+        </div>
         </nav>
 
 
@@ -151,7 +174,7 @@ var Detail = React.createClass({
 
           {/* Right column */}
           <div className="servery col-sm-6 col-md-8">
-            <h2>Menu</h2>
+            <h2> Menu </h2>
 
             {meals.slice(1).map(function(meal){
                 return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;
