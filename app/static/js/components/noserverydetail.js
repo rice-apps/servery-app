@@ -14,14 +14,13 @@ var NoServeryDetail = React.createClass({
     openMenu: function(event) {
         event.preventDefault();
         event.stopPropagation();
-        console.log("OpenMenu");
     },
     componentDidMount: function(){
         var datedom = this.refs.datepicker.getDOMNode();
 
         $(datedom).on('changeDate',function(e){
             console.log(e);
-            window.ReactRouter.transitionTo('detail',{serveryName:this.props.params.serveryName},{date:e.toISOString()});
+            window.ReactRouter.transitionTo('noserverydetail',{},{date:e.toISOString()});
         });
     },
     render: function() {

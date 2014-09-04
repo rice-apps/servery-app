@@ -9,6 +9,8 @@ from flask import request, jsonify
 from datetime import datetime
 from collections import defaultdict
 
+import time
+
 
 def find_mealtime(servery, day_of_the_week, meal_type):
         return db.session.query(MealTime).filter(

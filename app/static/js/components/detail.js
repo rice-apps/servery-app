@@ -1,40 +1,33 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['ServerySetEvent','Menu','MealMenu','Restangular', function(ServerySetEvent, Menu, MealMenu, Restangular){
+angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', function(MealMenu, MenuStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
 var Router = window.ReactRouter;
 
-function getMenu(serveryId,isoDate){
-    return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate}).then(function(result){
-        result.serveryId = serveryId;
-        result.isoDate = isoDate;
-        return result;
-    });
-}
 
 var Detail = React.createClass({
 
-    loadMenu: function(serveryName,date){
-        window.ReactRouter.transitionTo('detail',{serveryName:serveryName},{date:date});
-        getMenu(serveryName,date).then(function(result){
-            console.log(result);
-            this.setState({menu:result});
-        }.bind(this))
-    },
-
     getInitialState: function () {
-        this.loadMenu(this.props.params.serveryName,this.props.query.date);
-
         return {
             menu: {}
         };
     },
+    getServery: function() {
 
+        return this.props.serveries.filter(function(serv){
+            return serv.name === this.props.params.serveryName;
+        },this)[0];
+    },
+    getDate: function(){
+        if (this.props.query.date)
+            return new Date(this.props.query.date);
+        else
+            return new Date();
+    },
     selectServery: function(servery, event) {
-        
-        this.loadMenu(servery.name,this.props.query.date);
+        MenuStore.setServery(servery);
     },
     openMenu: function(event) {
         event.preventDefault();
@@ -43,15 +36,23 @@ var Detail = React.createClass({
     componentDidMount: function(){
         var datedom = this.refs.datepicker.getDOMNode();
 
+        $(datedom).datepicker('setDate',this.getDate());
+
         $(datedom).on('changeDate',function(e){
-            this.loadMenu(this.props.params.serveryName,e.date.toISOString());
-        }.bind(this));  
+            MenuStore.setDate(e.date);
+        }.bind(this)); 
+
+        MenuStore.addListener(this.onUpdate); 
+
+        MenuStore.initialize(this.getServery(),this.getDate());
+    },
+    onUpdate: function(){
+        console.log("OK");
+        this.setState({menu:MenuStore.getMenu()});
     },
     render: function() {
-
-        var servery = this.props.serveries.filter(function(serv){
-            return serv.name === this.props.params.serveryName;
-        },this)[0];
+        var servery = this.getServery();
+        
         return (
         <div>
 
@@ -175,6 +176,8 @@ var Detail = React.createClass({
           {/* Right column */}
           <div className="servery col-sm-6 col-md-8">
             <h2> Menu </h2>
+
+            {(!("lunch" in this.state.menu)) ? <span> Loading </span> : "no"}
 
             {meals.slice(1).map(function(meal){
                 return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;
