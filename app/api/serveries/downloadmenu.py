@@ -34,8 +34,9 @@ The dish names are as you would expect (like "Fish and Chips\n")
 Days with no dishes might have junk like "Dinner on Your Own".
 Note that these strings are Unicode strings.
 
-The allergy_flags field is a set of AllergyFlag enum values.
-See AllergyFlag for possible values.
+The allergy_flags field is a set of strings.
+The possible values are:
+vegen vegetarian gluten soy milk eggs fish shellfish peanuts treenuts
 
 Example usage would be:
     import downloadmenu
@@ -51,7 +52,6 @@ from collections import defaultdict, namedtuple
 import re
 import datetime
 import calendar
-import enum
 
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
@@ -87,10 +87,6 @@ class DishInfo(object):
 
     def __repr__(self):
         return repr((self.dish_description, self.allergy_flags))
-
-AllergyFlag = enum.Enum(
-    "AllergyFlag",
-    "vegen vegetarian gluten soy milk eggs fish shellfish peanuts treenuts")
 
 
 def in_bounding_box(box, x, y):
@@ -222,16 +218,16 @@ def process_date_string(text):
 
 def process_allergy_flag(flag):
     flag_dictionary = {
-        "V": AllergyFlag.vegen,
-        "VG": AllergyFlag.vegetarian,
-        "G": AllergyFlag.gluten,
-        "SF": AllergyFlag.soy,
-        "F": AllergyFlag.milk,
-        "M": AllergyFlag.eggs,
-        "E": AllergyFlag.fish,
-        "P": AllergyFlag.shellfish,
-        "TN": AllergyFlag.peanuts,
-        "S": AllergyFlag.treenuts
+        "V": "vegen",
+        "VG": "vegetarian",
+        "G": "gluten",
+        "SF": "soy",
+        "F": "milk",
+        "M": "eggs",
+        "E": "fish",
+        "P": "shellfish",
+        "TN": "peanuts",
+        "S": "treenuts"
     }
 
     return flag_dictionary[flag]

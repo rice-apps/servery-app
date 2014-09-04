@@ -18,8 +18,9 @@ app.config.update(
     MAIL_USERNAME='riceservery@gmail.com',
 )
 
-@app.route('/',defaults={'path': ''})
-@app.route('/detail',defaults={'path': ''})
+
+@app.route('/', defaults={'path': ''})
+@app.route('/detail', defaults={'path': ''})
 @app.route('/detail/<path:path>')
 def root(path):
     return app.send_static_file('index.html')

@@ -77,7 +77,8 @@ def servery_is_currently_open(servery):
 def get_servery(servery_id):
     # Query for all data for specific servery
     # retrieves actual servery
-    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
+    servery_filter = Servery.name == servery_id
+    servery = db.session.query(Servery).filter(servery_filter).one()
 
     servery_data = get_servery_data(servery)
 
@@ -86,7 +87,8 @@ def get_servery(servery_id):
 
 @app.route('/api/serveries/<servery_id>/menu')
 def get_menu(servery_id):
-    servery = db.session.query(Servery).filter(Servery.name == servery_id).one()
+    servery_filter = Servery.name == servery_id
+    servery = db.session.query(Servery).filter(servery_filter).one()
 
     if request.args.get("date"):
         date = parse_to_rice_time(request.args.get("date")).date()

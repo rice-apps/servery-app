@@ -20,7 +20,7 @@ app.json_encoder = CustomJSONEncoder
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RA'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///foo.db"
 
-app.config.from_object('config')
+app.config.from_pyfile('config.py', silent=True)
 
 db = SQLAlchemy(app)
 
