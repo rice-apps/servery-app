@@ -126,7 +126,7 @@ def create_dish_from_dish_info(dish_info, servery, meal):
         dish_description=dish_info.dish_description, score=0, servery=servery)
 
     for flag in dish_info.allergy_flags:
-        flagobj = AllergyFlag(dish=dish, allergyflag=flag.name)
+        flagobj = AllergyFlag(dish=dish, allergyflag=flag)
         db.session.add(flagobj)
 
     mealdish = MealDish(meal=meal, dish=dish)
