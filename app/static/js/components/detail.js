@@ -119,23 +119,11 @@ var Detail = React.createClass({
                     onClick={this.openMenu}>
                       <i className="glyphicon glyphicon-calendar"></i>
                   </button>
-                  {/* Lunch / Dinner toggle */}
-                  <div className="btn-group">
-                   <button type="button" className="btn btn-default">Lunch</button>
-
-                   <button type="button" className="btn btn-default">Dinner</button>
-                  </div> 
+                  
                 </div>
-              </form>
+              </form>             
 
-              {/* Search bar */}
 
-              <form className="navbar-form navbar-right" role="search">
-                <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Search" />
-                </div>
-                <button type="submit" className="btn btn-default">Submit</button>
-              </form>
             </div>{/* /.navbar-collapse */}
 
           </div>{/* /.container-fluid */}
