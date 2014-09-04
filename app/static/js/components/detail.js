@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', function(MealMenu, MenuStore){
+angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', 'AllergyFilter', function(MealMenu, MenuStore, AllergyFilter){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
@@ -15,7 +15,6 @@ var Detail = React.createClass({
         };
     },
     getServery: function() {
-
         return this.props.serveries.filter(function(serv){
             return serv.name === this.props.params.serveryName;
         },this)[0];
@@ -47,8 +46,10 @@ var Detail = React.createClass({
         MenuStore.initialize(this.getServery(),this.getDate());
     },
     onUpdate: function(){
-        console.log("OK");
         this.setState({menu:MenuStore.getMenu()});
+    },
+    onFilterChange: function(type,event){
+        MenuStore.setFilter(type,event.target.checked);
     },
     render: function() {
         var servery = this.getServery();
@@ -127,27 +128,10 @@ var Detail = React.createClass({
 
               <form className="navbar-form navbar-right" role="search">
 
-              <div className="checkbox navbar-btn">
-                <label>
-                    <h5 className="inline noMargin">
-                        Vegetarian Only 
-                        ( <img src="/static/img/vegetarian.png" className="allergyIcon inline noMargin"/> ) 
-                    </h5>
-                    <input type="checkbox" className="foodFilterCheckbox"/>
-                </label>            
-            </div>   
-
-            <div className="checkbox navbar-btn">
-                <label>
-                    <h5 className="inline noMargin">
-                        Gluten-free Only 
-                        ( <img src="/static/img/glutenfree.png" className="allergyIcon inline noMargin"/> )
-                    </h5> 
-                    <input type="checkbox" className="foodFilterCheckbox"/>
-                </label>          
-            </div>   
-          </form>       
-
+                <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian"/>  
+                <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free"/>  
+ 
+               </form>       
 
             </div>{/* /.navbar-collapse */}
         </div>
