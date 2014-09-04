@@ -112,3 +112,15 @@
 {
   margin-bottom: 1px;
 }
+
+.allergyIcon
+{
+    width: 2em;
+    height: 2em;
+    margin-left: 10px;
+}
+
+.menuItem
+{
+    line-height: 2em;
+}
