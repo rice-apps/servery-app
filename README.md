@@ -2,27 +2,26 @@ Servery App
 ===========
 An app that makes it simple to manage and view servery menus at Rice
 
-Web Client: AngularJS
+Web Client: AngularJS and ReactJS
+
 Server: Flask
+
 Database: Any SQL compliant database
+
+If you are interesting in contributing code or ideas, see https://github.com/rice-apps/servery-app/wiki/How-to-Help.
 
 Local Development Environment
 -----------------------------
-In order to set up a local development environment, you need to install the following:
-* [Python](http://www.python.org/getit/)
-* [Flask](http://flask.pocoo.org/docs/installation/)
-* [Sqlalchemy](http://www.sqlalchemy.org/)
-* [Flask-Sqlalchemy](http://pythonhosted.org/Flask-SQLAlchemy/)
-* [Pytz](http://pytz.sourceforge.net/)
-* [Python-dateutil](https://labix.org/python-dateutil)
-* [Flask-mail](http://pythonhosted.org/flask-mail/)
-* [Pdfminer](http://www.unixuser.org/~euske/python/pdfminer/index.html)
-* [Flask-script](http://flask-script.readthedocs.org/en/latest/)
-(Note that pdfminer can be installed with the command `pip install git+https://github.com/euske/pdfminer`)
+
+In order to set up a local development environment, you need to install the dependancies noted in requirements.txt.
+
+Setup the database using:
+
+    python setup.py
 
 Start the flask server with the following command under the src folder:
 
-    python main.py
+    python runserver.py
 
 The terminal should display a message like
 
