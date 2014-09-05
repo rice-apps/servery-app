@@ -195,7 +195,8 @@ def get_date(page):
     for text_piece in page:
         if "2014" in text_piece[1]:
             month, day, year = process_date_string(text_piece[1])
-            return datetime.date(year, month, day)
+            date = datetime.date(year, month, day)
+            return date + datetime.timedelta(-date.weekday())
 
 
 def process_date_string(text):
