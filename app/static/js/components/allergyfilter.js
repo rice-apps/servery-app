@@ -1,14 +1,15 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('AllergyFilter',['MenuStore', function(MenuStore){
+angular.module('serveryApp').factory('AllergyFilter',['MenuStore','NextMealsStore', function(MenuStore,NextMealsStore){
 
 var AllergyFilter = React.createClass({
     onFilterChange: function(type,event){
         MenuStore.setFilter(type,event.target.checked);
+        NextMealsStore.setFilter(type,event.target.checked);
     },
     render: function(){
         return (
-            <div className="checkbox navbar-btn">
+            <div className="inline checkbox navbar-btn">
                 <label>
                     <h5 className="inline noMargin">
                         {this.props.allergyName} Only 

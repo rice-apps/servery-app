@@ -66,13 +66,9 @@
 
 .menuItemList {
   height: 400px;
-}
-
-
-.rotate .menuItemList
-{
   display: none;
 }
+
 
 .selected .menuItemList
 {
@@ -80,26 +76,18 @@
   width: 400px !important;
 }
 
-.simple .menuItemList
-{
-  width: 200px;
-}
 
-.simple .detailedMenuItem {
+.detailedMenuItem {
   display: none;
 }
 
-
-.selected .simpleMenuItem {
-  display: none !important;
-}
 
 .selected .detailedMenuItem {
   display: block !important;
 }
 
-.rotate .menuThing{
 
+.unselected .menuThing{
   -webkit-transform-origin: 21px 50%;
   -webkit-transform: rotate(90deg);
   margin-bottom: 379px;
@@ -110,7 +98,7 @@
 
 .noMarginIfRotate
 {
-  margin-bottom: 1px;
+  margin-bottom: 0px;
 }
 
 .allergyIcon

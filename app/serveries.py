@@ -3,13 +3,11 @@ from .util import current_rice_time, parse_to_rice_time
 from .models import MealTime, Servery
 from .dish import get_dishes_data
 
-
 from flask import request, jsonify
 
-from datetime import datetime
 from collections import defaultdict
 
-import time
+import datetime
 
 
 def find_mealtime(servery, day_of_the_week, meal_type):
@@ -156,12 +154,12 @@ def get_next_meals():
                 next_meal_date,
                 mealtime.servery,
                 mealtime.meal_type
-            ),
-            "meal_type": mealtime.meal_type
+            )
         }
 
     result = {
         "day": next_meal_date,
+        "meal_type": next_mealtimes[0].meal_type,
         "meals": map(process_mealtime, next_mealtimes)
     }
 

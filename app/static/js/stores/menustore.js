@@ -1,10 +1,11 @@
+(function(){
 "use strict";
 
 var MenuStoreEvents = new EventEmitter();
 
-var currentServery = "north";
+var currentServery = {name:"north"}
 var currentDate = new Date();
-var currentMenu = {};
+var currentMenu = {loading:true};
 
 var filters = {};
 
@@ -18,7 +19,7 @@ dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
     }
 
     function filterMenu(menu,filterFunction){
-        if (!("lunch" in menu))
+        if (menu.loading)
             return menu;
         else
         {
@@ -33,34 +34,40 @@ dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
         addListener: function(callback){
             MenuStoreEvents.addListener('menuupdate',callback);
         },
+        removeListener: function(callback){
+            MenuStoreEvents.removeListener('menuupdate',callback);
+        },
         setServery: function(servery) {
             currentServery = servery;
             this.updateMenu();
+            this.setUrl();
         },
         setDate: function(date){
             currentDate = date;
             this.updateMenu();
+            this.setUrl();
         },
         initialize: function(servery,date){
             currentDate = date;
             currentServery = servery;
             this.updateMenu();
         },
+        setUrl: function(){
+            window.ReactRouter.transitionTo('detailWithServery',{serveryName:currentServery.name},{date:currentDate.toISOString()});
+        },
         updateMenu: function(){
-            currentMenu = {};
-            MenuStoreEvents.emitEvent('menuupdate');
+            //currentMenu = {loading:true};
+            //MenuStoreEvents.emitEvent('menuupdate');
 
             if (typeof currentServery === "undefined")
                 return;
-
-            window.ReactRouter.transitionTo('detail',{serveryName:currentServery.name},{date:currentDate.toISOString()});
-
-            var queryId = currentServery.id;
+            
+            var queryId = currentServery.name;
             var queryDate = currentDate.toISOString();
 
             getMenu(queryId,queryDate).then(function(result){
                 // Double check that this query is still valid.
-                if (queryId === currentServery.id && queryDate === currentDate.toISOString())
+                if (queryId === currentServery.name && queryDate === currentDate.toISOString())
                 {
                     currentMenu = result;
                     MenuStoreEvents.emitEvent('menuupdate');
@@ -96,3 +103,5 @@ dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
         }
     }
 }]);
+
+})();

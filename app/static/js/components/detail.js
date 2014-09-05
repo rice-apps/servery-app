@@ -45,6 +45,9 @@ var Detail = React.createClass({
 
         MenuStore.initialize(this.getServery(),this.getDate());
     },
+    componentWillUnmount: function(){
+        MenuStore.removeListener(this.onUpdate);
+    },
     onUpdate: function(){
         this.setState({menu:MenuStore.getMenu()});
     },
@@ -88,7 +91,7 @@ var Detail = React.createClass({
                     href="#" 
                     className="dropdown-toggle" 
                     data-toggle="dropdown">
-                    { servery.fullname} <b className="caret"></b>
+                    { servery ? servery.fullname : "Select Servery"} <b className="caret"></b>
                   </a>
 
 
@@ -137,9 +140,9 @@ var Detail = React.createClass({
         </div>
         </nav>
 
-
-
         {/* Meal Information */}
+        { servery && (
+        
         <div className="row">
 
           {/* Left column */}
@@ -160,15 +163,13 @@ var Detail = React.createClass({
           {/* Right column */}
           <div className="servery col-sm-6 col-md-8">
             <h2> Menu </h2>
-
-            {(!("lunch" in this.state.menu)) ? <span> Loading </span> : "no"}
-
+            
             {meals.slice(1).map(function(meal){
                 return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;
             },this)}
 
           </div>
-        </div>
+        </div>)}
         </div>
 
 );}

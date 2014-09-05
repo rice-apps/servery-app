@@ -2,8 +2,34 @@
 
 angular.module('serveryApp').factory('Header',['LoginStatus', function(LoginStatus){
 
+var ActiveState = window.ReactRouter.ActiveState;
+
+var Link = window.ReactRouter.Link;
+
+var Tab = React.createClass({
+
+  mixins: [ ActiveState ],
+
+  getInitialState: function () {
+    return { isActive: false };
+  },
+
+  updateActiveState: function () {
+    this.setState({
+      isActive: Tab.isActive(this.props.to, this.props.params, this.props.query)
+    })
+  },
+
+  render: function() {
+    var className = this.state.isActive ? 'active' : '';
+    var link = Link(this.props);
+    return <li className={className}>{link}</li>;
+  }
+
+});
 
 var Header = React.createClass({
+    
     render: function() {
         return (
 
@@ -23,6 +49,12 @@ var Header = React.createClass({
                     </div>
 
                     <div className="navbar-collapse collapse" id="navbar-main">
+
+                        <ul className="nav navbar-nav">
+                            <Tab to="quickview"> Next Meal </Tab>
+                            <Tab to="detail"> Menu Browser </Tab>
+                        </ul>
+                        
                         <LoginStatus user={this.props.user}/>
                     </div>
                 </div>

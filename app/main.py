@@ -22,6 +22,7 @@ app.config.update(
 @app.route('/', defaults={'path': ''})
 @app.route('/detail', defaults={'path': ''})
 @app.route('/detail/<path:path>')
+@app.route('/quickview', defaults={'path': ''})
 def root(path):
     return app.send_static_file('index.html')
 

@@ -1,6 +1,6 @@
 
 angular.module('serveryApp')
-.controller('RootController', ['$scope','User','Main','LoginEvent','Servery','ServerySetEvent','CreateRouter',function($scope,User,Main,LoginEvent,Servery,ServerySetEvent,CreateRouter) {
+.controller('RootController', ['Servery','CreateRouter',function(Servery,CreateRouter) {
 
     Servery.all(function(a){
 

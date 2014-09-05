@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Main',['Header','Detail','User', 'LoginEvent', 'ServerySetEvent', function(Header, Detail, User, LoginEvent, ServerySetEvent){
+angular.module('serveryApp').factory('Main',['Header','Detail','User', 'LoginEvent','MenuStore', function(Header, Detail, User, LoginEvent, MenuStore){
 
 var f =[
     {fullname: "foo"},
@@ -47,13 +47,8 @@ var Main = React.createClass({
         }.bind(this));
 
         LoginEvent.addListener(function (user){
-            ServerySetEvent.updateMenu();
+            MenuStore.updateMenu();
             this.setUser(user);
-        }.bind(this));
-
-        ServerySetEvent.addListener(function (servery,menu){
-            this.setServeryAndMenu(servery,menu);
-
         }.bind(this));
 
 

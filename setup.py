@@ -57,27 +57,6 @@ def create_fake_meals_for_current_month():
     db.session.commit()
 
 
-def create_fake_dishdetails():
-    serveries = db.session.query(Servery).all()
-
-    for servery in serveries:
-        create_fake_dishdetails_for_servery(servery)
-
-
-def create_fake_dishdetails_for_servery(servery):
-    dish_options = [
-        "Hamburger", "Steak", "Eggs", "Burrito", "Pizza", "Pasta",
-        "Froy", "Apple", "Pie", "Chicken", "Beans", "Soup", "Sandwich"]
-
-    for option in dish_options:
-        dishdetails = DishDetails(
-            dish_description=(option + " "+servery.fullname),
-            servery=servery,
-            score=0)
-
-        db.session.add(dishdetails)
-
-
 def create_fake_meal(mealtime, date):
     meal = Meal(mealtime=mealtime, date=date)
     db.session.add(meal)

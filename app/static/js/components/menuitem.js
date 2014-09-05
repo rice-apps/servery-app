@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('MenuItem',['ServerySetEvent','Vote', function(ServerySetEvent, Vote){
+angular.module('serveryApp').factory('MenuItem',['MenuStore','Vote', function(MenuStore, Vote){
 
 var MenuItem = React.createClass({
     upvote: function() {
@@ -12,7 +12,7 @@ var MenuItem = React.createClass({
         {
             Vote.upvote({dishId:this.props.item.id},function(result)
             {
-                ServerySetEvent.updateMenu();
+                MenuStore.updateMenu();
             });
         }
     },
@@ -26,7 +26,7 @@ var MenuItem = React.createClass({
         {
             Vote.downvote({dishId:this.props.item.id},function(result)
             {
-                ServerySetEvent.updateMenu();
+                MenuStore.updateMenu();
             });
         }
     },
@@ -35,7 +35,7 @@ var MenuItem = React.createClass({
 
         Vote.reset({dishId:this.props.item.id},function(result)
         {
-            ServerySetEvent.updateMenu();
+            MenuStore.updateMenu();
         });
 
     },
@@ -66,6 +66,16 @@ var MenuItem = React.createClass({
             return array.indexOf(item) !== -1;
         }
 
+        function processFoodName(name)
+        {
+            return toTitleCase(name);
+        }
+
+        function toTitleCase(str)
+        {
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+
         if (contains(this.props.item.allergyflags,"vegetarian") || contains(this.props.item.allergyflags,"vegan"))
             allergyIcons.push(<img key="vegetarian" src="/static/img/vegetarian.png" className="allergyIcon"/>);
 
@@ -75,7 +85,7 @@ var MenuItem = React.createClass({
         return (
             <div>
                 <span>
-                { this.props.item.name }
+                { processFoodName(this.props.item.name) }
 
                 { allergyIcons }
 

@@ -17,7 +17,7 @@ def get_dish_data(dish, vote_type):
         "score": dish.score,
         "id": dish.id,
         "vote_type": get_vote_status(vote_type),
-        "allergyflags": map(lambda x: x.allergyflag,dish.allergyflags)
+        "allergyflags": map(lambda x: x.allergyflag, dish.allergyflags)
     }
 
 
