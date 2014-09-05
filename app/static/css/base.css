@@ -66,7 +66,13 @@
 
 .menuItemList {
   height: 400px;
-  display: none;
+}
+
+@media (min-width: 768px) {
+
+
+.unselected .menuItemList{
+    display: none;
 }
 
 
@@ -77,14 +83,15 @@
 }
 
 
-.detailedMenuItem {
+.unselected .detailedMenuItem {
   display: none;
 }
 
 
 .selected .detailedMenuItem {
-  display: block !important;
+  display: block;
 }
+
 
 
 .unselected .menuThing{
@@ -95,6 +102,8 @@
   margin-right: -399px;
   
 }
+}
+
 
 .noMarginIfRotate
 {

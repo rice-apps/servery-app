@@ -36,7 +36,7 @@ Note that these strings are Unicode strings.
 
 The allergy_flags field is a set of strings.
 The possible values are:
-vegen vegetarian gluten soy milk eggs fish shellfish peanuts treenuts
+vegan vegetarian gluten soy milk eggs fish shellfish peanuts treenuts
 
 Example usage would be:
     import downloadmenu
@@ -218,7 +218,7 @@ def process_date_string(text):
 
 def process_allergy_flag(flag):
     flag_dictionary = {
-        "V": "vegen",
+        "V": "vegan",
         "VG": "vegetarian",
         "G": "gluten",
         "SF": "soy",

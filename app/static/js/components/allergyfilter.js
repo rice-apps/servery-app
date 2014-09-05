@@ -1,11 +1,10 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('AllergyFilter',['MenuStore','NextMealsStore', function(MenuStore,NextMealsStore){
+angular.module('serveryApp').factory('AllergyFilter',['FilterStore', function(FilterStore){
 
 var AllergyFilter = React.createClass({
     onFilterChange: function(type,event){
-        MenuStore.setFilter(type,event.target.checked);
-        NextMealsStore.setFilter(type,event.target.checked);
+        FilterStore.setFilter(type,event.target.checked);
     },
     render: function(){
         return (
@@ -15,7 +14,7 @@ var AllergyFilter = React.createClass({
                         {this.props.allergyName} Only 
                         ( <img src={"/static/img/" + this.props.allergyType +".png"} className="allergyIcon inline noMargin"/> ) 
                     </h5>
-                    <input type="checkbox" className="foodFilterCheckbox" onChange={this.onFilterChange.bind(this,this.props.allergyType)}/>
+                    <input type="checkbox" className="foodFilterCheckbox" onChange={this.onFilterChange.bind(this,this.props.allergyType)} checked={this.props.allergyValue}/>
                 </label>            
             </div> 
             );

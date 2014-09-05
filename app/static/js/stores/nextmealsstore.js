@@ -1,21 +1,16 @@
-(function(){
+dispatch.factory('NextMealsStore', ['Restangular','FilterStore',function(Restangular,FilterStore) {
 
-"use strict";
+    "use strict";
 
-var NextMealsEvents = new EventEmitter();
+    var NextMealsEvents = new EventEmitter();
 
-var nextMeals = {loading:true};
-
-var filters = {};
-
-
-
-dispatch.factory('NextMealsStore', ['Restangular',function(Restangular) {
-
+    var nextMeals = {loading:true};
 
     function getNextMeals(){
         return Restangular.all("serveries").customGET("next_meals");
     }
+
+    FilterStore.addListener(function(){NextMealsEvents.emitEvent('nextmealsupdate')});
 
     return {
         addListener: function(callback){
@@ -43,35 +38,10 @@ dispatch.factory('NextMealsStore', ['Restangular',function(Restangular) {
                 meals: nextMeals.meals.map(function(meal){ 
                     return {
                         servery: meal.servery,
-                        dishes: meal.dishes.filter(this.currentFilter)
+                        dishes: meal.dishes.filter(FilterStore.currentFilter)
                     }
-                },this)
+                })
             }
-        },
-        currentFilter: function(item){
-            var flags = item.allergyflags;
-
-            function contains(flag)
-            {
-                return flags.indexOf(flag) !== -1;
-            }
-
-            if (filters.vegetarian){
-                if (!contains("vegetarian") && !contains("vegan"))
-                    return false;
-            }
-            if (filters.glutenfree){
-                if (contains("gluten"))
-                    return false;
-            }
-
-            return true;
-        },
-        setFilter: function(type,value){
-            filters[type] = value;
-            NextMealsEvents.emitEvent('nextmealsupdate');
         }
     }
 }]);
-
-})();

@@ -1,18 +1,14 @@
-(function(){
-"use strict";
+dispatch.factory('MenuStore', ['Restangular', 'FilterStore', function(Restangular, FilterStore) {
 
-var MenuStoreEvents = new EventEmitter();
+    "use strict";
 
-var currentServery = {name:"north"}
-var currentDate = new Date();
-var currentMenu = {loading:true};
+    var MenuStoreEvents = new EventEmitter();
 
-var filters = {};
+    var currentServery = {name:"north"}
+    var currentDate = new Date();
+    var currentMenu = {loading:true};
 
-
-
-dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
-
+    FilterStore.addListener(function(){MenuStoreEvents.emitEvent('menuupdate');});
 
     function getMenu(serveryId,isoDate){
         return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate});
@@ -24,8 +20,8 @@ dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
         else
         {
             return {
-                lunch: menu.lunch.filter(filterFunction),
-                dinner: menu.dinner.filter(filterFunction)
+                lunch: menu.lunch.filter(FilterStore.currentFilter),
+                dinner: menu.dinner.filter(FilterStore.currentFilter)
             };
         }
     }
@@ -77,31 +73,6 @@ dispatch.factory('MenuStore', ['Restangular',function(Restangular) {
         },
         getMenu: function(){
             return filterMenu(currentMenu,this.currentFilter);
-        },
-        currentFilter: function(item){
-            var flags = item.allergyflags;
-
-            function contains(flag)
-            {
-                return flags.indexOf(flag) !== -1;
-            }
-
-            if (filters.vegetarian){
-                if (!contains("vegetarian") && !contains("vegan"))
-                    return false;
-            }
-            if (filters.glutenfree){
-                if (contains("gluten"))
-                    return false;
-            }
-
-            return true;
-        },
-        setFilter: function(type,value){
-            filters[type] = value;
-            MenuStoreEvents.emitEvent('menuupdate');
         }
     }
 }]);
-
-})();

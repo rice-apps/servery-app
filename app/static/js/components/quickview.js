@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('QuickView',['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular){
+angular.module('serveryApp').factory('QuickView',['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular','FilterStore',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular,FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
@@ -46,18 +46,21 @@ function capitaliseFirstLetter(string)
 
 var QuickView = React.createClass({
     getInitialState: function(){
-        return {data:{loading:true},selected:0};
+        return {data:{loading:true},selected:0,filters:FilterStore.getFilters()};
     },
     componentDidMount: function(){
         NextMealsStore.addListener(this.onUpdate);
+        FilterStore.addListener(this.onUpdate);
 
         NextMealsStore.initialize();
     },
     onUpdate: function(){
-        this.setState({data:NextMealsStore.getNextMeals()})
+        this.setState({data:NextMealsStore.getNextMeals()});
+        this.setState({filters: FilterStore.getFilters()});
     },
     componentWillUnmount: function(){
         NextMealsStore.removeListener(this.onUpdate);
+        FilterStore.removeListener(this.onUpdate);
     },
     selectItem: function(index){
         this.setState({selected:index});
@@ -97,8 +100,8 @@ var QuickView = React.createClass({
 
                       <form className="navbar-form navbar-right" role="search">
 
-                        <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian"/>  
-                        <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free"/>  
+                        <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian" allergyValue={this.state.filters.vegetarian}/>  
+                        <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free" allergyValue={this.state.filters.glutenfree}/>  
                 
                        </form>       
 

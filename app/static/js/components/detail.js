@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', 'AllergyFilter', function(MealMenu, MenuStore, AllergyFilter){
+angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', 'AllergyFilter','FilterStore', function(MealMenu, MenuStore, AllergyFilter, FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
@@ -11,7 +11,8 @@ var Detail = React.createClass({
 
     getInitialState: function () {
         return {
-            menu: {}
+            menu: {}, 
+            filters: FilterStore.getFilters()
         };
     },
     getServery: function() {
@@ -42,17 +43,16 @@ var Detail = React.createClass({
         }.bind(this)); 
 
         MenuStore.addListener(this.onUpdate); 
+        FilterStore.addListener(this.onUpdate); 
 
         MenuStore.initialize(this.getServery(),this.getDate());
     },
     componentWillUnmount: function(){
         MenuStore.removeListener(this.onUpdate);
+        FilterStore.removeListener(this.onUpdate);
     },
     onUpdate: function(){
-        this.setState({menu:MenuStore.getMenu()});
-    },
-    onFilterChange: function(type,event){
-        MenuStore.setFilter(type,event.target.checked);
+        this.setState({menu:MenuStore.getMenu(), filters: FilterStore.getFilters()});
     },
     render: function() {
         var servery = this.getServery();
@@ -131,8 +131,8 @@ var Detail = React.createClass({
 
               <form className="navbar-form navbar-right" role="search">
 
-                <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian"/>  
-                <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free"/>  
+                    <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian" allergyValue={this.state.filters.vegetarian}/>  
+                    <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free" allergyValue={this.state.filters.glutenfree}/>  
  
                </form>       
 
