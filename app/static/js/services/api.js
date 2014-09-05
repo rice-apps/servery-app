@@ -12,30 +12,9 @@ serveryApi.factory('Servery', ['$resource', function($resource) {
     {},
     {
       all: {method: 'GET', params: {}},
-      query:{method: 'GET', params: {serveryId:'serveryId'}},
-      nextMeals:{method: 'GET',params:{}, url: '/api/serveries/next_meals'}
     });
 }]);
 
-serveryApi.factory('Menu', ['$resource', function($resource) {
-  return $resource(
-    '/api/serveries/:serveryId/menu',
-    {},
-    {
-            query: {method: 'GET', params: {serveryId:'serveryId'}}
-    });
-}]);
-
-serveryApi.factory('Vote', ['$resource', function($resource) {
-  return $resource(
-    '/api/dishes/:dishId/vote/:voteType',
-    {},
-    {
-            upvote: {method: 'GET',params: {voteType:'up'}},
-            reset: {method: 'GET',params: {voteType:'none'}},
-            downvote: {method: 'GET',params: {voteType:'down'}}
-    });
-}]);
 
 var userApi = angular.module('userApi', ['ngResource']);
 
