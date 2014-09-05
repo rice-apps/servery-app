@@ -17,7 +17,7 @@ var MealMenu = React.createClass({
                     (<ul className="list-group">
                         {this.props.menuitems.map(function(item){
                         return (
-                            <li key={item.name} className="list-group-item">
+                            <li key={item.name} className="list-group-item menuItem">
                                 <MenuItem item={item} user={this.props.user} />
                             </li>);
                         },this)}

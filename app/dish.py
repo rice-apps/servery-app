@@ -16,7 +16,8 @@ def get_dish_data(dish, vote_type):
         "name": dish.dish_description,
         "score": dish.score,
         "id": dish.id,
-        "vote_type": get_vote_status(vote_type)
+        "vote_type": get_vote_status(vote_type),
+        "allergyflags": map(lambda x: x.allergyflag,dish.allergyflags)
     }
 
 
@@ -27,6 +28,7 @@ def get_dishes_data(date, servery, meal_type):
 
     query = db.session.query(Dish).join(Dish.mealdishes).join(MealDish.meal)\
         .join(Meal.mealtime).outerjoin(Vote, valid_vote)\
+        .options(db.joinedload('allergyflags'))\
         .filter(
             Meal.date == date,
             MealTime.meal_type == meal_type,

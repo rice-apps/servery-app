@@ -1,40 +1,32 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('Detail',['ServerySetEvent','Menu','MealMenu','Restangular', function(ServerySetEvent, Menu, MealMenu, Restangular){
+angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', 'AllergyFilter', function(MealMenu, MenuStore, AllergyFilter){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
 var Router = window.ReactRouter;
 
-function getMenu(serveryId,isoDate){
-    return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate}).then(function(result){
-        result.serveryId = serveryId;
-        result.isoDate = isoDate;
-        return result;
-    });
-}
 
 var Detail = React.createClass({
 
-    loadMenu: function(serveryName,date){
-        window.ReactRouter.transitionTo('detail',{serveryName:serveryName},{date:date});
-        getMenu(serveryName,date).then(function(result){
-            console.log(result);
-            this.setState({menu:result});
-        }.bind(this))
-    },
-
     getInitialState: function () {
-        this.loadMenu(this.props.params.serveryName,this.props.query.date);
-
         return {
             menu: {}
         };
     },
-
+    getServery: function() {
+        return this.props.serveries.filter(function(serv){
+            return serv.name === this.props.params.serveryName;
+        },this)[0];
+    },
+    getDate: function(){
+        if (this.props.query.date)
+            return new Date(this.props.query.date);
+        else
+            return new Date();
+    },
     selectServery: function(servery, event) {
-        
-        this.loadMenu(servery.name,this.props.query.date);
+        MenuStore.setServery(servery);
     },
     openMenu: function(event) {
         event.preventDefault();
@@ -43,22 +35,33 @@ var Detail = React.createClass({
     componentDidMount: function(){
         var datedom = this.refs.datepicker.getDOMNode();
 
+        $(datedom).datepicker('setDate',this.getDate());
+
         $(datedom).on('changeDate',function(e){
-            this.loadMenu(this.props.params.serveryName,e.date.toISOString());
-        }.bind(this));  
+            MenuStore.setDate(e.date);
+        }.bind(this)); 
+
+        MenuStore.addListener(this.onUpdate); 
+
+        MenuStore.initialize(this.getServery(),this.getDate());
+    },
+    onUpdate: function(){
+        this.setState({menu:MenuStore.getMenu()});
+    },
+    onFilterChange: function(type,event){
+        MenuStore.setFilter(type,event.target.checked);
     },
     render: function() {
-
-        var servery = this.props.serveries.filter(function(serv){
-            return serv.name === this.props.params.serveryName;
-        },this)[0];
+        var servery = this.getServery();
+        
         return (
         <div>
 
         {/* Main Navbar for the App */}
 
         <nav className="navbar navbar-default" role="navigation">
-          <div className="container-fluid">
+        <div className="container">
+ 
 
             {/* Brand and toggle get grouped for better mobile display */}
             <div className="navbar-header">
@@ -121,12 +124,17 @@ var Detail = React.createClass({
                   </button>
                   
                 </div>
-              </form>             
+              </form>  
 
+              <form className="navbar-form navbar-right" role="search">
+
+                <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian"/>  
+                <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free"/>  
+ 
+               </form>       
 
             </div>{/* /.navbar-collapse */}
-
-          </div>{/* /.container-fluid */}
+        </div>
         </nav>
 
 
@@ -151,7 +159,9 @@ var Detail = React.createClass({
 
           {/* Right column */}
           <div className="servery col-sm-6 col-md-8">
-            <h2>Menu</h2>
+            <h2> Menu </h2>
+
+            {(!("lunch" in this.state.menu)) ? <span> Loading </span> : "no"}
 
             {meals.slice(1).map(function(meal){
                 return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;

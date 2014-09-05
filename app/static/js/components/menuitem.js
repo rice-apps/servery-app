@@ -59,13 +59,29 @@ var MenuItem = React.createClass({
             'invisible': this.props.user === null || !("username" in this.props.user)
         });
 
+        var allergyIcons = [];
+
+        function contains(array,item)
+        {
+            return array.indexOf(item) !== -1;
+        }
+
+        if (contains(this.props.item.allergyflags,"vegetarian") || contains(this.props.item.allergyflags,"vegan"))
+            allergyIcons.push(<img key="vegetarian" src="/static/img/vegetarian.png" className="allergyIcon"/>);
+
+        if (!contains(this.props.item.allergyflags,"gluten"))
+            allergyIcons.push(<img key="gluten" src="/static/img/glutenfree.png" className="allergyIcon"/>);
+
         return (
             <div>
                 <span>
                 { this.props.item.name }
+
+                { allergyIcons }
+
                 </span>
 
-                <span className="pull-right foo"> 
+                <span className="pull-right"> 
 
                 <a className={upClass} onClick={this.upvote} >
                 <i className="glyphicon glyphicon-chevron-up"></i>

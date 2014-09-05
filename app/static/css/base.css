@@ -112,3 +112,33 @@
 {
   margin-bottom: 1px;
 }
+
+.allergyIcon
+{
+    width: 2em;
+    height: 2em;
+    margin-left: 10px;
+}
+
+.menuItem
+{
+    line-height: 2em;
+}
+
+.foodFilterCheckbox {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.allergyIcon.noMargin {
+    margin-left: 0px;
+}
+
+h5.noMargin {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
