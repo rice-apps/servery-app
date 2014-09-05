@@ -65,13 +65,15 @@
 }
 
 .menuItemList {
-  height: 400px;
   display: block;
   width: 400px;
 }
 
 @media (min-width: 768px) {
 
+.menuItemList{
+    height: 400px;
+}
 
 .unselected .menuItemList{
     display: none;
