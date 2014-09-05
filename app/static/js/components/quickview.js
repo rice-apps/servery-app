@@ -73,27 +73,7 @@ var QuickView = React.createClass({
         return (
             <div id="topHeader">
                 <nav className="navbar navbar-default" role="navigation">
-                <div className="container">
-                
-
-                    {/* Brand and toggle get grouped for better mobile display */}
-                    <div className="navbar-header">
-                      <button 
-                        type="button"
-                        className="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                          <span className="sr-only">Toggle navigation</span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                      </button>
-                    </div>
-
-                    {/* Selection bar */}
-
-                    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-
+            
                       <h3 className="nav navbar-text">
                         {dayOfWeekAsString(day.getDate())} {capitaliseFirstLetter(this.state.data.meal_type)}
                       </h3>
@@ -104,9 +84,6 @@ var QuickView = React.createClass({
                         <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free" allergyValue={this.state.filters.glutenfree}/>  
                 
                        </form>       
-
-                    </div>{/* /.navbar-collapse */}
-                </div>
                 </nav>
 
                 <div className="oneLine">

@@ -66,6 +66,8 @@
 
 .menuItemList {
   height: 400px;
+  display: block;
+  width: 400px;
 }
 
 @media (min-width: 768px) {
@@ -73,13 +75,6 @@
 
 .unselected .menuItemList{
     display: none;
-}
-
-
-.selected .menuItemList
-{
-  display: block !important;
-  width: 400px !important;
 }
 
 
@@ -123,7 +118,7 @@
 }
 
 .foodFilterCheckbox {
-    margin-left: 10px !important;
+    margin-left: 0px !important;
     margin-right: 10px !important;
 }
 
