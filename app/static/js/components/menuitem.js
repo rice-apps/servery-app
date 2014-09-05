@@ -1,8 +1,13 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('MenuItem',['MenuStore','Vote', function(MenuStore, Vote){
+angular.module('serveryApp').factory('MenuItem',['MenuStore','NextMealsStore','Restangular', function(MenuStore, NextMealsStore, Restangular){
+
+
 
 var MenuItem = React.createClass({
+    getQuery: function(type) {
+        return Restangular.one("dishes",this.props.item.id).one("vote",type).customPOST();
+    },
     upvote: function() {
         if (this.props.item.vote_type == "up")
         {
@@ -10,9 +15,10 @@ var MenuItem = React.createClass({
         }
         else
         {
-            Vote.upvote({dishId:this.props.item.id},function(result)
+            this.getQuery("up").then(function(result)
             {
                 MenuStore.updateMenu();
+                NextMealsStore.updateMenu();
             });
         }
     },
@@ -24,18 +30,20 @@ var MenuItem = React.createClass({
         }
         else
         {
-            Vote.downvote({dishId:this.props.item.id},function(result)
+            this.getQuery("down").then(function(result)
             {
                 MenuStore.updateMenu();
+                NextMealsStore.updateMenu();
             });
         }
     },
 
     reset: function() {
 
-        Vote.reset({dishId:this.props.item.id},function(result)
+        this.getQuery("none").then(function(result)
         {
             MenuStore.updateMenu();
+            NextMealsStore.updateMenu();
         });
 
     },

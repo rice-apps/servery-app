@@ -28,6 +28,12 @@ dispatch.factory('NextMealsStore', ['Restangular','FilterStore',function(Restang
                 NextMealsEvents.emitEvent('nextmealsupdate');
             })
         },
+        updateMenu: function(){
+            getNextMeals().then(function(result){
+                nextMeals = result;
+                NextMealsEvents.emitEvent('nextmealsupdate');
+            })
+        },
         getNextMeals: function(){
             if (nextMeals.loading)
                 return nextMeals;
