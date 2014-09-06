@@ -1,13 +1,10 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-var angular = require('angular');
-angular.module('serveryApp').factory('Main',['Header','Detail','User', 'LoginEvent','MenuStore', function(Header, Detail, User, LoginEvent, MenuStore){
 
-var f =[
-    {fullname: "foo"},
-    {fullname: "blah"}
-]
+var React = require('react');
+
+var Footer = require('./footer');
+
+module.exports = ['Header','Detail','User', 'LoginEvent','MenuStore', function(Header, Detail, User, LoginEvent, MenuStore){
 
 var Main = React.createClass({
     render: function() {
@@ -61,9 +58,5 @@ var Main = React.createClass({
 
 return Main;
 
-}]);
-
-angular.element(document).ready(function() {
-      angular.bootstrap(document, ['serveryApp']);
-});
+}];
 

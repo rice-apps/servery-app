@@ -1,12 +1,15 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('CreateRouter',['Main','Detail','QuickView', function(Main,Detail,QuickView){
 
-var Routes = window.ReactRouter.Routes;
-var Route = window.ReactRouter.Route;
-var DefaultRoute = window.ReactRouter.DefaultRoute;
-var Redirect = window.ReactRouter.Redirect;
+
+var React = require('react');
+var ReactRouter = require('react-router');
+
+module.exports = ['Main','Detail','QuickView', function(Main,Detail,QuickView){
+
+var Routes = ReactRouter.Routes;
+var Route = ReactRouter.Route;
+var DefaultRoute = ReactRouter.DefaultRoute;
+var Redirect = ReactRouter.Redirect;
 
 var Pass = React.createClass({
     render: function() {
@@ -31,6 +34,6 @@ function CreateRouter(serveries)
 
 return CreateRouter;
 
-}]);
+}]
 
 

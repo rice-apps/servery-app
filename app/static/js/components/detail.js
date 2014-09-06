@@ -1,11 +1,11 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('Detail',['MealMenu','MenuStore', 'AllergyFilter','FilterStore', function(MealMenu, MenuStore, AllergyFilter, FilterStore){
+
+var Router = require('react-router');
+var React = require('react');
+
+module.exports = ['MealMenu','MenuStore', 'AllergyFilter','FilterStore', function(MealMenu, MenuStore, AllergyFilter, FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
-
-var Router = window.ReactRouter;
 
 
 var Detail = React.createClass({
@@ -186,4 +186,4 @@ var Detail = React.createClass({
 
 return Detail;
 
-}]);
+}];

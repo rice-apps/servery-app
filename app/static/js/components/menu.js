@@ -1,9 +1,9 @@
-
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-var angular = require('angular');
-angular.module('serveryApp').factory('MealMenu',['MenuItem', 'FilterStore', function(MenuItem, FilterStore){
+
+var React = require('react');
+
+
+module.exports = ['MenuItem', 'FilterStore', function(MenuItem, FilterStore){
 
 
 var MealMenu = React.createClass({
@@ -43,4 +43,4 @@ var MealMenu = React.createClass({
 
 return MealMenu;
 
-}]);
+}];

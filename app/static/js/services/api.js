@@ -1,6 +1,7 @@
 /*global todomvc */
 'use strict';
-var angular = require('lib/angular/angular.js');
+var angular = require('angular');
+var ngResource = require('../lib/angular/angular-resource');
 /**
  * Services that provide access to the servery API.
  */
@@ -27,5 +28,4 @@ userApi.factory('User', ['$resource', function($resource) {
                 save: {method: 'POST'},
                 logout: {method : 'POST', url: '/auth/logout'}
             });
-}]);
-                    
+}]);             

@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('AllergyFilter',['FilterStore', function(FilterStore){
+var React = require('react');
+
+module.exports = ['FilterStore', function(FilterStore){
 
 var AllergyFilter = React.createClass({
     onFilterChange: function(type,event){
@@ -27,4 +27,4 @@ var AllergyFilter = React.createClass({
 
 return AllergyFilter;
 
-}]);
+}]

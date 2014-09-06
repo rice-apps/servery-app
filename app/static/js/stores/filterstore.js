@@ -1,4 +1,6 @@
-dispatch.factory('FilterStore', [function() {
+var EventEmitter = require('events').EventEmitter;
+
+module.exports =  [function() {
 
     var FilterStoreEvents = new EventEmitter();
     var filters = {};
@@ -37,8 +39,8 @@ dispatch.factory('FilterStore', [function() {
         },
         setFilter: function(type,value){
             filters[type] = value;
-            FilterStoreEvents.emitEvent('filterupdate');
+            FilterStoreEvents.emit('filterupdate');
         }
     }
     
-}]);
+}];

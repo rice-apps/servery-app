@@ -1,13 +1,15 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('Header',['LoginStatus', function(LoginStatus){
+
+var React = require('react');
+var ReactRouter = require('react-router');
+
+module.exports = ['LoginStatus', function(LoginStatus){
 
 
 
-var ActiveState = window.ReactRouter.ActiveState;
+var ActiveState = ReactRouter.ActiveState;
 
-var Link = window.ReactRouter.Link;
+var Link = ReactRouter.Link;
 
 var Tab = React.createClass({
 
@@ -74,4 +76,4 @@ var Header = React.createClass({
 
 return Header;
 
-}]);
+}];

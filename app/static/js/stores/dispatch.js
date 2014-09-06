@@ -1,19 +1,27 @@
 'use strict';
-var angular = require('lib/angular/angular.js');
-var filterstore = require('filterstore.js');
-var menustore= require('menustore.js');
-var nextmealsstore= require('nextmealsstore.js');
-var dispatch = angular.module('dispatch', []);
+var angular = require('angular');
 
-var Events = new EventEmitter();
+var dispatch = angular.module('dispatch', ['restangular'])
+.config(['RestangularProvider',function (RestangularProvider){
+     RestangularProvider.setBaseUrl('/api');
+}])
+.factory('FilterStore',require('./filterstore'))
+.factory('MenuStore'  ,require('./menustore'))
+.factory('NextMealsStore', require('./nextmealsstore'))
+
+var EventEmitter = require('events').EventEmitter;
+
 
 dispatch.factory('LoginEvent', [function() {
+
+    var Events = new EventEmitter();
+
     return {
         addListener: function(callback){
             Events.addListener('login',callback);
         },
         setUser: function(user) {
-            Events.emitEvent('login',[user]);
+            Events.emit('login',[user]);
         }
     }
 }]);

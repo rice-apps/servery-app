@@ -1,4 +1,6 @@
-dispatch.factory('NextMealsStore', ['Restangular',function(Restangular) {
+var EventEmitter = require('events').EventEmitter;
+
+module.exports = ['Restangular',function(Restangular) {
 
     "use strict";
 
@@ -19,21 +21,21 @@ dispatch.factory('NextMealsStore', ['Restangular',function(Restangular) {
         },
         initialize: function(){
             nextMeals = {loading:true};
-            NextMealsEvents.emitEvent('nextmealsupdate');
+            NextMealsEvents.emit('nextmealsupdate');
 
             getNextMeals().then(function(result){
                 nextMeals = result;
-                NextMealsEvents.emitEvent('nextmealsupdate');
+                NextMealsEvents.emit('nextmealsupdate');
             })
         },
         updateMenu: function(){
             getNextMeals().then(function(result){
                 nextMeals = result;
-                NextMealsEvents.emitEvent('nextmealsupdate');
+                NextMealsEvents.emit('nextmealsupdate');
             })
         },
         getNextMeals: function(){
             return nextMeals;
         }
     }
-}]);
+}]

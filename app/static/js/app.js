@@ -1,8 +1,16 @@
 'use strict';
 
-var angular = require('lib/angular/angular.js');
-var module = angular.module('serveryApp', ['restangular', 'serveryApi','userApi','dispatch'])
+var angular = require('angular');
 
-module.config(['RestangularProvider',function (RestangularProvider){
-    RestangularProvider.setBaseUrl('/api');
-}]);
+var serveryApi = require('./services/api');
+//var dispatch = require('./stores/dispatch');
+
+var serveryComponents = require('./components/serverycomponents');
+
+var module = angular.module('serveryApp', ['serveryApi','serveryComponents'])
+
+// module.config(['RestangularProvider',function (RestangularProvider){
+//     RestangularProvider.setBaseUrl('/api');
+// }]);
+
+module.controller('RootController',require('./controllers/root'))

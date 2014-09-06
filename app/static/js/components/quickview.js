@@ -1,12 +1,11 @@
 /** @jsx React.DOM */
 
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('QuickView',['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular','FilterStore',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular,FilterStore){
+var React = require('react');
+var Router = require('react-router');
+
+module.exports = ['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular','FilterStore',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular,FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
-
-var Router = window.ReactRouter;
 
 var QuickViewItem = React.createClass({
     render: function() {
@@ -115,4 +114,4 @@ var QuickView = React.createClass({
 
 return QuickView;
 
-}]);
+}];

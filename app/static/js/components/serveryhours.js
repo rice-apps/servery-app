@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
+
 var meals = ['breakfast', 'lunch', 'dinner'];
 
   

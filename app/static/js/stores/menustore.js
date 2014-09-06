@@ -1,4 +1,6 @@
-dispatch.factory('MenuStore', ['Restangular', function(Restangular) {
+var EventEmitter = require('events').EventEmitter;
+
+module.exports = ['Restangular', function(Restangular) {
 
     "use strict";
 
@@ -52,7 +54,7 @@ dispatch.factory('MenuStore', ['Restangular', function(Restangular) {
                 if (queryId === currentServery.name && queryDate === currentDate.toISOString())
                 {
                     currentMenu = result;
-                    MenuStoreEvents.emitEvent('menuupdate');
+                    MenuStoreEvents.emit('menuupdate');
 
                 }  
             });     
@@ -61,4 +63,4 @@ dispatch.factory('MenuStore', ['Restangular', function(Restangular) {
             return currentMenu;
         }
     }
-}]);
+}];

@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
-var angular = require('lib/angular/angular.js');
-var React= require('lib/react.js');
-angular.module('serveryApp').factory('LoginStatus',[ 'LoginEvent','User',function(LoginEvent,User){
 
+var React = require('react');
+
+module.exports = [ 'LoginEvent','User',function(LoginEvent,User){
 
 var LoginStatus = React.createClass({
     closeMenu: function(){
@@ -50,4 +50,4 @@ var LoginStatus = React.createClass({
 
 return LoginStatus;
 
-}]);
+}]

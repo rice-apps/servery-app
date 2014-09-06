@@ -1,0 +1,10 @@
+{ 
+    "browserify": {
+        "transform": [ "reactify", "browserify-shim", "uglifyify"]
+    },
+    "browserify-shim": {
+        "angular": "global:angular",
+        "react": "global:React",
+        "react-router": "global:ReactRouter"
+    }
+}
