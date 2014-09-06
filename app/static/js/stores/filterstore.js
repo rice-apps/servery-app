@@ -11,24 +11,26 @@ dispatch.factory('FilterStore', [function() {
         removeListener: function (callback){
             FilterStoreEvents.removeListener('filterupdate',callback);
         },
-        currentFilter: function(item){
-            var flags = item.allergyflags;
+        getFilterFunction: function(filters){
+            return function(item){
+                var flags = item.allergyflags;
 
-            function contains(flag)
-            {
-                return flags.indexOf(flag) !== -1;
-            }
+                function contains(flag)
+                {
+                    return flags.indexOf(flag) !== -1;
+                }
 
-            if (filters.vegetarian){
-                if (!contains("vegetarian") && !contains("vegan"))
-                    return false;
-            }
-            if (filters.glutenfree){
-                if (contains("gluten"))
-                    return false;
-            }
+                if (filters.vegetarian){
+                    if (!contains("vegetarian") && !contains("vegan"))
+                        return false;
+                }
+                if (filters.glutenfree){
+                    if (contains("gluten"))
+                        return false;
+                }
 
-            return true;
+                return true;
+            }
         },
         getFilters: function(){
             return filters;

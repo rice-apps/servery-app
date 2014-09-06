@@ -2,6 +2,8 @@
 
 angular.module('serveryApp').factory('Header',['LoginStatus', function(LoginStatus){
 
+
+
 var ActiveState = window.ReactRouter.ActiveState;
 
 var Link = window.ReactRouter.Link;
@@ -29,7 +31,13 @@ var Tab = React.createClass({
 });
 
 var Header = React.createClass({
-    
+
+    closeMenu: function(){
+        var navbar_toggle = $('#navbar-main-toggle.navbar-toggle');
+        if (navbar_toggle.is(':visible')) {
+            navbar_toggle.trigger('click');
+        }
+    },
     render: function() {
         return (
 
@@ -38,9 +46,9 @@ var Header = React.createClass({
 
 
                     <div className="navbar-header">
-                        <a href="#/" className="navbar-brand">Servery App</a>
+                        <a href="/" className="navbar-brand">Servery App</a>
 
-                        <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <button id="navbar-main-toggle" className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
@@ -51,8 +59,8 @@ var Header = React.createClass({
                     <div className="navbar-collapse collapse" id="navbar-main">
 
                         <ul className="nav navbar-nav">
-                            <Tab to="quickview"> Next Meal </Tab>
-                            <Tab to="detail"> Menu Browser </Tab>
+                            <Tab to="quickview" onClick={this.closeMenu}> Next Meal </Tab>
+                            <Tab to="detail" onClick={this.closeMenu}> Servery Information </Tab>
                         </ul>
                         
                         <LoginStatus user={this.props.user}/>

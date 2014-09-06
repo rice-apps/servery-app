@@ -1,4 +1,4 @@
-dispatch.factory('MenuStore', ['Restangular', 'FilterStore', function(Restangular, FilterStore) {
+dispatch.factory('MenuStore', ['Restangular', function(Restangular) {
 
     "use strict";
 
@@ -8,22 +8,8 @@ dispatch.factory('MenuStore', ['Restangular', 'FilterStore', function(Restangula
     var currentDate = new Date();
     var currentMenu = {loading:true};
 
-    FilterStore.addListener(function(){MenuStoreEvents.emitEvent('menuupdate');});
-
     function getMenu(serveryId,isoDate){
         return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate});
-    }
-
-    function filterMenu(menu,filterFunction){
-        if (menu.loading)
-            return menu;
-        else
-        {
-            return {
-                lunch: menu.lunch.filter(FilterStore.currentFilter),
-                dinner: menu.dinner.filter(FilterStore.currentFilter)
-            };
-        }
     }
 
     return {
@@ -72,7 +58,7 @@ dispatch.factory('MenuStore', ['Restangular', 'FilterStore', function(Restangula
             });     
         },
         getMenu: function(){
-            return filterMenu(currentMenu,this.currentFilter);
+            return currentMenu;
         }
     }
 }]);

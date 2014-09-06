@@ -1,4 +1,4 @@
-dispatch.factory('NextMealsStore', ['Restangular','FilterStore',function(Restangular,FilterStore) {
+dispatch.factory('NextMealsStore', ['Restangular',function(Restangular) {
 
     "use strict";
 
@@ -9,9 +9,7 @@ dispatch.factory('NextMealsStore', ['Restangular','FilterStore',function(Restang
     function getNextMeals(){
         return Restangular.all("serveries").customGET("next_meals");
     }
-
-    FilterStore.addListener(function(){NextMealsEvents.emitEvent('nextmealsupdate')});
-
+    
     return {
         addListener: function(callback){
             NextMealsEvents.addListener('nextmealsupdate',callback);
@@ -35,19 +33,7 @@ dispatch.factory('NextMealsStore', ['Restangular','FilterStore',function(Restang
             })
         },
         getNextMeals: function(){
-            if (nextMeals.loading)
-                return nextMeals;
-
-            return {
-                day: nextMeals.day,
-                meal_type: nextMeals.meal_type,
-                meals: nextMeals.meals.map(function(meal){ 
-                    return {
-                        servery: meal.servery,
-                        dishes: meal.dishes.filter(FilterStore.currentFilter)
-                    }
-                })
-            }
+            return nextMeals;
         }
     }
 }]);

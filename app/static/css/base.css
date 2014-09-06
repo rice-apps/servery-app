@@ -66,13 +66,21 @@
 
 .menuItemList {
   display: block;
-  width: 400px;
+}
+
+
+@media (max-width: 767px) {
+
+.menuThing{
+    width: 100%;
+}
 }
 
 @media (min-width: 768px) {
 
 .menuItemList{
     height: 400px;
+    width: 400px;
 }
 
 .unselected .menuItemList{
@@ -135,4 +143,14 @@
 h5.noMargin {
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+.checkbox label.allergyFilterLabel {
+    margin-right:20px;
+    padding-left:0px;
+    margin-left:5px;
+}
+
+.quickViewHeader{
+    margin-left: 10px;
 }

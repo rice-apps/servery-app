@@ -1,10 +1,12 @@
 /** @jsx React.DOM */
 
-angular.module('serveryApp').factory('MealMenu',['MenuItem', function(MenuItem){
+angular.module('serveryApp').factory('MealMenu',['MenuItem', 'FilterStore', function(MenuItem, FilterStore){
 
 
 var MealMenu = React.createClass({
     render: function(){
+        var filter = FilterStore.getFilterFunction(this.props.filters);
+
         return (
             <div className="menu panel panel-primary">
                 <div className="panel-heading">
@@ -16,11 +18,15 @@ var MealMenu = React.createClass({
                     
                     (<ul className="list-group">
                         {this.props.menuitems.map(function(item){
-                        return (
-                            <li key={item.name} className="list-group-item menuItem">
-                                <MenuItem item={item} user={this.props.user} />
-                            </li>);
-                        },this)}
+                            var classes = "list-group-item menuItem";
+
+                            if (!filter(item))
+                                        classes += " hidden";
+                            return (
+                                <li key={item.name} className={classes}>
+                                    <MenuItem item={item} user={this.props.user} />
+                                </li>);
+                            },this)}
                     </ul>) : 
                     (<em className="not-found">
                         No items found.

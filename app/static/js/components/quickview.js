@@ -8,6 +8,7 @@ var Router = window.ReactRouter;
 
 var QuickViewItem = React.createClass({
     render: function() {
+        var filter = FilterStore.getFilterFunction(this.props.filters);
         return (
             <span className="menuThing">
                 <div className="menu panel panel-primary noMarginIfRotate">
@@ -19,8 +20,13 @@ var QuickViewItem = React.createClass({
                     <div className="panel-body menuItemList">
                         <ul className="list-group">
                             {this.props.meal.dishes.map(function(item){
+                                var classes = "list-group-item row";
+
+                                if (!filter(item))
+                                    classes += " hidden";
+
                                 return (
-                                    <li key={item.name} className="list-group-item row">
+                                    <li key={item.name} className={classes}>
                                         <div className="detailedMenuItem">
                                             <MenuItem item={item} user={this.props.user}/>
                                         </div>
@@ -55,8 +61,10 @@ var QuickView = React.createClass({
         NextMealsStore.initialize();
     },
     onUpdate: function(){
-        this.setState({data:NextMealsStore.getNextMeals()});
-        this.setState({filters: FilterStore.getFilters()});
+        this.setState({
+            data : NextMealsStore.getNextMeals(),
+            filters: FilterStore.getFilters()
+        });
     },
     componentWillUnmount: function(){
         NextMealsStore.removeListener(this.onUpdate);
@@ -72,13 +80,13 @@ var QuickView = React.createClass({
         var day = new Date(this.state.data.day);
         return (
             <div id="topHeader">
-                <nav className="navbar navbar-default" role="navigation">
+                <nav className="navbar navbar-default">
             
-                      <h3 className="nav navbar-text">
+                      <h3 className="nav navbar-text quickViewHeader">
                         {dayOfWeekAsString(day.getDate())} {capitaliseFirstLetter(this.state.data.meal_type)}
                       </h3>
 
-                      <form className="navbar-form navbar-right" role="search">
+                      <form className="navbar-right quickViewHeader">
 
                         <AllergyFilter allergyType="vegetarian" allergyName="Vegetarian" allergyValue={this.state.filters.vegetarian}/>  
                         <AllergyFilter allergyType="glutenfree" allergyName="Gluten-free" allergyValue={this.state.filters.glutenfree}/>  
@@ -92,7 +100,7 @@ var QuickView = React.createClass({
                         return (
                             <span key={meal.servery.name} >
                                 <span className={isSelected ? "selected" : "unselected"} onMouseEnter={this.selectItem.bind(this,index)}> 
-                                    <QuickViewItem meal={meal} user={this.props.user} />
+                                    <QuickViewItem meal={meal} user={this.props.user} filters={this.state.filters}/>
                                 </span>
                             </span>)
                     },this)}

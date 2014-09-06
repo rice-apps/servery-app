@@ -64,10 +64,17 @@ var Detail = React.createClass({
 
         <nav className="navbar navbar-default" role="navigation">
         <div className="container">
+
+
  
 
             {/* Brand and toggle get grouped for better mobile display */}
             <div className="navbar-header">
+                <a 
+                  className="navbar-brand visible-xs-block">
+                  { servery ? servery.fullname : "Select Servery"}
+                </a>
+
               <button 
                 type="button"
                 className="navbar-toggle"
@@ -165,7 +172,7 @@ var Detail = React.createClass({
             <h2> Menu </h2>
             
             {meals.slice(1).map(function(meal){
-                return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user}/>;
+                return <MealMenu key={meal} meal={meal} menuitems={this.state.menu[meal]} user={this.props.user} filters={this.state.filters}/>;
             },this)}
 
           </div>
