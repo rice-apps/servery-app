@@ -53,6 +53,10 @@ class MealTime(db.Model):
 
 class Meal(db.Model):
     __tablename__ = 'meals'
+    __table_args__ = (db.UniqueConstraint(
+        'date',
+        'mealtime_id',
+        name="EveryMealShouldBeUnique"),)
 
     id = db.Column(db.Integer, primary_key=True)
 

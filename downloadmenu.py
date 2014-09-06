@@ -64,7 +64,7 @@ from pdfminer.layout import LAParams, LTTextBox
 from contextlib import closing
 
 
-base_address = r"http://dining.rice.edu/uploadedFiles/Dining/Residential_Dining/Dining_Menus/"  # NOQA
+dining_address = r"http://dining.rice.edu/uploadedFiles/Dining/Residential_Dining/Dining_Menus/"  # NOQA
 
 servery_names = {
     "seibel": "East_Menu(1).pdf",
@@ -115,9 +115,9 @@ numeral_date_regex = re.compile(r'(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)')
 word_date_regex = re.compile(r'(?P<month>\w+) (?P<day>\d+), (?P<year>\d+)')
 
 
-def process_servery_menu(servery):
+def process_servery_menu(servery, base_address=dining_address):
     """Obtains the menu for a servery."""
-    file_handle = download_servery_menu(servery)
+    file_handle = download_servery_menu(servery, base_address)
 
     pages = list(process_pdf(file_handle))
 
@@ -127,7 +127,7 @@ def process_servery_menu(servery):
         return process_multi_page_menu(pages)
 
 
-def download_servery_menu(servery):
+def download_servery_menu(servery, base_address):
     """
     Downloads a servery pdf and returns a StringIO file descriptor of the data.
     Note that the StringIO does not need to be closed like a regular file.

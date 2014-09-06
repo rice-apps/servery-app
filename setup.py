@@ -3,13 +3,12 @@ Run this file once to setup your database.
 """
 from app import db
 from app.models import (Servery, MealTime, Meal, MealDish, User,
-                        Dish, AllergyFlag)
-from app.api.serveries.downloadmenu import process_servery_menu
+                        Dish)
 from app.util import current_rice_time
 
 import random
 
-from datetime import time, timedelta
+from datetime import time
 import datetime
 import calendar
 
@@ -17,7 +16,6 @@ import calendar
 def setup_all():
     setup_db()
     setup_serveries()
-    load_meals()
 
     db.session.commit()
 
@@ -71,45 +69,6 @@ def create_fake_dishes(meal, number_of_dishes):
     for dish in random.sample(dish_options, number_of_dishes):
         mealdish = MealDish(dish=dish, meal=meal)
         db.session.add(mealdish)
-
-
-def load_meals():
-
-    for servery in db.session.query(Servery):
-        print servery.name
-        menu = process_servery_menu(servery.name)
-        base_date = menu['base_date']
-
-        for meal_type in ['lunch', 'dinner']:
-            for day_of_the_week in menu[meal_type]:
-                actual_date = base_date + timedelta(days=day_of_the_week)
-
-                print meal_type, day_of_the_week, servery.name
-                mealtime = db.session.query(MealTime).filter(
-                    MealTime.meal_type == meal_type,
-                    MealTime.servery == servery,
-                    MealTime.day_of_the_week == day_of_the_week).scalar()
-
-                if mealtime is not None:
-
-                    meal = Meal(date=actual_date, mealtime=mealtime)
-                    db.session.add(meal)
-
-                    for dish_info in menu[meal_type][day_of_the_week]:
-                        create_dish_from_dish_info(dish_info, servery, meal)
-    db.session.commit()
-
-
-def create_dish_from_dish_info(dish_info, servery, meal):
-    dish = Dish(
-        dish_description=dish_info.dish_description, score=0, servery=servery)
-
-    for flag in dish_info.allergy_flags:
-        flagobj = AllergyFlag(dish=dish, allergyflag=flag)
-        db.session.add(flagobj)
-
-    mealdish = MealDish(meal=meal, dish=dish)
-    db.session.add(mealdish)
 
 
 def setup_serveries():
