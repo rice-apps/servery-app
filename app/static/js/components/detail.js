@@ -157,7 +157,7 @@ var Detail = React.createClass({
 
             {/* Servery Thumbnail */}
             <div className="thumbnail">
-              <img src="/static/img/serveries/placeholder_med.jpeg" alt="..." />
+              <img src={"/static/img/serveries/"+servery.name+".jpg"} alt="..." />
                 <div className="caption">
                   <h4>{servery.fullname} </h4>
                 </div>
