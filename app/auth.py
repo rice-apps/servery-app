@@ -8,7 +8,7 @@ from contextlib import closing
 CAS_SERVER = "https://netid.rice.edu/cas/"
 
 
-@app.route('/auth/login')
+@app.route('/api/auth/login')
 def login():
     """
     Logs the user in by redirecting them to the CAS login page.
@@ -21,7 +21,7 @@ def login():
     return redirect(cas_url)
 
 
-@app.route('/auth/logout', methods=["POST"])
+@app.route('/api/auth/logout', methods=["POST"])
 def logout():
     """
     Logs the user out.
@@ -30,7 +30,7 @@ def logout():
     return "Success"
 
 
-@app.route('/auth/check_ticket')
+@app.route('/api/auth/check_ticket')
 def check_ticket():
     """
     Checks the ticket and logs the user in if valid.

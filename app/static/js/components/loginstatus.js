@@ -24,7 +24,7 @@ var LoginStatus = React.createClass({
         else
         {
             links = [
-                <li key="login"><a href="/auth/login">Login</a></li>
+                <li key="login"><a href="/api/auth/login">Login</a></li>
             ]
         }
 
