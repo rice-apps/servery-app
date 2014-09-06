@@ -1,6 +1,6 @@
 /*global todomvc */
 'use strict';
-
+var angular = require('lib/angular/angular.js');
 /**
  * Services that provide access to the servery API.
  */

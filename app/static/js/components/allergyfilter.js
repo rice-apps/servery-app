@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var angular = require('lib/angular/angular.js');
+var React= require('lib/react.js');
 angular.module('serveryApp').factory('AllergyFilter',['FilterStore', function(FilterStore){
 
 var AllergyFilter = React.createClass({

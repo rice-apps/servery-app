@@ -1,5 +1,8 @@
-/** @jsx React.DOM */
 
+/** @jsx React.DOM */
+var angular = require('lib/angular/angular.js');
+var React= require('lib/react.js');
+var angular = require('angular');
 angular.module('serveryApp').factory('MealMenu',['MenuItem', 'FilterStore', function(MenuItem, FilterStore){
 
 

@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var angular = require('lib/angular/angular.js');
+var React= require('lib/react.js');
 angular.module('serveryApp').factory('QuickView',['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular','FilterStore',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular,FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
