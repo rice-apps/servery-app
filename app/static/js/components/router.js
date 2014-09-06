@@ -24,6 +24,7 @@ function CreateRouter(serveries)
                     <Route path=":serveryName" name="detailWithServery" handler={Detail} />
                 </Route>
                 <Route name="quickview" handler={QuickView}/>
+                <Redirect to="quickview" />
             </Route>
         </Routes>);
 }
