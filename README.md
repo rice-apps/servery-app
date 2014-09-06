@@ -10,6 +10,8 @@ If you are interesting in contributing code or ideas, see https://github.com/ric
 
 If you want to see what we are currently working on, see our trello page at https://trello.com/b/5cVHeknd/serveryappboard.
 
+A development version of the application is running at http://104.131.37.232/.
+
 Local Development Environment
 -----------------------------
 
