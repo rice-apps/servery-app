@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
-   width="133.47983"
-   height="133.47983"
+   width="27.999895"
+   height="27.999895"
    id="svg2"
    xml:space="preserve"><metadata
      id="metadata8"><rdf:RDF><cc:Work
@@ -5960,8 +5960,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(3.8360617,88.225029,88.225029,-3.8360617,602.0127,64.757812)"
        spreadMethod="pad" /></defs><g
-     transform="matrix(1.25,0,0,-1.25,-677.26454,568.32926)"
+     transform="matrix(1.25,0,0,-1.25,-484.40397,450.59631)"
      id="g10"><g
+       transform="matrix(0.20976874,0,0,0.20976874,273.86803,265.10288)"
        id="g14920"><g
          id="g14865"><g
            transform="translate(3.8496113,5.0774274)"
@@ -6003,6 +6004,7 @@
            d="m 555.58732,434.30343 74.01886,-69.55989"
            id="path13046"
            style="fill:none;stroke:#000000;stroke-width:5.5999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></g></g><g
+       transform="matrix(0.20976874,0,0,0.20976874,277.89533,268.09356)"
        id="g14844"><g
          transform="translate(0.06060736,0.18877855)"
          id="g12232"><g
