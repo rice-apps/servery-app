@@ -1,4 +1,4 @@
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('event-emitter');
 
 module.exports = ['Restangular', function(Restangular) {
 
@@ -54,7 +54,7 @@ module.exports = ['Restangular', function(Restangular) {
                 if (queryId === currentServery.name && queryDate === currentDate.toISOString())
                 {
                     currentMenu = result;
-                    MenuStoreEvents.emit('menuupdate');
+                    MenuStoreEvents.emitEvent('menuupdate');
 
                 }  
             });     

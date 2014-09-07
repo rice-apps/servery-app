@@ -1,4 +1,4 @@
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('event-emitter');
 
 module.exports = ['Restangular',function(Restangular) {
 
@@ -21,17 +21,17 @@ module.exports = ['Restangular',function(Restangular) {
         },
         initialize: function(){
             nextMeals = {loading:true};
-            NextMealsEvents.emit('nextmealsupdate');
+            NextMealsEvents.emitEvent('nextmealsupdate');
 
             getNextMeals().then(function(result){
                 nextMeals = result;
-                NextMealsEvents.emit('nextmealsupdate');
+                NextMealsEvents.emitEvent('nextmealsupdate');
             })
         },
         updateMenu: function(){
             getNextMeals().then(function(result){
                 nextMeals = result;
-                NextMealsEvents.emit('nextmealsupdate');
+                NextMealsEvents.emitEvent('nextmealsupdate');
             })
         },
         getNextMeals: function(){

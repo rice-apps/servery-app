@@ -9,7 +9,7 @@ var dispatch = angular.module('dispatch', ['restangular'])
 .factory('MenuStore'  ,require('./menustore'))
 .factory('NextMealsStore', require('./nextmealsstore'))
 
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('event-emitter');
 
 
 dispatch.factory('LoginEvent', [function() {
@@ -21,7 +21,7 @@ dispatch.factory('LoginEvent', [function() {
             Events.addListener('login',callback);
         },
         setUser: function(user) {
-            Events.emit('login',[user]);
+            Events.emitEvent('login',[user]);
         }
     }
 }]);

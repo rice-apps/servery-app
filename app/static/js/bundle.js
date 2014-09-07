@@ -2,7 +2,7 @@
 (function (global){
 "use strict";var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,serveryApi=require("./services/api"),serveryComponents=require("./components/serverycomponents"),module=angular.module("serveryApp",["serveryApi","serveryComponents"]);module.controller("RootController",require("./controllers/root"));
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/serverycomponents":12,"./controllers/root":14,"./services/api":17}],2:[function(require,module,exports){
+},{"./components/serverycomponents":12,"./controllers/root":14,"./services/api":18}],2:[function(require,module,exports){
 (function (global){
 var React="undefined"!=typeof window?window.React:"undefined"!=typeof global?global.React:null;module.exports=["FilterStore",function(e){var a=React.createClass({displayName:"AllergyFilter",onFilterChange:function(a,l){e.setFilter(a,l.target.checked)},render:function(){return React.DOM.div({className:"inline checkbox"},React.DOM.label({className:"allergyFilterLabel"},React.DOM.h5({className:"inline noMargin"},this.props.allergyName," Only  ",React.DOM.img({src:"/static/img/"+this.props.allergyType+".png",className:"allergyIcon inline noMargin"})," "),React.DOM.input({type:"checkbox",className:"foodFilterCheckbox",onChange:this.onFilterChange.bind(this,this.props.allergyType),checked:this.props.allergyValue})))}});return a}];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -46,7 +46,7 @@ var React="undefined"!=typeof window?window.React:"undefined"!=typeof global?glo
 (function (global){
 var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null;require("../stores/dispatch"),require("../services/api");var serveryComponents=angular.module("serveryComponents",["dispatch","userApi"]).factory("CreateRouter",require("./router")).factory("Main",require("./main")).factory("Header",require("./header")).factory("LoginStatus",require("./loginstatus")).factory("Detail",require("./detail")).factory("MealMenu",require("./menu")).factory("MenuItem",require("./menuitem")).factory("AllergyFilter",require("./allergyfilter")).factory("QuickView",require("./quickview"));
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../services/api":17,"../stores/dispatch":18,"./allergyfilter":2,"./detail":3,"./header":5,"./loginstatus":6,"./main":7,"./menu":8,"./menuitem":9,"./quickview":10,"./router":11}],13:[function(require,module,exports){
+},{"../services/api":18,"../stores/dispatch":19,"./allergyfilter":2,"./detail":3,"./header":5,"./loginstatus":6,"./main":7,"./menu":8,"./menuitem":9,"./quickview":10,"./router":11}],13:[function(require,module,exports){
 (function (global){
 function dayofweek(e){var a;switch(e){case"0":a="Mon";break;case"1":a="Tue";break;case"2":a="Wed";break;case"3":a="Thu";break;case"4":a="Fri";break;case"5":a="Sat";break;case"6":a="Sun"}return a}function twelvehour(e){if(void 0==e)return"";var a=parseInt(e.substr(0,2)),t=e.substr(3,2);return a>12?(a-=12,a.toString()+":"+t+" PM"):finalString=a.toString()+":"+t+" AM"}var React="undefined"!=typeof window?window.React:"undefined"!=typeof global?global.React:null,meals=["breakfast","lunch","dinner"];module.exports=React.createClass({displayName:"exports",render:function(){return React.DOM.div({className:"panel panel-default"},React.DOM.div({className:"panel-heading"},"Hours",this.props.servery.open_now?React.DOM.span({className:"label label-success"},"Currently Open"):React.DOM.span({className:"label label-default"},"Currently Closed")),React.DOM.table({className:"table"},React.DOM.tbody(null,React.DOM.tr(null," ",React.DOM.td(null),meals.map(function(e){return React.DOM.th({key:e},e)})),this.props.servery.hours&&Object.keys(this.props.servery.hours).map(function(e){return React.DOM.tr({key:e},React.DOM.td(null," ",dayofweek(e)," "),meals.map(function(a){return React.DOM.td({key:a},this.props.servery.hours[e][a]&&React.DOM.span(null,twelvehour(this.props.servery.hours[e][a].start_time)," -  ",twelvehour(this.props.servery.hours[e][a].end_time)))},this))},this))))}});
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -55,326 +55,27 @@ function dayofweek(e){var a;switch(e){case"0":a="Mon";break;case"1":a="Tue";brea
 var React="undefined"!=typeof window?window.React:"undefined"!=typeof global?global.React:null;module.exports=["Servery","CreateRouter",function(e,n){e.all(function(e){React.renderComponent(n(e.result),document.body)})}];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],15:[function(require,module,exports){
-!function(r,e,t){"use strict";function n(r){return null!=r&&""!==r&&"hasOwnProperty"!==r&&s.test("."+r)}function a(r,e){if(!n(e))throw i("badmember",'Dotted member path "@{0}" is invalid.',e);for(var a=e.split("."),o=0,s=a.length;s>o&&r!==t;o++){var c=a[o];r=null!==r?r[c]:t}return r}function o(r,t){t=t||{},e.forEach(t,function(r,e){delete t[e]});for(var n in r)!r.hasOwnProperty(n)||"$"===n.charAt(0)&&"$"===n.charAt(1)||(t[n]=r[n]);return t}var i=e.$$minErr("$resource"),s=/^(\.[a-zA-Z_$][0-9a-zA-Z_$]*)+$/;e.module("ngResource",["ng"]).provider("$resource",function(){var r=this;this.defaults={stripTrailingSlashes:!0,actions:{get:{method:"GET"},save:{method:"POST"},query:{method:"GET",isArray:!0},remove:{method:"DELETE"},"delete":{method:"DELETE"}}},this.$get=["$http","$q",function(n,s){function c(r){return u(r,!0).replace(/%26/gi,"&").replace(/%3D/gi,"=").replace(/%2B/gi,"+")}function u(r,e){return encodeURIComponent(r).replace(/%40/gi,"@").replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,e?"%20":"+")}function p(e,t){this.template=e,this.defaults=d({},r.defaults,t),this.urlParams={}}function l(c,u,$,v){function w(r,e){var t={};return e=d({},u,e),h(e,function(e,n){g(e)&&(e=e()),t[n]=e&&e.charAt&&"@"==e.charAt(0)?a(r,e.substr(1)):e}),t}function y(r){return r.resource}function E(r){o(r||{},this)}var A=new p(c,v);return $=d({},r.defaults.actions,$),E.prototype.toJSON=function(){var r=d({},this);return delete r.$promise,delete r.$resolved,r},h($,function(r,a){var c=/^(POST|PUT|PATCH)$/i.test(r.method);E[a]=function(a,u,p,l){var $,v,b,P={};switch(arguments.length){case 4:b=l,v=p;case 3:case 2:if(!g(u)){P=a,$=u,v=p;break}if(g(a)){v=a,b=u;break}v=u,b=p;case 1:g(a)?v=a:c?$=a:P=a;break;case 0:break;default:throw i("badargs","Expected up to 4 arguments [params, data, success, error], got {0} arguments",arguments.length)}var T=this instanceof E,O=T?$:r.isArray?[]:new E($),x={},R=r.interceptor&&r.interceptor.response||y,D=r.interceptor&&r.interceptor.responseError||t;h(r,function(r,e){"params"!=e&&"isArray"!=e&&"interceptor"!=e&&(x[e]=m(r))}),c&&(x.data=$),A.setUrlParams(x,d({},w($,r.params||{}),P),r.url);var S=n(x).then(function(t){var n=t.data,a=O.$promise;if(n){if(e.isArray(n)!==!!r.isArray)throw i("badcfg","Error in resource configuration. Expected response to contain an {0} but got an {1}",r.isArray?"array":"object",e.isArray(n)?"array":"object");r.isArray?(O.length=0,h(n,function(r){O.push("object"==typeof r?new E(r):r)})):(o(n,O),O.$promise=a)}return O.$resolved=!0,t.resource=O,t},function(r){return O.$resolved=!0,(b||f)(r),s.reject(r)});return S=S.then(function(r){var e=R(r);return(v||f)(e,r.headers),e},D),T?S:(O.$promise=S,O.$resolved=!1,O)},E.prototype["$"+a]=function(r,e,t){g(r)&&(t=e,e=r,r={});var n=E[a].call(this,r,this,e,t);return n.$promise||n}}),E.bind=function(r){return l(c,d({},u,r),$)},E}var f=e.noop,h=e.forEach,d=e.extend,m=e.copy,g=e.isFunction;return p.prototype={setUrlParams:function(r,t,n){var a,o,s=this,u=n||s.template,p=s.urlParams={};h(u.split(/\W/),function(r){if("hasOwnProperty"===r)throw i("badname","hasOwnProperty is not a valid parameter name.");!new RegExp("^\\d+$").test(r)&&r&&new RegExp("(^|[^\\\\]):"+r+"(\\W|$)").test(u)&&(p[r]=!0)}),u=u.replace(/\\:/g,":"),t=t||{},h(s.urlParams,function(r,n){a=t.hasOwnProperty(n)?t[n]:s.defaults[n],e.isDefined(a)&&null!==a?(o=c(a),u=u.replace(new RegExp(":"+n+"(\\W|$)","g"),function(r,e){return o+e})):u=u.replace(new RegExp("(/?):"+n+"(\\W|$)","g"),function(r,e,t){return"/"==t.charAt(0)?t:e+t})}),s.defaults.stripTrailingSlashes&&(u=u.replace(/\/+$/,"")||"/"),u=u.replace(/\/\.(?=\w+($|\?))/,"."),r.url=u.replace(/\/\\\./,"/."),h(t,function(e,t){s.urlParams[t]||(r.params=r.params||{},r.params[t]=e)})}},l}]})}(window,window.angular);
+(function (global){
+__browserify_shim_require__=require,function(e,t,n,i,r){!function(e){"use strict";function t(){}function n(e,t){if(s)return t.indexOf(e);for(var n=t.length;n--;)if(t[n]===e)return n;return-1}var r=t.prototype,s=Array.prototype.indexOf?!0:!1;r.getListeners=function(e){var t=this._events||(this._events={});return t[e]||(t[e]=[])},r.addListener=function(e,t){var i=this.getListeners(e);return-1===n(t,i)&&i.push(t),this},r.on=r.addListener,r.removeListener=function(e,t){var i=this.getListeners(e),r=n(t,i);return-1!==r&&(i.splice(r,1),0===i.length&&(this._events[e]=null)),this},r.off=r.removeListener,r.addListeners=function(e,t){return this.manipulateListeners(!1,e,t)},r.removeListeners=function(e,t){return this.manipulateListeners(!0,e,t)},r.manipulateListeners=function(e,t,n){var i,r,s=e?this.removeListener:this.addListener,o=e?this.removeListeners:this.addListeners;if("object"==typeof t)for(i in t)t.hasOwnProperty(i)&&(r=t[i])&&("function"==typeof r?s.call(this,i,r):o.call(this,i,r));else for(i=n.length;i--;)s.call(this,t,n[i]);return this},r.removeEvent=function(e){return e?this._events[e]=null:this._events=null,this},r.emitEvent=function(e,t){for(var n,i=this.getListeners(e),r=i.length;r--;)n=t?i[r].apply(null,t):i[r](),n===!0&&this.removeListener(e,i[r]);return this},r.trigger=r.emitEvent,"function"==typeof i&&i.amd?i(function(){return t}):e.EventEmitter=t}(this),r("undefined"!=typeof EventEmitter?EventEmitter:window.EventEmitter)}.call(global,void 0,void 0,void 0,void 0,function(e){module.exports=e});
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],16:[function(require,module,exports){
+!function(r,e,t){"use strict";function n(r){return null!=r&&""!==r&&"hasOwnProperty"!==r&&s.test("."+r)}function a(r,e){if(!n(e))throw i("badmember",'Dotted member path "@{0}" is invalid.',e);for(var a=e.split("."),o=0,s=a.length;s>o&&r!==t;o++){var c=a[o];r=null!==r?r[c]:t}return r}function o(r,t){t=t||{},e.forEach(t,function(r,e){delete t[e]});for(var n in r)!r.hasOwnProperty(n)||"$"===n.charAt(0)&&"$"===n.charAt(1)||(t[n]=r[n]);return t}var i=e.$$minErr("$resource"),s=/^(\.[a-zA-Z_$][0-9a-zA-Z_$]*)+$/;e.module("ngResource",["ng"]).provider("$resource",function(){var r=this;this.defaults={stripTrailingSlashes:!0,actions:{get:{method:"GET"},save:{method:"POST"},query:{method:"GET",isArray:!0},remove:{method:"DELETE"},"delete":{method:"DELETE"}}},this.$get=["$http","$q",function(n,s){function c(r){return u(r,!0).replace(/%26/gi,"&").replace(/%3D/gi,"=").replace(/%2B/gi,"+")}function u(r,e){return encodeURIComponent(r).replace(/%40/gi,"@").replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,e?"%20":"+")}function p(e,t){this.template=e,this.defaults=d({},r.defaults,t),this.urlParams={}}function l(c,u,$,v){function w(r,e){var t={};return e=d({},u,e),h(e,function(e,n){g(e)&&(e=e()),t[n]=e&&e.charAt&&"@"==e.charAt(0)?a(r,e.substr(1)):e}),t}function y(r){return r.resource}function E(r){o(r||{},this)}var A=new p(c,v);return $=d({},r.defaults.actions,$),E.prototype.toJSON=function(){var r=d({},this);return delete r.$promise,delete r.$resolved,r},h($,function(r,a){var c=/^(POST|PUT|PATCH)$/i.test(r.method);E[a]=function(a,u,p,l){var $,v,b,P={};switch(arguments.length){case 4:b=l,v=p;case 3:case 2:if(!g(u)){P=a,$=u,v=p;break}if(g(a)){v=a,b=u;break}v=u,b=p;case 1:g(a)?v=a:c?$=a:P=a;break;case 0:break;default:throw i("badargs","Expected up to 4 arguments [params, data, success, error], got {0} arguments",arguments.length)}var T=this instanceof E,O=T?$:r.isArray?[]:new E($),x={},R=r.interceptor&&r.interceptor.response||y,D=r.interceptor&&r.interceptor.responseError||t;h(r,function(r,e){"params"!=e&&"isArray"!=e&&"interceptor"!=e&&(x[e]=m(r))}),c&&(x.data=$),A.setUrlParams(x,d({},w($,r.params||{}),P),r.url);var S=n(x).then(function(t){var n=t.data,a=O.$promise;if(n){if(e.isArray(n)!==!!r.isArray)throw i("badcfg","Error in resource configuration. Expected response to contain an {0} but got an {1}",r.isArray?"array":"object",e.isArray(n)?"array":"object");r.isArray?(O.length=0,h(n,function(r){O.push("object"==typeof r?new E(r):r)})):(o(n,O),O.$promise=a)}return O.$resolved=!0,t.resource=O,t},function(r){return O.$resolved=!0,(b||f)(r),s.reject(r)});return S=S.then(function(r){var e=R(r);return(v||f)(e,r.headers),e},D),T?S:(O.$promise=S,O.$resolved=!1,O)},E.prototype["$"+a]=function(r,e,t){g(r)&&(t=e,e=r,r={});var n=E[a].call(this,r,this,e,t);return n.$promise||n}}),E.bind=function(r){return l(c,d({},u,r),$)},E}var f=e.noop,h=e.forEach,d=e.extend,m=e.copy,g=e.isFunction;return p.prototype={setUrlParams:function(r,t,n){var a,o,s=this,u=n||s.template,p=s.urlParams={};h(u.split(/\W/),function(r){if("hasOwnProperty"===r)throw i("badname","hasOwnProperty is not a valid parameter name.");!new RegExp("^\\d+$").test(r)&&r&&new RegExp("(^|[^\\\\]):"+r+"(\\W|$)").test(u)&&(p[r]=!0)}),u=u.replace(/\\:/g,":"),t=t||{},h(s.urlParams,function(r,n){a=t.hasOwnProperty(n)?t[n]:s.defaults[n],e.isDefined(a)&&null!==a?(o=c(a),u=u.replace(new RegExp(":"+n+"(\\W|$)","g"),function(r,e){return o+e})):u=u.replace(new RegExp("(/?):"+n+"(\\W|$)","g"),function(r,e,t){return"/"==t.charAt(0)?t:e+t})}),s.defaults.stripTrailingSlashes&&(u=u.replace(/\/+$/,"")||"/"),u=u.replace(/\/\.(?=\w+($|\?))/,"."),r.url=u.replace(/\/\\\./,"/."),h(t,function(e,t){s.urlParams[t]||(r.params=r.params||{},r.params[t]=e)})}},l}]})}(window,window.angular);
+},{}],17:[function(require,module,exports){
 (function (global){
 var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,serveryApp=require("./app");angular.element(document).ready(function(){angular.bootstrap(document,["serveryApp"])});
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./app":1}],17:[function(require,module,exports){
+},{"./app":1}],18:[function(require,module,exports){
 (function (global){
-"use strict";var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,ngResource=require("../lib/angular/angular-resource"),serveryApi=angular.module("serveryApi",["ngResource"]);serveryApi.factory("Servery",["$resource",function(e){return e("/api/serveries/:serveryId",{},{all:{method:"GET",params:{}}})}]);var userApi=angular.module("userApi",["ngResource"]);userApi.factory("User",["$resource",function(e){return e("/api/user",{},{current_user:{method:"GET"},save:{method:"POST"},logout:{method:"POST",url:"/auth/logout"}})}]);
+"use strict";var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,ngResource=require("../lib/angular/angular-resource"),serveryApi=angular.module("serveryApi",["ngResource"]);serveryApi.factory("Servery",["$resource",function(e){return e("/api/serveries/:serveryId",{},{all:{method:"GET",params:{}}})}]);var userApi=angular.module("userApi",["ngResource"]);userApi.factory("User",["$resource",function(e){return e("/api/user",{},{current_user:{method:"GET"},save:{method:"POST"},logout:{method:"POST",url:"/api/auth/logout"}})}]);
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../lib/angular/angular-resource":15}],18:[function(require,module,exports){
+},{"../lib/angular/angular-resource":16}],19:[function(require,module,exports){
 (function (global){
-"use strict";var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,dispatch=angular.module("dispatch",["restangular"]).config(["RestangularProvider",function(e){e.setBaseUrl("/api")}]).factory("FilterStore",require("./filterstore")).factory("MenuStore",require("./menustore")).factory("NextMealsStore",require("./nextmealsstore")),EventEmitter=require("events").EventEmitter;dispatch.factory("LoginEvent",[function(){var e=new EventEmitter;return{addListener:function(t){e.addListener("login",t)},setUser:function(t){e.emit("login",[t])}}}]);
+"use strict";var angular="undefined"!=typeof window?window.angular:"undefined"!=typeof global?global.angular:null,dispatch=angular.module("dispatch",["restangular"]).config(["RestangularProvider",function(e){e.setBaseUrl("/api")}]).factory("FilterStore",require("./filterstore")).factory("MenuStore",require("./menustore")).factory("NextMealsStore",require("./nextmealsstore")),EventEmitter=require("event-emitter");dispatch.factory("LoginEvent",[function(){var e=new EventEmitter;return{addListener:function(t){e.addListener("login",t)},setUser:function(t){e.emitEvent("login",[t])}}}]);
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./filterstore":19,"./menustore":20,"./nextmealsstore":21,"events":22}],19:[function(require,module,exports){
-var EventEmitter=require("events").EventEmitter;module.exports=[function(){var e=new EventEmitter,t={};return{addListener:function(t){e.addListener("filterupdate",t)},removeListener:function(t){e.removeListener("filterupdate",t)},getFilterFunction:function(e){return function(t){function n(e){return-1!==r.indexOf(e)}var r=t.allergyflags;return!e.vegetarian||n("vegetarian")||n("vegan")?e.glutenfree&&n("gluten")?!1:!0:!1}},getFilters:function(){return t},setFilter:function(n,r){t[n]=r,e.emit("filterupdate")}}}];
-},{"events":22}],20:[function(require,module,exports){
-var EventEmitter=require("events").EventEmitter;module.exports=["Restangular",function(e){"use strict";function t(t,n){return e.one("serveries",t).customGET("menu",{date:n})}var n=new EventEmitter,i={name:"north"},r=new Date,u={loading:!0};return{addListener:function(e){n.addListener("menuupdate",e)},removeListener:function(e){n.removeListener("menuupdate",e)},setServery:function(e){i=e,this.updateMenu(),this.setUrl()},setDate:function(e){r=e,this.updateMenu(),this.setUrl()},initialize:function(e,t){r=t,i=e,this.updateMenu()},setUrl:function(){window.ReactRouter.transitionTo("detailWithServery",{serveryName:i.name},{date:r.toISOString()})},updateMenu:function(){if("undefined"!=typeof i){var e=i.name,a=r.toISOString();t(e,a).then(function(t){e===i.name&&a===r.toISOString()&&(u=t,n.emit("menuupdate"))})}},getMenu:function(){return u}}}];
-},{"events":22}],21:[function(require,module,exports){
-var EventEmitter=require("events").EventEmitter;module.exports=["Restangular",function(e){"use strict";function t(){return e.all("serveries").customGET("next_meals")}var n=new EventEmitter,i={loading:!0};return{addListener:function(e){n.addListener("nextmealsupdate",e)},removeListener:function(e){n.removeListener("nextmealsupdate",e)},initialize:function(){i={loading:!0},n.emit("nextmealsupdate"),t().then(function(e){i=e,n.emit("nextmealsupdate")})},updateMenu:function(){t().then(function(e){i=e,n.emit("nextmealsupdate")})},getNextMeals:function(){return i}}}];
-},{"events":22}],22:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      }
-      throw TypeError('Uncaught, unspecified "error" event.');
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}]},{},[16]);
+},{"./filterstore":20,"./menustore":21,"./nextmealsstore":22,"event-emitter":15}],20:[function(require,module,exports){
+var EventEmitter=require("event-emitter");module.exports=[function(){var e=new EventEmitter,t={};return{addListener:function(t){e.addListener("filterupdate",t)},removeListener:function(t){e.removeListener("filterupdate",t)},getFilterFunction:function(e){return function(t){function n(e){return-1!==r.indexOf(e)}var r=t.allergyflags;return!e.vegetarian||n("vegetarian")||n("vegan")?e.glutenfree&&n("gluten")?!1:!0:!1}},getFilters:function(){return t},setFilter:function(n,r){t[n]=r,e.emitEvent("filterupdate")}}}];
+},{"event-emitter":15}],21:[function(require,module,exports){
+var EventEmitter=require("event-emitter");module.exports=["Restangular",function(e){"use strict";function t(t,n){return e.one("serveries",t).customGET("menu",{date:n})}var n=new EventEmitter,i={name:"north"},r=new Date,u={loading:!0};return{addListener:function(e){n.addListener("menuupdate",e)},removeListener:function(e){n.removeListener("menuupdate",e)},setServery:function(e){i=e,this.updateMenu(),this.setUrl()},setDate:function(e){r=e,this.updateMenu(),this.setUrl()},initialize:function(e,t){r=t,i=e,this.updateMenu()},setUrl:function(){window.ReactRouter.transitionTo("detailWithServery",{serveryName:i.name},{date:r.toISOString()})},updateMenu:function(){if("undefined"!=typeof i){var e=i.name,a=r.toISOString();t(e,a).then(function(t){e===i.name&&a===r.toISOString()&&(u=t,n.emitEvent("menuupdate"))})}},getMenu:function(){return u}}}];
+},{"event-emitter":15}],22:[function(require,module,exports){
+var EventEmitter=require("event-emitter");module.exports=["Restangular",function(e){"use strict";function t(){return e.all("serveries").customGET("next_meals")}var n=new EventEmitter,i={loading:!0};return{addListener:function(e){n.addListener("nextmealsupdate",e)},removeListener:function(e){n.removeListener("nextmealsupdate",e)},initialize:function(){i={loading:!0},n.emitEvent("nextmealsupdate"),t().then(function(e){i=e,n.emitEvent("nextmealsupdate")})},updateMenu:function(){t().then(function(e){i=e,n.emitEvent("nextmealsupdate")})},getNextMeals:function(){return i}}}];
+},{"event-emitter":15}]},{},[17]);

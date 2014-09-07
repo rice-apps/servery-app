@@ -26,6 +26,6 @@ userApi.factory('User', ['$resource', function($resource) {
             {
                 current_user: {method: 'GET' },
                 save: {method: 'POST'},
-                logout: {method : 'POST', url: '/auth/logout'}
+                logout: {method : 'POST', url: '/api/auth/logout'}
             });
 }]);             

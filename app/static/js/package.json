@@ -1,10 +1,15 @@
 { 
+    "browser": {
+        "event-emitter": "./lib/EventEmitter.min.js"
+    },
     "browserify": {
         "transform": [ "reactify", "browserify-shim", "uglifyify"]
     },
+
     "browserify-shim": {
         "angular": "global:angular",
         "react": "global:React",
-        "react-router": "global:ReactRouter"
+        "react-router": "global:ReactRouter",
+        "event-emitter": "EventEmitter"
     }
 }

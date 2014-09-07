@@ -1,4 +1,4 @@
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('event-emitter');
 
 module.exports =  [function() {
 
@@ -39,7 +39,7 @@ module.exports =  [function() {
         },
         setFilter: function(type,value){
             filters[type] = value;
-            FilterStoreEvents.emit('filterupdate');
+            FilterStoreEvents.emitEvent('filterupdate');
         }
     }
     
