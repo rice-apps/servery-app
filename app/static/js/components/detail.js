@@ -3,9 +3,12 @@
 var Router = require('react-router');
 var React = require('react');
 
+var ServeryHours = require('./serveryhours');
+
 module.exports = ['MealMenu','MenuStore', 'AllergyFilter','FilterStore', function(MealMenu, MenuStore, AllergyFilter, FilterStore){
 
 var meals = ['breakfast', 'lunch', 'dinner'];
+
 
 
 var Detail = React.createClass({

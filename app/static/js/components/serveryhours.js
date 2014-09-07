@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var React = require('react');
+
 var meals = ['breakfast', 'lunch', 'dinner'];
 
   
@@ -49,7 +51,7 @@ function twelvehour(input) {
 }
 
 
-var ServeryHours = React.createClass({
+module.exports = React.createClass({
 
     render: function() {
         return (
