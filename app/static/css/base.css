@@ -99,13 +99,20 @@
 
 
 
-.unselected .menuThing{
-  -webkit-transform-origin: 21px 50%;
-  -webkit-transform: rotate(90deg);
-  margin-bottom: 379px;
-  width: 441px;
-  margin-right: -399px;
-  
+.unselected .menuThing {
+    -moz-transform-origin: 21px 50%;
+    -ms-transform-origin: 21px 50%;
+    -o-transform-origin: 21px 50%;
+    -webkit-transform-origin: 21px 50%;
+    transform-origin: 21px 50%;
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-bottom: 379px;
+    width: 441px;
+    margin-right: -399px
 }
 }
 
