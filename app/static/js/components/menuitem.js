@@ -86,10 +86,10 @@ var MenuItem = React.createClass({
         }
 
         if (contains(this.props.item.allergyflags,"vegetarian") || contains(this.props.item.allergyflags,"vegan"))
-            allergyIcons.push(<img key="vegetarian" src="/static/img/allergyicons/vegetarian.png" className="allergyIcon"/>);
+            allergyIcons.push(<img key="vegetarian" src="/static/img/allergyicons/vegetarian.svg" className="allergyIcon"/>);
 
         if (!contains(this.props.item.allergyflags,"gluten"))
-            allergyIcons.push(<img key="gluten" src="/static/img/allergyicons/glutenfree.png" className="allergyIcon"/>);
+            allergyIcons.push(<img key="gluten" src="/static/img/allergyicons/glutenfree.svg" className="allergyIcon"/>);
 
         return (
             <div>

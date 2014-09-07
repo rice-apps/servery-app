@@ -15,7 +15,7 @@ var AllergyFilter = React.createClass({
                     <h5 className="inline noMargin">
                         {this.props.allergyName} Only 
                         &nbsp;
-                        <img src={"/static/img/allergyicons/" + this.props.allergyType +".png"} className="allergyIcon inline noMargin"/>
+                        <img src={"/static/img/allergyicons/" + this.props.allergyType +".svg"} className="allergyIcon inline noMargin"/>
                         &nbsp;
                     </h5>
                     <input type="checkbox" className="foodFilterCheckbox" onChange={this.onFilterChange.bind(this,this.props.allergyType)} checked={this.props.allergyValue}/>
