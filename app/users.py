@@ -46,9 +46,3 @@ def get_user():
         user.email = data["email"]
         db.session.commit()
         return jsonify(get_user_data(user))
-
-
-@app.route('/api/hack_login/<username>')
-def hack_login(username):
-    session['user'] = username
-    return get_user()
