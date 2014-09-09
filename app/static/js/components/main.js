@@ -25,7 +25,8 @@ var Main = React.createClass({
                   <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
-                            <p> You need to login to vote: <a href="/api/auth/login">Login</a> </p>
+                            <p> You need to login to vote: <a href="/api/auth/login">Login</a> <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button> </p>
+
                         </div>
                     </div>
                   </div>
