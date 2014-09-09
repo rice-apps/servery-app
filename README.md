@@ -25,6 +25,10 @@ Setup the database using:
 
     python setup.py
 
+Download the latest menus using:
+    
+    python loadmenu.py
+
 Start the flask server with the following command under the src folder:
 
     python runserver.py
