@@ -49,14 +49,15 @@ var MenuItem = React.createClass({
 
     },
     render: function() {
+        var noUser = this.props.user === null || !("username" in this.props.user);
+
         var cx = React.addons.classSet;
         var upClass = cx({
             'btn': true,
             'btn-default': true,
             'btn-xs': true,
             'btn-default': this.props.item.vote_type !== 'up',
-            'btn-success': this.props.item.vote_type === 'up',
-            'invisible': this.props.user === null || !("username" in this.props.user)
+            'btn-success': this.props.item.vote_type === 'up'
         });
 
         var downClass = cx({
@@ -64,8 +65,7 @@ var MenuItem = React.createClass({
             'btn-default': true,
             'btn-xs': true,
             'btn-default': this.props.item.vote_type !== 'down',
-            'btn-success': this.props.item.vote_type === 'down',
-            'invisible': this.props.user === null || !("username" in this.props.user)
+            'btn-success': this.props.item.vote_type === 'down'
         });
 
         var allergyIcons = [];
@@ -93,6 +93,7 @@ var MenuItem = React.createClass({
 
         return (
             <div>
+            
                 <span>
                 { processFoodName(this.props.item.name) }
 
@@ -102,15 +103,15 @@ var MenuItem = React.createClass({
 
                 <span className="pull-right"> 
 
-                <a className={upClass} onClick={this.upvote} >
+                <button className={upClass} onClick={this.upvote} data-toggle={noUser && "modal"} data-target={noUser && ".login-vote-modal"}>
                 <i className="glyphicon glyphicon-chevron-up"></i>
-                </a>
+                </button>
 
                 <span className="score">{this.props.item.score}</span>
 
-                <a className={downClass} onClick={this.downvote} >
+                <button className={downClass} onClick={this.downvote} data-toggle={noUser && "modal"} data-target={noUser && ".login-vote-modal"}>
                 <i className="glyphicon glyphicon-chevron-down"></i>
-                </a>  
+                </button>  
 
                 </span>
             </div>);
