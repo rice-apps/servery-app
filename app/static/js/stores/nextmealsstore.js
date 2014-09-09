@@ -1,8 +1,10 @@
 var EventEmitter = require('event-emitter');
 
-module.exports = ['Restangular',function(Restangular) {
+module.exports = ['Restangular','LoginEvent', function(Restangular, LoginEvent) {
 
     "use strict";
+
+    
 
     var NextMealsEvents = new EventEmitter();
 
@@ -12,7 +14,7 @@ module.exports = ['Restangular',function(Restangular) {
         return Restangular.all("serveries").customGET("next_meals");
     }
     
-    return {
+    var result =  {
         addListener: function(callback){
             NextMealsEvents.addListener('nextmealsupdate',callback);
         },
@@ -38,4 +40,10 @@ module.exports = ['Restangular',function(Restangular) {
             return nextMeals;
         }
     }
+
+    LoginEvent.addListener(function(){
+        result.updateMenu();
+    });
+
+    return result;
 }]

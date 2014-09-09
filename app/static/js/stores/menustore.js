@@ -1,6 +1,6 @@
 var EventEmitter = require('event-emitter');
 
-module.exports = ['Restangular', function(Restangular) {
+module.exports = ['Restangular', 'LoginEvent', function(Restangular, LoginEvent) {
 
     "use strict";
 
@@ -14,7 +14,7 @@ module.exports = ['Restangular', function(Restangular) {
         return Restangular.one("serveries", serveryId).customGET("menu",{date:isoDate});
     }
 
-    return {
+    var result = {
         addListener: function(callback){
             MenuStoreEvents.addListener('menuupdate',callback);
         },
@@ -62,5 +62,11 @@ module.exports = ['Restangular', function(Restangular) {
         getMenu: function(){
             return currentMenu;
         }
-    }
+    };
+
+    LoginEvent.addListener(function(){
+        result.updateMenu();
+    });
+
+    return result;
 }];

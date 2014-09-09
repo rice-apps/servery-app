@@ -20,6 +20,18 @@ var Main = React.createClass({
                     
                     <Footer />
                 </div>
+
+                <div className="modal fade login-vote-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <p> You need to login to vote: <a href="/api/auth/login">Login</a> </p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+
             </div>
         );
     },
