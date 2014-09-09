@@ -6,6 +6,8 @@ An app that makes it simple to manage and view servery menus at Rice
 - Server: Flask
 - Database: Any SQL compliant database
 
+- JS Build Tool: browserify (with reactify, browserify-shim, and uglifify)
+
 If you are interesting in contributing code or ideas, see https://github.com/rice-apps/servery-app/wiki/How-to-Help.
 
 If you want to see what we are currently working on, see our trello page at https://trello.com/b/5cVHeknd/serveryappboard.
@@ -32,3 +34,9 @@ The terminal should display a message like
     Running on http://127.0.0.1:5000/
 
 Simply type that address in your browser to open the app.
+
+To build the javascript into bundle.js, go to app/static/js and type:
+
+    browserify main.js -o bundle.js
+
+(You will also need reactify, browserify-shim, and uglifify installed as well).
