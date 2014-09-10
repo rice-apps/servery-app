@@ -2,6 +2,8 @@ Servery App
 ===========
 An app that makes it simple to manage and view servery menus at Rice
 
+We are currently live at: http://servery.riceapps.org
+
 - Web Client: AngularJS and ReactJS
 - Server: Flask
 - Database: Any SQL compliant database
@@ -11,8 +13,6 @@ An app that makes it simple to manage and view servery menus at Rice
 If you are interesting in contributing code or ideas, see https://github.com/rice-apps/servery-app/wiki/How-to-Help.
 
 If you want to see what we are currently working on, see our trello page at https://trello.com/b/5cVHeknd/serveryappboard.
-
-A development version of the application is running at http://104.131.37.232/.
 
 Local Development Environment
 -----------------------------
