@@ -43,6 +43,7 @@ var QuickViewItem = React.createClass({
 
 
 function dayOfWeekAsString(dayIndex) {
+    console.log(dayIndex);
   return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][dayIndex];
 }
 
@@ -84,7 +85,7 @@ var QuickView = React.createClass({
                 <nav className="navbar navbar-default">
             
                       <h3 className="nav navbar-text quickViewHeader">
-                        {dayOfWeekAsString(day.getDate())} {capitaliseFirstLetter(this.state.data.meal_type)}
+                        {dayOfWeekAsString(day.getDay())} {capitaliseFirstLetter(this.state.data.meal_type)}
                       </h3>
 
                       <form className="navbar-right quickViewHeader">
