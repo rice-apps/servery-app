@@ -8,17 +8,23 @@ module.exports = ['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Res
 var meals = ['breakfast', 'lunch', 'dinner'];
 
 var QuickViewItem = React.createClass({
+    getInitialState: function(){
+        return {visible:false};
+    },
+    showPanel: function(){
+        this.setState({visible:!this.state.visible});
+    },
     render: function() {
         var filter = FilterStore.getFilterFunction(this.props.filters);
         return (
             <span className="menuThing">
                 <div className="menu panel panel-primary noMarginIfRotate">
-                    <div className="panel-heading">
+                    <div className="panel-heading" onClick={this.showPanel}>
                         <h3 className="panel-title">
                             {this.props.meal.servery.fullname}
                         </h3>
                     </div>
-                    <div className="panel-body menuItemList">
+                    <div className={"panel-body menuItemList" + (this.state.visible ? "" : " hidden")}>
                         <ul className="list-group">
                             {this.props.meal.dishes.map(function(item){
                                 var classes = "list-group-item row";
@@ -43,7 +49,6 @@ var QuickViewItem = React.createClass({
 
 
 function dayOfWeekAsString(dayIndex) {
-    console.log(dayIndex);
   return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][dayIndex];
 }
 
