@@ -75,6 +75,11 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
+.menuHeading {
+    cursor: pointer;
+}
+
 }
 
 @media (min-width: 768px) {

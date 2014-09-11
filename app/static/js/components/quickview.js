@@ -19,12 +19,12 @@ var QuickViewItem = React.createClass({
         return (
             <span className="menuThing">
                 <div className="menu panel panel-primary noMarginIfRotate">
-                    <div className="panel-heading" onClick={this.showPanel}>
+                    <div className="panel-heading menuHeading" onClick={this.showPanel}>
                         <h3 className="panel-title">
                             {this.props.meal.servery.fullname}
                         </h3>
                     </div>
-                    <div className={"panel-body menuItemList" + (this.state.visible ? "" : " hidden")}>
+                    <div className={"panel-body menuItemList" + (this.state.visible ? "" : " hidden-xs")}>
                         <ul className="list-group">
                             {this.props.meal.dishes.map(function(item){
                                 var classes = "list-group-item row";
