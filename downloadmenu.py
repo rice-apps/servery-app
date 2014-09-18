@@ -99,12 +99,15 @@ lunch_bounding_box = BoundingBox(x=115, y=140, width=600, height=200)
 dinner_bounding_box = BoundingBox(x=115, y=350, width=600, height=200)
 
 # These are the bounding boxes for each day in the multi page format.
-bottomy = 300
-bottomheight = 240
+bottomy = 316
+bottomheight = 246
+
+topy = 50
+topheight = 239
 multi_day_boxes = {
-    0: BoundingBox(x=26, y=45, width=230, height=230),
-    1: BoundingBox(x=264, y=45, width=230, height=230),
-    2: BoundingBox(x=502, y=45, width=230, height=230),
+    0: BoundingBox(x=26, y=topy, width=230, height=topheight),
+    1: BoundingBox(x=264, y=topy, width=230, height=topheight),
+    2: BoundingBox(x=502, y=topy, width=230, height=topheight),
     3: BoundingBox(x=25, y=bottomy, width=168, height=bottomheight),
     4: BoundingBox(x=200, y=bottomy, width=168, height=bottomheight),
     5: BoundingBox(x=375, y=bottomy, width=168, height=bottomheight),
