@@ -43,7 +43,6 @@ var QuickViewItem = React.createClass({
 
 
 function dayOfWeekAsString(dayIndex) {
-    console.log(dayIndex);
   return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][dayIndex];
 }
 

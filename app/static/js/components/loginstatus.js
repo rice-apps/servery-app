@@ -14,7 +14,7 @@ var LoginStatus = React.createClass({
     render: function(){
 
         var links;
-        if (this.props.user !== null && "username" in this.props.user)
+        if (this.props.user !== null && this.props.user.username)
         {
             links = [
                 <li key="userid"><a onClick={this.closeMenu}>{this.props.user.username}</a> </li>,

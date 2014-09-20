@@ -44,7 +44,6 @@ def create_or_get_vote(dish, user):
         Vote.dish == dish).scalar()
 
     if vote is None:
-        print user, dish
         vote = Vote(
             user=user,
             dish=dish)
@@ -55,8 +54,18 @@ def create_or_get_vote(dish, user):
     return vote
 
 
+def transfer_vote_to_current_user(vote):
+    """
+    Transfers the provided vote to the current user.
+    Does not commit on the database.
+    """
+    vote_on_dish(vote.dish.id, vote.vote_type)
+    update_score_on_vote_removal(vote)
+    db.session.delete(vote)
+
+
 @app.route('/api/dishes/<int:dish_id>/vote/<vote_type>', methods=['POST'])
-def vote(dish_id, vote_type):
+def vote_on_dish(dish_id, vote_type):
     if vote_type not in ("up", "down", "none"):
         abort(404)
 
