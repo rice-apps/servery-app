@@ -183,3 +183,7 @@ h5.noMargin {
 }
 
 
+.disclaimer {
+    white-space: normal;
+    display: inline-block;
+}
