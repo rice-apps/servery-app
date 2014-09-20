@@ -28,7 +28,8 @@ venv/
 .pydevproject
 
 
-#node modules
-node_modules/
 
+
+# node modules installed by npm
+app/static/js/node_modules/
 
