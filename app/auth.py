@@ -19,7 +19,6 @@ def login():
         CAS_SERVER,
         url_for('check_ticket', _external=True))
 
-    print cas_url
     return redirect(cas_url)
 
 
@@ -50,7 +49,7 @@ def check_ticket():
 
         if anonuser:
             for vote in anonuser.votes:
-                vote_on_dish(vote.dish.id,vote.vote_type)
+                vote_on_dish(vote.dish.id, vote.vote_type)
                 update_score_on_vote_removal(vote)
                 db.session.delete(vote)
 
@@ -69,7 +68,6 @@ def get_user(ticket):
         ticket,
         url_for('check_ticket', _external=True))
 
-    print cas_url
     with closing(urllib2.urlopen(cas_url)) as response:
         result = response.read()
         lines = result.split('\n')

@@ -11,7 +11,7 @@ def current_user():
         return find_or_create_user(session['user'])
     else:
         anonuser = None
-        
+
         if 'anonuser' in session:
             anonuser = db.session.query(User).get(session['anonuser'])
 
@@ -34,8 +34,6 @@ def find_or_create_user(username):
         db.session.commit()
 
     return user
-
-
 
 
 def get_user_data(user):
