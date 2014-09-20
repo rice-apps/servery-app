@@ -108,9 +108,6 @@ def find_next_meals(date, time):
     Finds the next type of meal for the given day and
     then returns a list containing the MealTime for every servery.
     """
-
-    print date
-
     day_of_the_week = date.weekday()
 
     # I first find one MealTime that is closest in time

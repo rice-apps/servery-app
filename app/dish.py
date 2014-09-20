@@ -44,7 +44,6 @@ def create_or_get_vote(dish, user):
         Vote.dish == dish).scalar()
 
     if vote is None:
-        print user, dish
         vote = Vote(
             user=user,
             dish=dish)
