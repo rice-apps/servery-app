@@ -1,6 +1,6 @@
 from . import app, db
 from .models import User
-from .dish import vote_on_dish, update_score_on_vote_removal
+from .dish import transfer_vote_to_current_user
 
 from flask import url_for, redirect, session, request
 import urllib2
@@ -48,10 +48,9 @@ def check_ticket():
         anonuser = db.session.query(User).get(session['anonuser'])
 
         if anonuser:
+            # There was an old anonymous user, we have to transfer the votes
             for vote in anonuser.votes:
-                vote_on_dish(vote.dish.id, vote.vote_type)
-                update_score_on_vote_removal(vote)
-                db.session.delete(vote)
+                transfer_vote_to_current_user(vote)
 
         db.session.delete(anonuser)
         db.session.commit()
