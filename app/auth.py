@@ -1,4 +1,6 @@
-from . import app
+from . import app, db
+from .models import User
+from .dish import vote_on_dish, update_score_on_vote_removal
 
 from flask import url_for, redirect, session, request
 import urllib2
@@ -37,7 +39,24 @@ def check_ticket():
     """
     ticket = request.args.get('ticket')
     user = get_user(ticket)
+
+    if user is None:
+        return redirect(url_for('root'))
+
     session['user'] = user
+
+    if 'anonuser' in session:
+        anonuser = db.session.query(User).get(session['anonuser'])
+
+        if anonuser:
+            for vote in anonuser.votes:
+                vote_on_dish(vote.dish.id,vote.vote_type)
+                update_score_on_vote_removal(vote)
+                db.session.delete(vote)
+
+        db.session.delete(anonuser)
+        db.session.commit()
+
     return redirect(url_for('root'))
 
 

@@ -10,16 +10,19 @@ def current_user():
     if 'user' in session:
         return find_or_create_user(session['user'])
     else:
+        anonuser = None
+        
         if 'anonuser' in session:
-            return db.session.query(User).get(session['anonuser'])
-        else:
+            anonuser = db.session.query(User).get(session['anonuser'])
+
+        if anonuser is None:
             anonuser = User(username=None, email=None)
             db.session.add(anonuser)
             db.session.commit()
 
             session['anonuser'] = anonuser.id
 
-            return anonuser
+        return anonuser
 
 
 def find_or_create_user(username):

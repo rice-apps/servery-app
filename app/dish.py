@@ -56,7 +56,7 @@ def create_or_get_vote(dish, user):
 
 
 @app.route('/api/dishes/<int:dish_id>/vote/<vote_type>', methods=['POST'])
-def vote(dish_id, vote_type):
+def vote_on_dish(dish_id, vote_type):
     if vote_type not in ("up", "down", "none"):
         abort(404)
 
