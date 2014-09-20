@@ -15,6 +15,7 @@ var Main = React.createClass({
                 <div className="container">
 
                     <div id ="page-content">
+                        <h3><span className="label label-warning disclaimer">Warning: This is not official Rice University Dining information. In particular, allergy information might be inaccurate.</span></h3>
                         <this.props.activeRouteHandler serveries={this.props.serveries} user={this.state.user}/>
                     </div>
                     
