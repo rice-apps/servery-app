@@ -26,3 +26,9 @@ venv/
 .mr.developer.cfg
 .project
 .pydevproject
+
+
+#node modules
+node_modules/
+
+

@@ -21,7 +21,21 @@ var Main = React.createClass({
                     <Footer />
                 </div>
 
+                <div className="sidebar"> 
+                    <ul className='side-items'>
+                        <li>North</li>
+                        <li>South</li>
+                        <li>East</li>
+                        <li>West</li>
+                        <li>Baker</li>
+                        <li>Sid</li>
+                        
+                    </ul>
+                </div>
+
             </div>
+
+            
         );
     },
 

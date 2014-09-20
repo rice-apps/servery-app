@@ -5,7 +5,10 @@ var ReactRouter = require('react-router');
 
 module.exports = ['LoginStatus', function(LoginStatus){
 
-
+var toggleSide = function(){
+    var side = document.getElementsByClassName('sidebar');
+    console.log(side);
+};
 
 var ActiveState = ReactRouter.ActiveState;
 
@@ -43,12 +46,16 @@ var Header = React.createClass({
     },
     render: function() {
         return (
-
             <div className="navbar navbar-default navbar-fixed-top">
-                <div className="container">
+            <button  type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-star"></span>
+            </button> 
+            
+            <div className="container">
 
 
-                    <div className="navbar-header">
+                <div className="navbar-header">
+
                         <a href="/" className="navbar-brand">Servery App</a>
 
                         <button id="navbar-main-toggle" className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -58,6 +65,7 @@ var Header = React.createClass({
                         </button>
 
                     </div>
+
 
                     <div className="navbar-collapse collapse" id="navbar-main">
 

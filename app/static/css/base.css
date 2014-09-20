@@ -161,3 +161,25 @@ h5.noMargin {
 .quickViewHeader{
     margin-left: 10px;
 }
+
+.sidebar{
+    width:10%;
+    height: 500px;
+    background: rgb(246,246,246);
+    position: absolute;
+    top:10%;
+    border-radius: 10px;
+}
+
+.sidebar ul{
+    padding-top:30px;
+    list-style-type: none;
+}
+
+.sidebar li{
+    height:40px;
+    font-size: 1em; 
+    color: #777;
+}
+
+
