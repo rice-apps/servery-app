@@ -156,9 +156,13 @@ def get_next_meals():
             )
         }
 
+    mealtime = next_mealtimes[0]
+
     result = {
         "day": next_meal_date,
-        "meal_type": next_mealtimes[0].meal_type,
+        "start_time": mealtime.start_time,
+        "end_time": mealtime.end_time,
+        "meal_type": mealtime.meal_type,
         "meals": map(process_mealtime, next_mealtimes)
     }
 
