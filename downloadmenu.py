@@ -99,11 +99,11 @@ lunch_bounding_box = BoundingBox(x=115, y=140, width=600, height=200)
 dinner_bounding_box = BoundingBox(x=115, y=350, width=600, height=200)
 
 # These are the bounding boxes for each day in the multi page format.
-bottomy = 316
-bottomheight = 246
+bottomy = 302
+bottomheight = 240
 
-topy = 50
-topheight = 239
+topy = 45
+topheight = 234
 multi_day_boxes = {
     0: BoundingBox(x=26, y=topy, width=230, height=topheight),
     1: BoundingBox(x=264, y=topy, width=230, height=topheight),
@@ -231,7 +231,8 @@ def process_allergy_flag(flag):
         "E": "fish",
         "P": "shellfish",
         "TN": "peanuts",
-        "S": "treenuts"
+        "S": "treenuts",
+        "#": "?"
     }
 
     return flag_dictionary[flag]
