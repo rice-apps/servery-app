@@ -41,6 +41,7 @@ var QuickViewItem = React.createClass({
     }
 });
 
+var twelvehour = require('./utils').twelvehour
 
 function dayOfWeekAsString(dayIndex) {
   return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][dayIndex];
@@ -84,7 +85,12 @@ var QuickView = React.createClass({
                 <nav className="navbar navbar-default">
             
                       <h3 className="nav navbar-text quickViewHeader">
-                        {dayOfWeekAsString(day.getDay())} {capitaliseFirstLetter(this.state.data.meal_type)}
+                        <span>
+                            {dayOfWeekAsString(day.getDay()) + " " + capitaliseFirstLetter(this.state.data.meal_type)+" "} 
+                        </span>
+                        <span className="mealTime"> 
+                            {twelvehour(this.state.data.start_time) +"-" + twelvehour(this.state.data.end_time)} 
+                        </span>
                       </h3>
 
                       <form className="navbar-right quickViewHeader">
