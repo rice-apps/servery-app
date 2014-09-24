@@ -161,3 +161,8 @@ h5.noMargin {
 .quickViewHeader{
     margin-left: 10px;
 }
+
+.disclaimer {
+    white-space: normal;
+    display: inline-block;
+}
