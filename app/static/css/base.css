@@ -170,3 +170,8 @@ h5.noMargin {
 .mealTime {
     white-space: nowrap;
 }
+
+.quickViewChangeMealButtons {
+    margin-bottom: 10px;
+    margin-top: -10px;
+}

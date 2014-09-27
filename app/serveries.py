@@ -103,10 +103,10 @@ def get_menu(servery_id):
     return jsonify(menu)
 
 
-def find_next_meals(date, time):
+def find_next_meal_type(date, time):
     """
     Finds the next type of meal for the given day and
-    then returns a list containing the MealTime for every servery.
+    then returns a tuple containing (meal_type,date)
     """
     day_of_the_week = date.weekday()
 
@@ -123,17 +123,33 @@ def find_next_meals(date, time):
     first_mealtime = coming_mealtimes.first()
 
     if first_mealtime is None:
-        return find_next_meals(date + datetime.timedelta(1), datetime.time())
+        next_day = date + datetime.timedelta(1)
+        return find_next_meal_type(next_day, datetime.time())
 
-    # Then I get all mealtimes of that day and type
-    equivalent_mealtime_filter = db.and_(
-        MealTime.day_of_the_week == first_mealtime.day_of_the_week,
-        MealTime.meal_type == first_mealtime.meal_type)
+    return first_mealtime.meal_type, date
 
-    all_meals_at_time = db.session.query(MealTime).filter(
-        equivalent_mealtime_filter)
+wind_back = {
+    "breakfast": lambda day: ("dinner", day + datetime.timedelta(-1)),
+    "lunch": lambda day: ("breakfast", day),
+    "dinner": lambda day: ("lunch", day)
+}
 
-    return all_meals_at_time, date
+wind_forward = {
+    "breakfast": lambda day: ("lunch", day),
+    "lunch": lambda day: ("dinner", day),
+    "dinner": lambda day: ("breakfast", day + datetime.timedelta(1))
+}
+
+
+def get_offset_mealtime(meal_type, day, offset):
+    if offset == 0:
+        return (meal_type, day)
+    elif offset < 0:
+        current = wind_back[meal_type](day)
+        return get_offset_mealtime(current[0], current[1], offset+1)
+    else:  # offset > 0
+        current = wind_forward[meal_type](day)
+        return get_offset_mealtime(current[0], current[1], offset-1)
 
 
 @app.route('/api/serveries/next_meals')
@@ -143,27 +159,51 @@ def get_next_meals():
     """
 
     now = current_rice_time()
+    now_date_time = (now.date(), now.time())
 
-    next_mealtimes, next_meal_date = find_next_meals(now.date(), now.time())
+    next_meal_type, next_meal_date = find_next_meal_type(now_date_time)
+
+    if request.args.get("offset"):
+        offset = int(request.args.get("offset"))
+    else:
+        offset = 0
+
+    offset_meal_type, offset_meal_date = get_offset_mealtime(
+        next_meal_type, next_meal_date, offset
+    )
+
+    equivalent_mealtime_filter = db.and_(
+        MealTime.day_of_the_week == offset_meal_date.weekday(),
+        MealTime.meal_type == offset_meal_type)
+
+    all_meals_at_time = db.session.query(MealTime).filter(
+        equivalent_mealtime_filter).all()
+
+    if len(all_meals_at_time) == 0:
+        result = {
+            "day": offset_meal_date,
+            "meal_type": offset_meal_type,
+            "meals": []
+        }
+
+        return jsonify(result)
 
     def process_mealtime(mealtime):
         return {
             "servery": get_servery_data(mealtime.servery),
             "dishes": get_dishes_data(
-                next_meal_date,
+                offset_meal_date,
                 mealtime.servery,
                 mealtime.meal_type
             )
         }
 
-    mealtime = next_mealtimes[0]
-
     result = {
-        "day": next_meal_date,
-        "start_time": mealtime.start_time,
-        "end_time": mealtime.end_time,
-        "meal_type": mealtime.meal_type,
-        "meals": map(process_mealtime, next_mealtimes)
+        "day": offset_meal_date,
+        "start_time": all_meals_at_time[0].start_time,
+        "end_time": all_meals_at_time[0].end_time,
+        "meal_type": offset_meal_type,
+        "meals": map(process_mealtime, all_meals_at_time)
     }
 
     return jsonify(result)
