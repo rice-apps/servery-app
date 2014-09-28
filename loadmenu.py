@@ -37,14 +37,40 @@ def load_meals(base_address=None):
 
                     meal = Meal(date=actual_date, mealtime=mealtime)
                     db.session.add(meal)
-
-                    for dish_info in menu[meal_type][day_of_the_week]:
+                    no_menu_flag = True
+                    dish_index = 0
+                    while dish_index < len(menu[meal_type][day_of_the_week]):
+                    # for dish_info in menu[meal_type][day_of_the_week]:
+                        dish_info = menu[meal_type][day_of_the_week][dish_index]
                         dish_description = dish_info.dish_description
                         dish_words = dish_description.split(" ")
-                        dish_words_filtered = [word for word in dish_words if not ( "PM" in word or "AM" in word or "Brunch" in word or "Available" in word or "-" in word)]
-                        dish_info.dish_description = " ".join(dish_words_filtered)
+                        # filtering
+                        # if "Brunch" in dish_words:
+                        #     print dish_words
+                        #     dish_words.remove("Brunch")
+                        # if "Available" in dish_words:
+                        #     dish_words.remove("Available")
+                        # if "-" in dish_words:
+                        #     dish_words.remove("-")
+                        i = 0
+                        while i < len(dish_words):
+                            # print i
+                            # print dish_words
+                            word = dish_words[i]
+                            if "PM" in word or "AM" in word or "Brunch" in word or "Available" in word or "-" in word:
+                                del dish_words[i]
+                                i-=1
+                            i+=1
+                        dish_info.dish_description = " ".join(dish_words)
+                        # if meal_type == "lunch" and day_of_the_week == 6:
+                        #     # print dish_info
+                        dish_index+=1
                         if dish_info.dish_description != "":
+                            no_menu_flag = False
                             create_dish_from_dish_info(dish_info, servery, meal)
+                        # if no_menu_flag and dish_index == len(menu[meal_type][day_of_the_week]):
+                        #     dish_info.dish_description = "There's a meal but no menu!"
+                        #     create_dish_from_dish_info(dish_info, servery, meal)    
                         
 
     db.session.commit()
