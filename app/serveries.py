@@ -161,7 +161,7 @@ def get_next_meals():
     now = current_rice_time()
     now_date_time = (now.date(), now.time())
 
-    next_meal_type, next_meal_date = find_next_meal_type(now_date_time)
+    next_meal_type, next_meal_date = find_next_meal_type(now_date_time[0], now_date_time[1])
 
     if request.args.get("offset"):
         offset = int(request.args.get("offset"))
