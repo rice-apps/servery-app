@@ -91,6 +91,18 @@ var MenuItem = React.createClass({
         if (!contains(this.props.item.allergyflags,"gluten"))
             allergyIcons.push(<img key="gluten" src="/static/img/allergyicons/glutenfree.svg" className="allergyIcon"/>);
 
+
+        function createImageLink(item)
+        {
+            var str = "Link";
+            var url = "https://www.google.com/search?q="+item+"&tbm=isch";
+            var link = React.DOM.a({href: 'https://www.google.com/search?q='+item+'&tbm=isch'}, ' Image');
+            
+            return link
+        }
+
+        
+
         return (
             <div>
             
@@ -98,6 +110,8 @@ var MenuItem = React.createClass({
                 { processFoodName(this.props.item.name) }
 
                 { allergyIcons }
+
+                { createImageLink(this.props.item.name) }
 
                 </span>
 
