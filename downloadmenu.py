@@ -199,7 +199,10 @@ def get_date(page):
         if "2014" in text_piece[1]:
             month, day, year = process_date_string(text_piece[1])
             date = datetime.date(year, month, day)
-            return date + datetime.timedelta(-date.weekday())
+            if date.weekday() == 6:  #Deal with the case where the servery gives the Sunday before the week
+                return date + datetime.timedelta(7-date.weekday())
+            else: #Deal with the case where the servery gives us Monday, Tuesday, etc 
+                return date + datetime.timedelta(-date.weekday()) 
 
 
 def process_date_string(text):
