@@ -8,8 +8,27 @@ module.exports = ['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Res
 var meals = ['breakfast', 'lunch', 'dinner'];
 
 var QuickViewItem = React.createClass({
-    render: function() {
+    getFormattedMealItems: function(){
         var filter = FilterStore.getFilterFunction(this.props.filters);
+
+        return this.props.meal.dishes.map(function(item){
+            var classes = "list-group-item row";
+
+            if (!filter(item))
+                classes += " hidden";
+
+            return (
+                <li key={item.name} className={classes}>
+                    <div className="detailedMenuItem">
+                        <MenuItem item={item} user={this.props.user}/>
+                    </div>
+                </li>
+                )
+        },this);
+
+    },
+    render: function() {
+        
         return (
             <span className="menuThing">
                 <div className="menu panel panel-primary noMarginIfRotate">
@@ -20,20 +39,9 @@ var QuickViewItem = React.createClass({
                     </div>
                     <div className="panel-body menuItemList">
                         <ul className="list-group">
-                            {this.props.meal.dishes.map(function(item){
-                                var classes = "list-group-item row";
-
-                                if (!filter(item))
-                                    classes += " hidden";
-
-                                return (
-                                    <li key={item.name} className={classes}>
-                                        <div className="detailedMenuItem">
-                                            <MenuItem item={item} user={this.props.user}/>
-                                        </div>
-                                    </li>
-                                    )
-                            },this)}
+                            {this.props.meal.dishes.length == 0? 
+                                <li className="list-group-item row"> A meal is being served at this time, but there is no menu information available.</li> : 
+                                this.getFormattedMealItems()}
                         </ul>
                     </div>
                 </div>
@@ -41,6 +49,7 @@ var QuickViewItem = React.createClass({
     }
 });
 
+var twelvehour = require('./utils').twelvehour
 
 function dayOfWeekAsString(dayIndex) {
   return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][dayIndex];
@@ -74,6 +83,38 @@ var QuickView = React.createClass({
     selectItem: function(index){
         this.setState({selected:index});
     },
+    nextMeal: function(){
+        NextMealsStore.setOffset(NextMealsStore.getOffset() + 1);
+    },
+    previousMeal: function(){  
+        NextMealsStore.setOffset(NextMealsStore.getOffset() - 1);
+    },
+    currentMeal: function(){
+        NextMealsStore.setOffset(0);
+    },
+    renderServeryMenus: function(){
+        return this.state.data.meals.map(function(meal,index){
+            var isSelected = this.state.selected === index;
+            return (
+                <span key={meal.servery.name} >
+                    <span className={isSelected ? "selected" : "unselected"} onMouseEnter={this.selectItem.bind(this,index)}> 
+                        <QuickViewItem meal={meal} user={this.props.user} filters={this.state.filters}/>
+                    </span>
+                </span>)
+        },this);
+    },
+    renderMealTime: function(){
+        if (this.state.data.start_time)
+        {
+            return (   
+                <span className="mealTime"> 
+                    {twelvehour(this.state.data.start_time) +"-" + twelvehour(this.state.data.end_time)} 
+                </span>)
+        }
+        else
+            return null;
+
+    },
     render: function() { 
         if (this.state.data.loading)
             return <span> Loading </span>
@@ -84,7 +125,10 @@ var QuickView = React.createClass({
                 <nav className="navbar navbar-default">
             
                       <h3 className="nav navbar-text quickViewHeader">
-                        {dayOfWeekAsString(day.getDay())} {capitaliseFirstLetter(this.state.data.meal_type)}
+                        <span>
+                            {dayOfWeekAsString(day.getDay()) + " " + capitaliseFirstLetter(this.state.data.meal_type)+" "} 
+                        </span>
+                        {this.renderMealTime()}
                       </h3>
 
                       <form className="navbar-right quickViewHeader">
@@ -94,17 +138,14 @@ var QuickView = React.createClass({
                 
                        </form>       
                 </nav>
+                <div className="quickViewChangeMealButtons">
+                    <button onClick={this.previousMeal} className="btn btn-default"><span className="glyphicon glyphicon-chevron-left"/> Previous meal</button>
+                    <button onClick={this.currentMeal} className="btn btn-default"> Current meal</button>
+                    <button onClick={this.nextMeal} className="btn btn-default">Next meal <span className="glyphicon glyphicon-chevron-right"/></button>
+                </div>
 
                 <div className="oneLine">
-                    {this.state.data.meals.map(function(meal,index){
-                        var isSelected = this.state.selected === index;
-                        return (
-                            <span key={meal.servery.name} >
-                                <span className={isSelected ? "selected" : "unselected"} onMouseEnter={this.selectItem.bind(this,index)}> 
-                                    <QuickViewItem meal={meal} user={this.props.user} filters={this.state.filters}/>
-                                </span>
-                            </span>)
-                    },this)}
+                    {this.state.data.meals.length == 0? (<h2> There are no serveries open for this meal. </h2>) : this.renderServeryMenus()}
                 </div>
             </div>
 

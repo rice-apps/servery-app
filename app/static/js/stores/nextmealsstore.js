@@ -10,8 +10,10 @@ module.exports = ['Restangular','LoginEvent', function(Restangular, LoginEvent) 
 
     var nextMeals = {loading:true};
 
+    var offset=0;
+
     function getNextMeals(){
-        return Restangular.all("serveries").customGET("next_meals");
+        return Restangular.all("serveries").customGET("next_meals",{offset:offset});
     }
     
     var result =  {
@@ -38,6 +40,13 @@ module.exports = ['Restangular','LoginEvent', function(Restangular, LoginEvent) 
         },
         getNextMeals: function(){
             return nextMeals;
+        },
+        setOffset: function(newOffset){
+            offset = newOffset;
+            this.updateMenu();
+        },
+        getOffset: function(){
+            return offset;
         }
     }
 
