@@ -37,15 +37,24 @@ def load_meals(base_address=None):
 
                     meal = Meal(date=actual_date, mealtime=mealtime)
                     db.session.add(meal)
-
                     for dish_info in menu[meal_type][day_of_the_week]:
-                        create_dish_from_dish_info(dish_info, servery, meal)
+                        dish_description = dish_info.dish_description
+                        dish_words = dish_description.split(" ")
+                        dish_words_filtered = [word for word in dish_words if not ( "PM" in word or "AM" in word or "Brunch" in word or "Available" in word or "-" in word)]
+                        dish_info.dish_description = " ".join(dish_words_filtered)
+                        if dish_info.dish_description != "":
+                            create_dish_from_dish_info(dish_info, servery, meal)    
+                        
+
     db.session.commit()
 
 
 def create_dish_from_dish_info(dish_info, servery, meal):
+    
+    
     dish = Dish(
         dish_description=dish_info.dish_description, score=0, servery=servery)
+
 
     for flag in dish_info.allergy_flags:
         flagobj = AllergyFlag(dish=dish, allergyflag=flag)
