@@ -31,7 +31,7 @@ var LoginStatus = React.createClass({
 
         return (
             <ul className="nav navbar-nav navbar-right">
-                <li><a href="http://csclub.rice.edu/riceapps" onClick={this.closeMenu} target="_blank">Built by Rice Apps</a></li>
+                <li><a href="https://trello.com/b/5cVHeknd/serveryappboard" onClick={this.closeMenu} target="_blank">Feedback</a></li>
 
                 {links}
             </ul>
