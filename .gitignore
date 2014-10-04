@@ -26,3 +26,6 @@ venv/
 .mr.developer.cfg
 .project
 .pydevproject
+
+# node modules installed by npm
+app/static/js/node_modules/

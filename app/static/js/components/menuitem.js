@@ -49,8 +49,6 @@ var MenuItem = React.createClass({
 
     },
     render: function() {
-        var noUser = this.props.user === null || !("username" in this.props.user);
-
         var cx = React.addons.classSet;
         var upClass = cx({
             'btn': true,
@@ -117,13 +115,13 @@ var MenuItem = React.createClass({
 
                 <span className="pull-right"> 
 
-                <button className={upClass} onClick={this.upvote} data-toggle={noUser && "modal"} data-target={noUser && ".login-vote-modal"}>
+                <button className={upClass} onClick={this.upvote}>
                 <i className="glyphicon glyphicon-chevron-up"></i>
                 </button>
 
                 <span className="score">{this.props.item.score}</span>
 
-                <button className={downClass} onClick={this.downvote} data-toggle={noUser && "modal"} data-target={noUser && ".login-vote-modal"}>
+                <button className={downClass} onClick={this.downvote}>
                 <i className="glyphicon glyphicon-chevron-down"></i>
                 </button>  
 

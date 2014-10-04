@@ -15,23 +15,12 @@ var Main = React.createClass({
                 <div className="container">
 
                     <div id ="page-content">
+                        <h3><span className="label label-warning disclaimer">Warning: This is not official Rice University Dining information. In particular, allergy information might be inaccurate.</span></h3>
                         <this.props.activeRouteHandler serveries={this.props.serveries} user={this.state.user}/>
                     </div>
                     
                     <Footer />
                 </div>
-
-                <div className="modal fade login-vote-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <p> You need to login to vote: <a href="/api/auth/login">Login</a> <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button> </p>
-
-                        </div>
-                    </div>
-                  </div>
-                </div>
-
 
             </div>
         );

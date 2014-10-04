@@ -1,5 +1,5 @@
 #page-content{
-  margin-top: 100px;
+  margin-top: 60px;
 }
 
 .servery-info {
@@ -164,5 +164,18 @@ h5.noMargin {
 
 .foodImageLink {
     font-size: 20px;
+}
 
+.disclaimer {
+    white-space: normal;
+    display: inline-block;
+}
+
+.mealTime {
+    white-space: nowrap;
+}
+
+.quickViewChangeMealButtons {
+    margin-bottom: 10px;
+    margin-top: -10px;
 }

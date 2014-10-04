@@ -1,4 +1,6 @@
-from . import app
+from . import app, db
+from .models import User
+from .dish import transfer_vote_to_current_user
 
 from flask import url_for, redirect, session, request
 import urllib2
@@ -17,7 +19,6 @@ def login():
         CAS_SERVER,
         url_for('check_ticket', _external=True))
 
-    print cas_url
     return redirect(cas_url)
 
 
@@ -37,7 +38,23 @@ def check_ticket():
     """
     ticket = request.args.get('ticket')
     user = get_user(ticket)
+
+    if user is None:
+        return redirect(url_for('root'))
+
     session['user'] = user
+
+    if 'anonuser' in session:
+        anonuser = db.session.query(User).get(session['anonuser'])
+
+        if anonuser:
+            # There was an old anonymous user, we have to transfer the votes
+            for vote in anonuser.votes:
+                transfer_vote_to_current_user(vote)
+
+        db.session.delete(anonuser)
+        db.session.commit()
+
     return redirect(url_for('root'))
 
 
@@ -50,7 +67,6 @@ def get_user(ticket):
         ticket,
         url_for('check_ticket', _external=True))
 
-    print cas_url
     with closing(urllib2.urlopen(cas_url)) as response:
         result = response.read()
         lines = result.split('\n')

@@ -99,12 +99,15 @@ lunch_bounding_box = BoundingBox(x=115, y=140, width=600, height=200)
 dinner_bounding_box = BoundingBox(x=115, y=350, width=600, height=200)
 
 # These are the bounding boxes for each day in the multi page format.
-bottomy = 300
+bottomy = 302
 bottomheight = 240
+
+topy = 45
+topheight = 234
 multi_day_boxes = {
-    0: BoundingBox(x=26, y=45, width=230, height=230),
-    1: BoundingBox(x=264, y=45, width=230, height=230),
-    2: BoundingBox(x=502, y=45, width=230, height=230),
+    0: BoundingBox(x=26, y=topy, width=230, height=topheight),
+    1: BoundingBox(x=264, y=topy, width=230, height=topheight),
+    2: BoundingBox(x=502, y=topy, width=230, height=topheight),
     3: BoundingBox(x=25, y=bottomy, width=168, height=bottomheight),
     4: BoundingBox(x=200, y=bottomy, width=168, height=bottomheight),
     5: BoundingBox(x=375, y=bottomy, width=168, height=bottomheight),
@@ -196,7 +199,10 @@ def get_date(page):
         if "2014" in text_piece[1]:
             month, day, year = process_date_string(text_piece[1])
             date = datetime.date(year, month, day)
-            return date + datetime.timedelta(-date.weekday())
+            if date.weekday() == 6:  #Deal with the case where the servery gives the Sunday before the week
+                return date + datetime.timedelta(7-date.weekday())
+            else: #Deal with the case where the servery gives us Monday, Tuesday, etc 
+                return date + datetime.timedelta(-date.weekday()) 
 
 
 def process_date_string(text):
@@ -228,7 +234,8 @@ def process_allergy_flag(flag):
         "E": "fish",
         "P": "shellfish",
         "TN": "peanuts",
-        "S": "treenuts"
+        "S": "treenuts",
+        "#": "?"
     }
 
     return flag_dictionary[flag]
