@@ -94,9 +94,9 @@ var MenuItem = React.createClass({
 
         function createImageLink(item)
         {
-            var str = "Link";
-            var url = "https://www.google.com/search?q="+item+"&tbm=isch";
-            var link = React.DOM.a({href: 'https://www.google.com/search?q='+item+'&tbm=isch'}, ' Image');
+
+            var uri = 'https://www.google.com/search?q=' + encodeURIComponent(item)+'&tbm=isch';
+            var link = React.DOM.a({href: uri}, <i className="glyphicon glyphicon-picture foodImageLink"></i> );
             
             return link
         }
@@ -109,9 +109,9 @@ var MenuItem = React.createClass({
                 <span>
                 { processFoodName(this.props.item.name) }
 
-                { allergyIcons }
-
                 { createImageLink(this.props.item.name) }
+
+                { allergyIcons }
 
                 </span>
 
