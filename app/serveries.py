@@ -113,8 +113,7 @@ def find_next_meal_type(date, time):
     # I first find one MealTime that is closest in time
     time_filter = db.and_(
         MealTime.day_of_the_week == day_of_the_week,
-        MealTime.end_time >= time,
-        MealTime.meal_type != 'breakfast')
+        MealTime.end_time >= time)
 
     coming_mealtimes = db.session.query(MealTime)\
         .filter(time_filter)\
