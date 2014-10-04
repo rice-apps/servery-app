@@ -15,6 +15,9 @@ def login():
     """
     Logs the user in by redirecting them to the CAS login page.
     """
+    if request.referrer is not None:
+        session['previousurl'] = request.referrer
+
     cas_url = "{0}login?service={1}".format(
         CAS_SERVER,
         url_for('check_ticket', _external=True))
@@ -27,7 +30,9 @@ def logout():
     """
     Logs the user out.
     """
-    del session['user']
+    if 'user' in session:
+        del session['user']
+
     return "Success"
 
 
@@ -36,11 +41,18 @@ def check_ticket():
     """
     Checks the ticket and logs the user in if valid.
     """
+
+    if 'previousurl' in session:
+        target = session['previousurl']
+        del session['previousurl']
+    else:
+        target = url_for('root')
+
     ticket = request.args.get('ticket')
     user = get_user(ticket)
 
     if user is None:
-        return redirect(url_for('root'))
+        return redirect(target)
 
     session['user'] = user
 
@@ -54,8 +66,9 @@ def check_ticket():
 
         db.session.delete(anonuser)
         db.session.commit()
+        del session['anonuser']
 
-    return redirect(url_for('root'))
+    return redirect(target)
 
 
 def get_user(ticket):
