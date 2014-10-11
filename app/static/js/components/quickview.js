@@ -12,7 +12,7 @@ var QuickViewItem = React.createClass({
         var filter = FilterStore.getFilterFunction(this.props.filters);
 
         return this.props.meal.dishes.map(function(item){
-            var classes = "list-group-item row";
+            var classes = "list-group-item";
 
             if (!filter(item))
                 classes += " hidden";
@@ -37,13 +37,13 @@ var QuickViewItem = React.createClass({
                             {this.props.meal.servery.fullname}
                         </h3>
                     </div>
-                    <div className="panel-body menuItemList">
-                        <ul className="list-group">
+      
+                        <ul className="list-group menuItemList">
                             {this.props.meal.dishes.length == 0? 
-                                <li className="list-group-item row"> A meal is being served at this time, but there is no menu information available.</li> : 
+                                <li className="list-group-item"> A meal is being served at this time, but there is no menu information available.</li> : 
                                 this.getFormattedMealItems()}
                         </ul>
-                    </div>
+                    
                 </div>
             </span>)
     }
@@ -138,10 +138,10 @@ var QuickView = React.createClass({
                 
                        </form>       
                 </nav>
-                <div className="quickViewChangeMealButtons">
-                    <button onClick={this.previousMeal} className="btn btn-default"><span className="glyphicon glyphicon-chevron-left"/> Previous meal</button>
-                    <button onClick={this.currentMeal} className="btn btn-default"> Current meal</button>
-                    <button onClick={this.nextMeal} className="btn btn-default">Next meal <span className="glyphicon glyphicon-chevron-right"/></button>
+                <div className="quickViewChangeMealButtons btn-group">
+                    <button onClick={this.previousMeal} className="btn btn-default"><span className="glyphicon glyphicon-chevron-left"/>Previous</button>
+                    <button onClick={this.currentMeal} className="btn btn-default">Current meal</button>
+                    <button onClick={this.nextMeal} className="btn btn-default">Next<span className="glyphicon glyphicon-chevron-right"/></button>
                 </div>
 
                 <div className="oneLine">

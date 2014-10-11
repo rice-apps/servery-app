@@ -7,6 +7,14 @@ var Footer = require('./footer');
 module.exports = ['Header','Detail','User', 'LoginEvent','MenuStore', function(Header, Detail, User, LoginEvent, MenuStore){
 
 var Main = React.createClass({
+
+    getDisclaimer: function () {
+        if (this.state.disclaimerExpanded)
+            return "Warning: This is not official Rice University Dining information. In particular, allergy information might be inaccurate.";
+        else
+            return "Warning: ...";
+    },
+
     render: function() {
         return (
             <div>
@@ -15,7 +23,7 @@ var Main = React.createClass({
                 <div className="container">
 
                     <div id ="page-content">
-                        <h3><span className="label label-warning disclaimer">Warning: This is not official Rice University Dining information. In particular, allergy information might be inaccurate.</span></h3>
+                        <h3 onClick={this.toggleDisclaimer}><span className="label label-warning disclaimer">{this.getDisclaimer()}</span></h3>
                         <this.props.activeRouteHandler serveries={this.props.serveries} user={this.state.user}/>
                     </div>
                     
@@ -30,12 +38,17 @@ var Main = React.createClass({
         return {
             user: null,
             servery: {},
-            menu: {}
+            menu: {},
+            disclaimerExpanded: false
         };
     },
 
     setUser: function(user) {
         this.setState({user:user});
+    },
+
+    toggleDisclaimer: function() {
+        this.setState({disclaimerExpanded:!this.state.disclaimerExpanded});
     },
 
     setServeryAndMenu: function(servery,menu) {
