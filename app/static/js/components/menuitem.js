@@ -23,7 +23,7 @@ var MenuItem = React.createClass({
         {
 
             var uri = 'https://www.google.com/search?q=' + encodeURIComponent(item)+'&tbm=isch';
-            var link = (<a href={uri}><i className="glyphicon glyphicon-picture foodImageLink"></i></a>);
+            var link = (<a href={uri} target="_blank"><i className="glyphicon glyphicon-picture foodImageLink"></i></a>);
             
             return link
         }
