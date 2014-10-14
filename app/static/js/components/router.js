@@ -4,6 +4,20 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 
+var Upload = React.createClass({
+    render: function() {
+        return (
+            <form action="/api/upload" method="post" encType="multipart/form-data" role="form">
+              <div className="form-group">
+                <label for="exampleInputFile">File input</label>
+                <input type="file" id="exampleInputFile" name="aFile"/>
+              </div>
+              <button type="submit" className="btn btn-default">Submit</button>
+            </form>);
+    }
+});
+
+
 module.exports = ['Main','Detail','QuickView', function(Main,Detail,QuickView){
 
 var Routes = ReactRouter.Routes;
@@ -26,8 +40,10 @@ function CreateRouter(serveries)
                     <Route path="" handler={Detail} />
                     <Route path=":serveryName" name="detailWithServery" handler={Detail} />
                 </Route>
+                <Route name="upload" handler={Upload} />
                 <Route name="quickview" handler={QuickView}/>
                 <Redirect to="quickview" />
+                
             </Route>
         </Routes>);
 }

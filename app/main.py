@@ -7,6 +7,7 @@ from functools import reduce
 import operator
 import datetime
 
+from flask import request, redirect, url_for
 
 mail = Mail(app)
 app.config.update(
@@ -23,8 +24,73 @@ app.config.update(
 @app.route('/detail', defaults={'path': ''})
 @app.route('/detail/<path:path>')
 @app.route('/quickview', defaults={'path': ''})
+@app.route('/upload', defaults={'path': ''})
 def root(path):
     return app.send_static_file('index.html')
+
+from processExcel import process
+
+
+from app import db
+from app.models import (Servery, MealTime, Meal, MealDish,
+                        Dish, AllergyFlag)
+from downloadmenu import process_servery_menu
+
+from datetime import timedelta
+
+def create_dish_from_dish_info(dish_info, servery, meal):
+    dish = Dish(
+        dish_description=dish_info.dish_description, score=0, servery=servery)
+
+
+    for flag in dish_info.allergy_flags:
+        flagobj = AllergyFlag(dish=dish, allergyflag=flag)
+        db.session.add(flagobj)
+
+    mealdish = MealDish(meal=meal, dish=dish)
+    db.session.add(mealdish)
+
+
+@app.route('/api/upload', methods=["POST"])
+def upload():
+    theFile = request.files['aFile']
+
+    menu = process(theFile)    
+
+    base_date = menu['base_date']
+
+    Meal.query.delete()
+    MealDish.query.delete()
+    
+    db.session.commit()
+
+    servery = db.session.query(Servery).get(2)
+
+    for meal_type in ['lunch', 'dinner']:
+        for day_of_the_week in menu[meal_type]:
+            actual_date = base_date + timedelta(days=day_of_the_week)
+
+            print meal_type, day_of_the_week, servery.name
+            mealtime = db.session.query(MealTime).filter(
+                MealTime.meal_type == meal_type,
+                MealTime.servery == servery,
+                MealTime.day_of_the_week == day_of_the_week).scalar()
+
+            if mealtime is not None:
+
+                meal = Meal(date=actual_date, mealtime=mealtime)
+                db.session.add(meal)
+                for dish_info in menu[meal_type][day_of_the_week]:
+                    dish_description = dish_info.dish_description
+                    dish_words = dish_description.split(" ")
+                    dish_words_filtered = [word for word in dish_words if not ( "PM" in word or "AM" in word or "Brunch" in word or "Available" in word or "-" in word)]
+                    dish_info.dish_description = " ".join(dish_words_filtered)
+                    if dish_info.dish_description != "":
+                        create_dish_from_dish_info(dish_info, servery, meal)    
+
+    db.session.commit()
+
+    return redirect("/detail/seibel")
 
 
 # Usage: create cron job by calling
