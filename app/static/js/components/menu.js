@@ -15,7 +15,6 @@ var MealMenu = React.createClass({
                 <div className="panel-heading">
                   <h3 className="panel-title">{this.props.meal}</h3>
                 </div>
-                <div className="panel-body">
                 {
                     (this.props.menuitems && this.props.menuitems.length !== 0) ? 
                     
@@ -31,11 +30,12 @@ var MealMenu = React.createClass({
                                 </li>);
                             },this)}
                     </ul>) : 
-                    (<em className="not-found">
-                        No items found.
-                    </em>)
+                    (<div className="panel-body"> 
+                        <em className="not-found">
+                            No items found.
+                        </em>
+                    </div>)
                 }
-                </div>
             </div>
             );
     }
