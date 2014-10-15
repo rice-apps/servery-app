@@ -139,9 +139,9 @@ var QuickView = React.createClass({
                        </form>       
                 </nav>
                 <div className="quickViewChangeMealButtons btn-group">
-                    <button onClick={this.previousMeal} className="btn btn-default"><span className="glyphicon glyphicon-chevron-left"/>Previous</button>
-                    <button onClick={this.currentMeal} className="btn btn-default">Current meal</button>
-                    <button onClick={this.nextMeal} className="btn btn-default">Next<span className="glyphicon glyphicon-chevron-right"/></button>
+                    <a role="button" onClick={this.previousMeal} className="btn btn-default"><span className="glyphicon glyphicon-chevron-left"/>Previous</a>
+                    <a role="button" onClick={this.currentMeal} className="btn btn-default">Current meal</a>
+                    <a role="button" onClick={this.nextMeal} className="btn btn-default">Next<span className="glyphicon glyphicon-chevron-right"/></a>
                 </div>
 
                 <div className="oneLine">
