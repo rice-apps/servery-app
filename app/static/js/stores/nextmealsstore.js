@@ -1,58 +1,56 @@
 var EventEmitter = require('event-emitter');
+var UserStore = require('./userstore');
 
-module.exports = ['Restangular','LoginEvent', function(Restangular, LoginEvent) {
+"use strict";
 
-    "use strict";
+var NextMealsEvents = new EventEmitter();
 
-    
+var nextMeals = {loading:true};
 
-    var NextMealsEvents = new EventEmitter();
+var offset=0;
 
-    var nextMeals = {loading:true};
+function getNextMeals(){
+    var nextMealsUrl = '/api/serveries/next_meals?' + $.param({offset:offset});
 
-    var offset=0;
+    return $.get(nextMealsUrl);
+}
 
-    function getNextMeals(){
-        return Restangular.all("serveries").customGET("next_meals",{offset:offset});
-    }
-    
-    var result =  {
-        addListener: function(callback){
-            NextMealsEvents.addListener('nextmealsupdate',callback);
-        },
-        removeListener: function(callback){
-            NextMealsEvents.removeListener('nextmealsupdate',callback);
-        },
-        initialize: function(){
-            nextMeals = {loading:true};
+var NextMealsStore = {
+    addListener: function(callback){
+        NextMealsEvents.addListener('nextmealsupdate',callback);
+    },
+    removeListener: function(callback){
+        NextMealsEvents.removeListener('nextmealsupdate',callback);
+    },
+    initialize: function(){
+        nextMeals = {loading:true};
+        NextMealsEvents.emitEvent('nextmealsupdate');
+
+        getNextMeals().then(function(result){
+            nextMeals = result;
             NextMealsEvents.emitEvent('nextmealsupdate');
-
-            getNextMeals().then(function(result){
-                nextMeals = result;
-                NextMealsEvents.emitEvent('nextmealsupdate');
-            })
-        },
-        updateMenu: function(){
-            getNextMeals().then(function(result){
-                nextMeals = result;
-                NextMealsEvents.emitEvent('nextmealsupdate');
-            })
-        },
-        getNextMeals: function(){
-            return nextMeals;
-        },
-        setOffset: function(newOffset){
-            offset = newOffset;
-            this.updateMenu();
-        },
-        getOffset: function(){
-            return offset;
-        }
+        })
+    },
+    updateMenu: function(){
+        getNextMeals().then(function(result){
+            nextMeals = result;
+            NextMealsEvents.emitEvent('nextmealsupdate');
+        })
+    },
+    getNextMeals: function(){
+        return nextMeals;
+    },
+    setOffset: function(newOffset){
+        offset = newOffset;
+        this.updateMenu();
+    },
+    getOffset: function(){
+        return offset;
     }
+}
 
-    LoginEvent.addListener(function(){
-        result.updateMenu();
-    });
+UserStore.addListener(function(){
+    NextMealsStore.updateMenu();
+});
 
-    return result;
-}]
+module.exports = NextMealsStore;

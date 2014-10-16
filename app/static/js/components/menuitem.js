@@ -2,8 +2,8 @@
 
 var React = require('react');
 
-module.exports = ['MenuStore','NextMealsStore','Restangular', function(MenuStore, NextMealsStore, Restangular){
-
+var MenuStore = require('../stores/menustore');
+var NextMealsStore = require('../stores/nextmealsstore');
 
 var MenuItem = React.createClass({
     render: function() {
@@ -41,6 +41,4 @@ var MenuItem = React.createClass({
     }
 });
 
-return MenuItem;
-
-}];
+module.exports = MenuItem;

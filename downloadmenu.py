@@ -235,7 +235,8 @@ def process_allergy_flag(flag):
         "P": "shellfish",
         "TN": "peanuts",
         "S": "treenuts",
-        "#": "?"
+        "#": "?",
+        "": "?"
     }
 
     return flag_dictionary[flag]

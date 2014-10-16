@@ -4,11 +4,14 @@ var Router = require('react-router');
 var React = require('react');
 
 var ServeryHours = require('./serveryhours');
+var FilterStore = require('../stores/filterstore');
+var MenuStore = require('../stores/menustore');
 
-module.exports = ['MealMenu','MenuStore', 'AllergyFilter','FilterStore', function(MealMenu, MenuStore, AllergyFilter, FilterStore){
+var AllergyFilter = require('./allergyfilter');
+var MealMenu = require('./menu');
+
 
 var meals = ['breakfast', 'lunch', 'dinner'];
-
 
 
 var Detail = React.createClass({
@@ -187,6 +190,4 @@ var Detail = React.createClass({
 
 });
 
-return Detail;
-
-}];
+module.exports = Detail;

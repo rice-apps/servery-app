@@ -2,8 +2,12 @@
 
 var React = require('react');
 var Router = require('react-router');
+var FilterStore = require('../stores/filterstore');
+var NextMealsStore = require('../stores/nextmealsstore');
 
-module.exports = ['MealMenu','NextMealsStore', 'AllergyFilter', 'MenuItem', 'Restangular','FilterStore',function(MealMenu, NextMealsStore, AllergyFilter, MenuItem, Restangular,FilterStore){
+var AllergyFilter = require('./allergyfilter');
+var MenuItem = require('./menuitem');
+var MealMenu = require('./menu');
 
 var meals = ['breakfast', 'lunch', 'dinner'];
 
@@ -153,6 +157,4 @@ var QuickView = React.createClass({
     }
 });
 
-return QuickView;
-
-}];
+module.exports = QuickView;

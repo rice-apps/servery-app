@@ -3,8 +3,11 @@
 var React = require('react');
 
 var Footer = require('./footer');
+var Header = require('./header');
 
-module.exports = ['Header','Detail','User', 'LoginEvent','MenuStore', function(Header, Detail, User, LoginEvent, MenuStore){
+var UserStore = require('../stores/userstore');
+var MenuStore = require('../stores/menustore');
+
 
 var Main = React.createClass({
 
@@ -55,23 +58,12 @@ var Main = React.createClass({
         this.setState({servery:servery,menu:menu});
     },
     componentDidMount: function() {
-
-        User.current_user(function (done){
-            this.setUser(done);
-        }.bind(this));
-
-        LoginEvent.addListener(function (user){
-            MenuStore.updateMenu();
+        UserStore.addListener(function (user){
             this.setUser(user);
         }.bind(this));
-
-
     }
 
 });
 
 
-return Main;
-
-}];
-
+module.exports = Main;

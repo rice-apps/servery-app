@@ -1,6 +1,11 @@
-var angular = require('angular');
-var serveryApp  = require('./app');
+var React = require('react');
+var CreateRouter = require('./components/router');
 
-angular.element(document).ready(function() {
-      angular.bootstrap(document, ['serveryApp']);
+$(document).ready(function() {
+    $.get('/api/serveries').done(function(serveryData){
+        var main = React.renderComponent(
+            CreateRouter(serveryData.result),
+            document.body
+        );
+    });
 });

@@ -3,8 +3,7 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 
-module.exports = ['LoginStatus', function(LoginStatus){
-
+var LoginStatus = require('./loginstatus');
 
 
 var ActiveState = ReactRouter.ActiveState;
@@ -74,6 +73,4 @@ var Header = React.createClass({
     }
 });
 
-return Header;
-
-}];
+module.exports = Header;

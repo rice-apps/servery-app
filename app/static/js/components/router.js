@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
-
 var React = require('react');
 var ReactRouter = require('react-router');
 
-module.exports = ['Main','Detail','QuickView', function(Main,Detail,QuickView){
+var Detail = require('./detail');
+var QuickView = require('./quickview');
+var Main = require('./main');
 
 var Routes = ReactRouter.Routes;
 var Route = ReactRouter.Route;
@@ -32,8 +33,6 @@ function CreateRouter(serveries)
         </Routes>);
 }
 
-return CreateRouter;
-
-}]
+module.exports = CreateRouter;
 
 

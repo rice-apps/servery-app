@@ -2,9 +2,9 @@
 
 var React = require('react');
 
-module.exports = ['FilterStore', function(FilterStore){
+var FilterStore = require('../stores/filterstore')
 
-var AllergyFilter = React.createClass({
+AllergyFilter = React.createClass({
     onFilterChange: function(type,event){
         FilterStore.setFilter(type,event.target.checked);
     },
@@ -25,6 +25,4 @@ var AllergyFilter = React.createClass({
     }
 });
 
-return AllergyFilter;
-
-}]
+module.exports = AllergyFilter;

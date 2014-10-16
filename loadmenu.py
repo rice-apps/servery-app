@@ -23,7 +23,8 @@ def load_meals(base_address=None):
 
         base_date = menu['base_date']
 
-        for meal_type in ['lunch', 'dinner']:
+        if base_date is not None:
+          for meal_type in ['lunch', 'dinner']:
             for day_of_the_week in menu[meal_type]:
                 actual_date = base_date + timedelta(days=day_of_the_week)
 

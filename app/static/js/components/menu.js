@@ -1,10 +1,9 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var FilterStore = require('../stores/filterstore');
 
-
-module.exports = ['MenuItem', 'FilterStore', function(MenuItem, FilterStore){
-
+var MenuItem = require('./menuitem');
 
 var MealMenu = React.createClass({
     render: function(){
@@ -41,6 +40,4 @@ var MealMenu = React.createClass({
     }
 });
 
-return MealMenu;
-
-}];
+module.exports = MealMenu;

@@ -4,7 +4,7 @@ An app that makes it simple to manage and view servery menus at Rice
 
 We are currently live at: http://servery.riceapps.org
 
-- Web Client: AngularJS and ReactJS
+- Web Client: ReactJS (There used to be an AngularJS dependancy, but it has since been removed)
 - Server: Flask
 - Database: Any SQL compliant database
 

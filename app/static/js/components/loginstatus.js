@@ -1,8 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-
-module.exports = [ 'LoginEvent','User',function(LoginEvent,User){
+var UserStore = require('../stores/userstore');
 
 var LoginStatus = React.createClass({
     closeMenu: function(){
@@ -40,14 +39,9 @@ var LoginStatus = React.createClass({
 
     logout: function(event){
         event.preventDefault();
-        User.logout(function(){
-            LoginEvent.setUser(null);
-        });
-        
+        UserStore.logout();
         this.closeMenu();
     }
 });
 
-return LoginStatus;
-
-}]
+module.exports = LoginStatus;
