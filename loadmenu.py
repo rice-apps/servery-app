@@ -22,6 +22,7 @@ def load_meals(base_address=None):
             menu = process_servery_menu(servery.name)
 
         base_date = menu['base_date']
+        print base_date
 
         for meal_type in ['lunch', 'dinner']:
             for day_of_the_week in menu[meal_type]:
